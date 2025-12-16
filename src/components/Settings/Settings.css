@@ -1,0 +1,297 @@
+.settings-page {
+    padding: 24px;
+    max-width: 800px;
+}
+
+.settings-page h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+}
+
+.settings-subtitle {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0 0 32px 0;
+}
+
+.settings-section {
+    margin-bottom: 32px;
+}
+
+.settings-section h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #334155;
+    margin: 0 0 12px 0;
+}
+
+.settings-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.settings-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.settings-row:first-child {
+    padding-top: 0;
+}
+
+.settings-label {
+    font-weight: 500;
+    color: #334155;
+    min-width: 200px;
+}
+
+.settings-value {
+    flex: 1;
+    color: #64748b;
+}
+
+.settings-description {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+/* Buttons */
+.settings-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.settings-btn.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.settings-btn.primary:hover {
+    background: #1d4ed8;
+}
+
+.settings-btn.secondary {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.settings-btn.secondary:hover {
+    background: #e2e8f0;
+}
+
+.settings-btn.outline {
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+}
+
+.settings-btn.outline:hover {
+    background: #f8fafc;
+}
+
+.settings-btn.danger {
+    background: #dc2626;
+    color: white;
+}
+
+.settings-btn.danger:hover {
+    background: #b91c1c;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-primary {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* Subscription Card */
+.subscription-card {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+}
+
+.subscription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plan-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+.subscription-price {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.subscription-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 4px;
+}
+
+.detail-value {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.subscription-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.subscription-card .settings-btn.secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.subscription-card .settings-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.subscription-card .settings-btn.outline {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.subscription-card .badge-success {
+    background: rgba(74, 222, 128, 0.2);
+    color: #4ade80;
+}
+
+/* Select */
+.settings-select {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #334155;
+    background: white;
+    cursor: pointer;
+}
+
+/* Toggle */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.toggle input:checked+.toggle-slider {
+    background-color: #2563eb;
+}
+
+.toggle input:checked+.toggle-slider:before {
+    transform: translateX(20px);
+}
+
+/* Danger Zone */
+.danger-zone .settings-card {
+    border-color: #fecaca;
+    background: #fef2f2;
+}
+
+.danger-zone h2 {
+    color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .settings-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .settings-label {
+        min-width: auto;
+    }
+
+    .subscription-details {
+        grid-template-columns: 1fr;
+    }
+}

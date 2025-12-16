@@ -1,0 +1,83 @@
+/* src/components/Auth/LoginPage.css */
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Sezione sinistra (Scura) */
+.login-brand {
+  flex: 1;
+  background-color: var(--bg-light);
+  color: var(--color-navy-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.login-brand img {
+  /* Logo normale su sfondo chiaro */
+  filter: none;
+}
+
+/* Sezione destra (Chiara) */
+.login-form-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-navy-primary);
+}
+
+.login-form {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border-top: 4px solid var(--color-gold);
+}
+
+/* --- LOGO NORMALE (Nel form bianco) --- */
+.login-form img {
+  /* Qui il logo deve rimanere del colore originale */
+  filter: none;
+  display: block;
+  margin: 0 auto 20px auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  font-family: var(--font-display);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+@media (max-width: 768px) {
+  .login-brand {
+    display: none;
+  }
+}

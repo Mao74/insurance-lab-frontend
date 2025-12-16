@@ -1,0 +1,15 @@
+/* src/components/Common/Button.css */
+button:hover {
+  filter: brightness(110%);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
