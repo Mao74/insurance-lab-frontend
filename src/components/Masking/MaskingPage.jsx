@@ -20,7 +20,7 @@ const MaskingPage = () => {
   const [options, setOptions] = useState({
     policyType: 'rc_generale',
     analysisLevel: 'cliente',
-    model: 'gemini-2.5-flash'
+    model: 'gemini-3-flash-preview'
   });
 
   // Load docs from previous step (Upload)

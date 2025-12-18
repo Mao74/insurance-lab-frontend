@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { FaEdit, FaSave, FaCheck, FaTimes, FaExchangeAlt, FaDownload, FaFolderOpen } from 'react-icons/fa';
+import { FaEdit, FaSave, FaCheck, FaTimes, FaExchangeAlt, FaDownload, FaFolderOpen, FaLightbulb } from 'react-icons/fa';
 import api from '../../services/api';
 import Button from '../Common/Button';
 import Loader from '../Common/Loader';
+import CorrectionChat from './CorrectionChat';
 import { useNotification } from '../../context/NotificationContext';
 import './AnalysisStatus.css';
 
@@ -19,6 +20,7 @@ const AnalysisStatus = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [viewMode, setViewMode] = useState('display'); // 'display' (Chiaro) | 'masked' (Mascherato)
   const [loadingAction, setLoadingAction] = useState(false);
+  const [showCorrection, setShowCorrection] = useState(false);
   const iframeRef = useRef(null);
 
   const { addToast } = useNotification();
@@ -180,9 +182,14 @@ const AnalysisStatus = () => {
                   <FaExchangeAlt /> {viewMode === 'display' ? 'Vedi Mascherato' : 'Vedi Chiaro'}
                 </Button>
                 {!isEditing && (
-                  <Button variant="outline" onClick={handleEdit}>
-                    <FaEdit /> Modifica Testo
-                  </Button>
+                  <>
+                    <Button variant="outline" onClick={handleEdit}>
+                      <FaEdit /> Modifica Testo
+                    </Button>
+                    <Button variant="outline" onClick={() => setShowCorrection(true)} title="Segnala errore">
+                      <FaLightbulb /> Suggerisci Correzione
+                    </Button>
+                  </>
                 )}
               </div>
 
@@ -241,6 +248,21 @@ const AnalysisStatus = () => {
           </div>
         )}
       </div>
+
+      {/* Correction Chat */}
+      {showCorrection && (
+        <CorrectionChat
+          analysisId={analysisId}
+          onClose={() => setShowCorrection(false)}
+          onCorrectionApplied={(updatedHtml) => {
+            setStatus(prev => ({
+              ...prev,
+              report_html: updatedHtml
+            }));
+            addToast('Report aggiornato con le correzioni!', 'success');
+          }}
+        />
+      )}
     </div>
   );
 };
