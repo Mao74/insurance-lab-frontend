@@ -104,7 +104,7 @@ const ComparePage = () => {
                 >
                     <input
                         type="file"
-                        accept=".pdf"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.msg,.eml,.jpg,.jpeg,.png,.txt"
                         onChange={(e) => handleDrop(e, doc.id)}
                         id={`file-${doc.id}`}
                         hidden
@@ -112,9 +112,9 @@ const ComparePage = () => {
                     <label htmlFor={`file-${doc.id}`} className="dropzone-content">
                         <FaCloudUploadAlt className="upload-icon" />
                         <p className="upload-text">
-                            Trascina qui il PDF oppure <span>sfoglia</span>
+                            Trascina qui il file oppure <span>sfoglia</span>
                         </p>
-                        <p className="upload-hint">Formato supportato: PDF</p>
+                        <p className="upload-hint">Supportati: PDF, DOC, XLSX, TXT, immagini</p>
                     </label>
                 </div>
             ) : (

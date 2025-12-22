@@ -198,3 +198,42 @@
   background-color: #CBD5E1;
   border-radius: 3px;
 }
+
+/* Privacy Disclaimer */
+.privacy-disclaimer {
+  margin: 20px 0;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-navy-primary);
+}
+
+.privacy-disclaimer .checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.privacy-disclaimer input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: var(--color-navy-primary);
+}
+
+.privacy-disclaimer span {
+  flex: 1;
+}
+
+/* Disabled button state */
+.btn-row button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

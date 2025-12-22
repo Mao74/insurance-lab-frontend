@@ -14,9 +14,27 @@ const UploadPage = () => {
   const { addToast } = useNotification();
 
   const handleFilesSelected = (newFiles) => {
-    const validFiles = newFiles.filter(f => f.type === 'application/pdf');
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-outlook',
+      'message/rfc822',
+      'image/jpeg',
+      'image/png',
+      'text/plain'
+    ];
+    const allowedExtensions = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.msg', '.eml', '.jpg', '.jpeg', '.png', '.txt'];
+
+    const validFiles = newFiles.filter(f => {
+      const ext = '.' + f.name.split('.').pop().toLowerCase();
+      return allowedTypes.includes(f.type) || allowedExtensions.includes(ext);
+    });
+
     if (validFiles.length !== newFiles.length) {
-      addToast('Only PDF files are allowed', 'error');
+      addToast('Alcuni file non sono supportati', 'error');
     }
     setFiles(prev => [...prev, ...validFiles]);
   };
@@ -65,7 +83,11 @@ const UploadPage = () => {
       </div>
 
       <div className="upload-content">
-        <FileDropZone onFilesSelected={handleFilesSelected} />
+        <FileDropZone
+          onFilesSelected={handleFilesSelected}
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.msg,.eml,.jpg,.jpeg,.png,.txt"
+          helperText="Supportati: PDF, DOC, DOCX, XLS, XLSX, MSG, EML, JPG, PNG, TXT (Max 50MB)"
+        />
 
         {files.length > 0 && (
           <div className="file-list card">

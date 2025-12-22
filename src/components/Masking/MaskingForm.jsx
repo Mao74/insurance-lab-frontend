@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../Common/Button';
 import './Masking.css';
 
 const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => {
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+
   const handleChange = (field, value) => {
     onChange({ ...data, [field]: value });
   };
@@ -12,6 +14,36 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
   };
 
   const isFormEmpty = !Object.values(data).some(val => val.length > 0);
+
+  const getPolicyTypeLabel = () => {
+    const labels = {
+      'rc_generale': 'RC Generale',
+      'incendio': 'Incendio',
+      'trasporti': 'Trasporti'
+    };
+    return labels[options.policyType] || options.policyType;
+  };
+
+  const getAnalysisLevelLabel = () => {
+    const labels = {
+      'cliente': 'Cliente',
+      'compagnia': 'Compagnia',
+      'sinistro': 'Sinistro'
+    };
+    return labels[options.analysisLevel] || options.analysisLevel;
+  };
+
+  const handleSubmitClick = () => {
+    const confirmMessage = `Confermi di voler avviare l'analisi con le seguenti impostazioni?\n\n` +
+      `• Tipo Polizza: ${getPolicyTypeLabel()}\n` +
+      `• Livello Analisi: ${getAnalysisLevelLabel()}\n\n` +
+      `${isFormEmpty ? '⚠️ ATTENZIONE: Nessun dato di mascheramento inserito. L\'analisi verrà eseguita sul testo in chiaro.\n\n' : ''}` +
+      `Premi OK per continuare.`;
+
+    if (window.confirm(confirmMessage)) {
+      onSubmit();
+    }
+  };
 
   return (
     <div className="masking-form card">
@@ -111,8 +143,28 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
             ⚠️ Nessun dato di mascheramento inserito. L'analisi verrà eseguita sul testo in chiaro.
           </div>
         )}
+
+        <div className="privacy-disclaimer">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={privacyAccepted}
+              onChange={(e) => setPrivacyAccepted(e.target.checked)}
+            />
+            <span>
+              Dichiaro di aver inserito correttamente i dati da mascherare e di essere consapevole che i documenti
+              verranno elaborati tramite servizi di intelligenza artificiale. Mi assumo la responsabilità
+              della corretta anonimizzazione dei dati sensibili.
+            </span>
+          </label>
+        </div>
+
         <div className="btn-row">
-          <Button onClick={onSubmit} style={{ width: '100%' }}>
+          <Button
+            onClick={handleSubmitClick}
+            style={{ width: '100%' }}
+            disabled={!privacyAccepted}
+          >
             Avvia Analisi
           </Button>
         </div>

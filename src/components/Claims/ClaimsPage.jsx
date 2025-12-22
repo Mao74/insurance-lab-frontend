@@ -79,7 +79,7 @@ const ClaimsPage = () => {
                     onFilesSelected={handleFilesSelected}
                     title="Trascina qui i file del Sinistro"
                     helperText="Supportati: PDF, Office, Email, Immagini"
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.msg,.eml,.jpg,.jpeg,.png"
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.msg,.eml,.jpg,.jpeg,.png,.txt"
                 />
 
                 {files.length > 0 && (
