@@ -178,15 +178,15 @@ const AnalysisStatus = () => {
             {/* Toolbar */}
             <div className="report-toolbar card">
               <div className="toolbar-group">
-                <Button variant="outline" onClick={toggleViewMode} title="Cambia Vista" disabled={isEditing}>
+                <Button onClick={toggleViewMode} title="Cambia Vista" disabled={isEditing}>
                   <FaExchangeAlt /> {viewMode === 'display' ? 'Vedi Mascherato' : 'Vedi Chiaro'}
                 </Button>
                 {!isEditing && (
                   <>
-                    <Button variant="outline" onClick={handleEdit}>
+                    <Button onClick={handleEdit}>
                       <FaEdit /> Modifica Testo
                     </Button>
-                    <Button variant="outline" onClick={() => setShowCorrection(true)} title="Segnala errore">
+                    <Button onClick={() => setShowCorrection(true)} title="Segnala errore">
                       <FaLightbulb /> Suggerisci Correzione
                     </Button>
                   </>

@@ -3,54 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trasforma polizze complesse in report strutturati in <30s. GDPR compliant, 99.8% accuracy. Piattaforma AI-driven per l'analisi assicurativa forense.">
-    <meta name="theme-color" content="#0F1F3F">
+    
+    <!-- SEO Meta Tags -->
+    <title>Insurance Lab | Analisi Tecnica & Risk Intelligence per Broker</title>
+    <meta name="description" content="Piattaforma AI per analisi polizze assicurative. Gap analysis automatica, confronto massimali e verifica compliance normativa.">
+    <meta name="theme-color" content="#ffffff">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
-    
-    <title>insurance-lab.ai - Analisi Assicurativa al Livello PhD</title>
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
 
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS VARIABLES & RESET --- */
+        /* ==================== VARIABLES ==================== */
         :root {
-            /* Palette estratta dai loghi forniti */
-            --color-navy: #0F1F3F;      /* Background principale */
-            --color-navy-dark: #0D1628; /* Footer e sezioni scure */
-            --color-navy-light: #1A2B4A;
-            --color-gold: #D4AF37;      /* Accento dorato del logo */
-            --color-gold-hover: #b8962e;
-            
-            --color-bg-light: #F5F5F5;
-            --color-text-dark: #2A2A2A;
-            --color-text-gray: #666666;
-            --color-text-light: #E0E0E0;
-            --color-white: #FFFFFF;
-            
-            --font-display: 'Poppins', sans-serif;
+            --color-navy: #0F1F3F;
+            --color-navy-dark: #0A1428;
+            --color-gold: #D4AF37;
+            --color-gold-bright: #FFC107; /* Giallo acceso per testi su sfondo scuro */
+            --color-gold-hover: #E5C158;
+            --color-bg-light: #F8F9FA;
+            --color-bg-white: #FFFFFF;
+            --color-text-dark: #1A1A1A;
+            --color-text-gray: #475569;
+            --font-display: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            
-            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.12);
-            --radius-std: 8px;
-            --transition-std: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        /* ==================== RESET & BASE ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
             font-family: var(--font-display);
             color: var(--color-text-dark);
@@ -59,750 +46,532 @@
             overflow-x: hidden;
         }
 
-        a { text-decoration: none; color: inherit; transition: var(--transition-std); }
-        ul { list-style: none; }
-        img, svg { max-width: 100%; display: block; }
+        h1, h2, h3, h4 { font-weight: 700; line-height: 1.2; color: var(--color-navy); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        img { display: block; max-width: 100%; }
 
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3, h4 {
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 1rem; }
-        h2 { font-size: clamp(2rem, 4vw, 2.5rem); margin-bottom: 1rem; color: var(--color-navy); }
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section-padding { padding: 100px 0; }
         .text-mono { font-family: var(--font-mono); }
-        .text-gold { color: var(--color-gold); }
-        
-        /* --- COMPONENTS --- */
-        .container {
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
 
+        /* ==================== BUTTONS ==================== */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 14px 28px;
-            border-radius: 4px;
-            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 6px;
+            font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: var(--transition-std);
-            letter-spacing: 0.5px;
+            transition: var(--transition);
+            border: 1px solid transparent;
         }
 
         .btn-primary {
-            background-color: var(--color-gold);
-            color: var(--color-navy);
-            border: 2px solid var(--color-gold);
+            background: linear-gradient(135deg, var(--color-gold) 0%, #C5A028 100%);
+            color: var(--color-navy-dark);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
         }
-
         .btn-primary:hover {
-            background-color: var(--color-gold-hover);
-            border-color: var(--color-gold-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
 
         .btn-secondary {
-            background-color: transparent;
-            color: var(--color-white);
-            border: 2px solid var(--color-gold);
+            background: transparent;
+            color: #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
         }
-
+        
         .btn-secondary:hover {
-            background-color: var(--color-gold);
-            color: var(--color-navy);
+            background: var(--color-gold);
+            color: var(--color-navy-dark);
+            border-color: var(--color-gold);
+            transform: translateY(-2px);
         }
 
-        .btn-text {
-            color: var(--color-gold);
-            font-weight: 600;
-            padding: 0;
-        }
-        .btn-text:hover { text-decoration: underline; color: var(--color-gold-hover); }
-
-        .section-padding { padding: 80px 0; }
-        .section-header { text-align: center; margin-bottom: 60px; max-width: 800px; margin-left: auto; margin-right: auto; }
-        .section-sub { color: var(--color-text-gray); font-size: 1.1rem; }
-
-        /* --- HEADER --- */
+        /* ==================== HEADER (SLIM VERSION) ==================== */
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background-color: rgba(15, 31, 63, 0.95); /* Navy background ensures White logo visibility */
-            backdrop-filter: blur(10px);
-            padding: 15px 0;
-            transition: var(--transition-std);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .nav-container {
+            top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #E5E7EB;
+            padding: 5px 0; 
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
             display: flex;
-            justify-content: space-between;
             align-items: center;
         }
 
+        .nav-container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+
         .logo-img {
-            height: 45px; /* Adjust height based on the logo aspect ratio */
+            height: 90px; 
             width: auto;
-            object-fit: contain;
+            filter: none;
+            display: block;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: var(--color-text-light);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: var(--color-navy); font-weight: 600; font-size: 0.95rem; }
         .nav-links a:hover { color: var(--color-gold); }
+        
+        .mobile-menu-btn { display: none; background: none; border: none; flex-direction: column; gap: 6px; cursor: pointer; }
+        .mobile-menu-btn span { width: 25px; height: 2px; background: var(--color-navy); }
 
-        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; }
-        .mobile-menu-btn span { display: block; width: 25px; height: 2px; background: var(--color-gold); margin: 5px 0; transition: 0.3s; }
-
-        /* --- HERO --- */
+        /* ==================== HERO SECTION ==================== */
         #hero {
             position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
-            padding-top: 80px; 
+            background: radial-gradient(circle at 70% 20%, #1A2B4A 0%, var(--color-navy) 100%);
+            padding-top: 100px; 
             overflow: hidden;
-        }
-
-        .hero-bg-pattern {
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 30%);
-            z-index: 1;
         }
 
         .hero-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 40px;
             align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content { z-index: 10; padding-right: 20px; }
+
+        .hero-content h1 {
+            color: #FFFFFF;
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero-content .subtitle {
+            color: #E2E8F0;
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        /* ==================== ORBIT SYSTEM ==================== */
+        .hero-visual-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .center-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px; height: 320px;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(212,175,55,0.3) 50%, transparent 70%);
+            border-radius: 50%;
+            z-index: 1;
+            filter: blur(10px);
+            opacity: 0.8;
+            animation: pulse-glow 5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        .center-logo {
+            width: 240px;
+            height: auto;
             position: relative;
             z-index: 2;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
         }
 
-        .hero-content h1 { color: var(--color-white); }
-        .hero-content .subheading { color: var(--color-text-light); font-size: 1.125rem; margin-bottom: 1.5rem; font-weight: 300; }
-        .hero-content p { color: #cccccc; margin-bottom: 2rem; max-width: 500px; font-size: 1rem; }
-        
-        .hero-cta-group { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-        .trust-line { color: #888; font-size: 0.85rem; display: block; margin-top: 1rem; }
-
-        .hero-visual {
-            position: relative;
-            height: 500px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Geometric Animation around the Logo Mark */
-        .geo-shape {
+        .float-card {
             position: absolute;
+            background: rgba(15, 31, 63, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 50%;
-            animation: rotate-slow 20s linear infinite;
-        }
-        .geo-1 { width: 450px; height: 450px; border-style: dashed; }
-        .geo-2 { width: 350px; height: 350px; animation-direction: reverse; border-color: rgba(212, 175, 55, 0.5); }
-        .geo-3 { width: 250px; height: 250px; background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%); border: none; animation: pulse 3s ease-in-out infinite; }
-        
-        .hero-logo-mark {
-            position: absolute;
-            width: 140px; 
-            height: auto;
-            z-index: 10;
-            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.2));
-            animation: float 6s ease-in-out infinite;
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes rotate-slow { 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .dot-green { background: #10B981; box-shadow: 0 0 8px #10B981; }
+        .dot-gold { background: var(--color-gold); box-shadow: 0 0 8px var(--color-gold); }
+        .dot-red { background: #EF4444; box-shadow: 0 0 8px #EF4444; }
+
+        /* --- PENTAGON POSITIONS --- */
+        
+        .fc-5 { 
+            top: 5%; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            animation: float-center 8s ease-in-out infinite; 
+        }
+
+        .fc-1 { 
+            top: 40%; 
+            left: -5%; 
+            animation: float 6s ease-in-out infinite 0.5s; 
+        }
+
+        .fc-2 { 
+            top: 40%; 
+            right: -5%; 
+            animation: float 7s ease-in-out infinite 1s; 
+        }
+
+        .fc-4 { 
+            bottom: 10%; 
+            left: 10%; 
+            animation: float 9s ease-in-out infinite 1.5s; 
+        }
+
+        .fc-3 { 
+            bottom: 10%; 
+            right: 10%; 
+            animation: float 5s ease-in-out infinite 2s; 
+        }
+
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes float-center { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
-        /* --- TRUST SECTION --- */
-        #trust {
-            background-color: var(--color-navy-dark);
-            padding: 40px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .trust-text { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
-        .logo-grid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            flex-wrap: wrap;
-            opacity: 0.6;
-        }
-        .placeholder-logo {
-            font-weight: 700;
-            color: #555;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .logo-icon { width: 24px; height: 24px; fill: #555; }
-
-        /* --- FEATURES --- */
-        #features { background-color: var(--color-bg-light); }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-        }
-
-        .feature-card {
-            background: var(--color-white);
-            padding: 40px;
-            border-radius: var(--radius-std);
-            border-left: 4px solid var(--color-gold);
-            box-shadow: var(--shadow-card);
-            transition: var(--transition-std);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .feature-icon svg { width: 40px; height: 40px; fill: var(--color-gold); }
-
-        .feature-card h3 { color: var(--color-navy); margin-bottom: 15px; font-size: 1.25rem; }
-        .feature-card p { color: var(--color-text-gray); margin-bottom: 20px; font-size: 0.95rem; }
-
-        /* --- STATS --- */
-        #stats { background-color: var(--color-navy); color: var(--color-white); }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
-            transition: var(--transition-std);
-        }
-
-        .stat-item:hover { border-color: var(--color-gold); }
-        .stat-number {
-            font-family: var(--font-mono);
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--color-gold);
-            display: block;
-            margin-bottom: 10px;
-        }
-        .stat-label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 8px; }
-        .stat-desc { font-size: 0.8rem; color: #aaa; }
-
-        /* --- PROCESS --- */
-        #process { background-color: var(--color-bg-light); }
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            position: relative;
-        }
-        .process-steps::before {
-            content: '';
+        .orbit-ring {
             position: absolute;
-            top: 40px;
-            left: 50px;
-            right: 50px;
-            height: 2px;
-            background: linear-gradient(90deg, var(--color-gold) 0%, rgba(212,175,55,0.2) 100%);
-            z-index: 0;
-            display: block;
-        }
-        .step-card { background: transparent; position: relative; z-index: 1; padding: 20px; }
-        .step-number {
-            font-family: var(--font-mono);
-            font-size: 2.5rem;
-            color: var(--color-gold);
-            opacity: 0.4;
-            margin-bottom: 10px;
-            background: var(--color-bg-light);
-            display: inline-block;
-            padding-right: 10px;
-        }
-        .step-icon-wrapper {
-            background: var(--color-white);
-            width: 80px;
-            height: 80px;
+            border: 1px dashed rgba(255,255,255,0.1);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .ring-1 { width: 350px; height: 350px; }
+        .ring-2 { width: 550px; height: 550px; border-color: rgba(212,175,55,0.1); }
+
+        /* ==================== SECTIONS ==================== */
+        .card {
+            background: var(--color-bg-white);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            transition: var(--transition);
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--color-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
+        .metric-number { font-family: var(--font-mono); font-size: 3.5rem; color: var(--color-gold); font-weight: 700; line-height: 1; margin-bottom: 10px; }
+        .metric-label { color: rgba(255,255,255,0.7); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ==================== FOOTER ==================== */
+        footer { 
+            background: #FFFFFF;
+            color: var(--color-text-gray);
+            padding: 80px 0 40px; 
+            font-size: 0.9rem; 
+            border-top: 1px solid #E5E7EB;
+        }
+        
+        .footer-logo { 
+            height: 90px; 
+            margin-bottom: 20px; 
+            filter: none; 
+        }
+        
+        .footer-col h4 {
+            color: var(--color-navy);
             margin-bottom: 20px;
-            box-shadow: var(--shadow-card);
-            border: 2px solid var(--color-gold);
         }
-        .step-card h3 { font-size: 1.1rem; color: var(--color-navy); margin-bottom: 10px; }
-        .step-card p { font-size: 0.9rem; color: var(--color-text-gray); }
-
-        /* --- CTA FOOTER --- */
-        #cta {
-            background: linear-gradient(135deg, #0F1F3F 0%, #162a52 100%);
-            text-align: center;
-            padding: 100px 20px;
-            color: var(--color-white);
-        }
-        #cta h2 { color: var(--color-white); margin-bottom: 20px; }
-        #cta p { max-width: 600px; margin: 0 auto 40px; color: #ccc; }
-        .cta-trust { font-size: 0.8rem; color: #888; margin-top: 20px; }
-
-        /* --- FOOTER --- */
-        footer {
-            background-color: var(--color-navy-dark);
-            color: #888;
-            padding: 60px 0 20px;
-            font-size: 0.9rem;
+        
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; }
+        
+        .copyright {
+            border-top: 1px solid #E5E7EB; 
+            padding-top: 20px; 
+            text-align: center; 
+            font-size: 0.8rem; 
+            margin-top: 40px;
+            color: #94A3B8;
         }
 
-        .footer-logo-img {
-            height: 35px; /* Slightly smaller in footer */
-            width: auto;
-            margin-bottom: 15px;
-            opacity: 0.9;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 40px;
-        }
-
-        .footer-col h4 { color: var(--color-white); margin-bottom: 20px; font-size: 1rem; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col ul li a:hover { color: var(--color-gold); }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* --- ANIMATIONS & RESPONSIVE --- */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
-
+        /* ==================== RESPONSIVE RULES ==================== */
         @media (max-width: 1024px) {
-            .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-            .hero-content { margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
-            .hero-cta-group { justify-content: center; }
-            .hero-visual { height: 350px; }
-            .features-grid { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .process-steps { grid-template-columns: 1fr; }
-            .process-steps::before { display: none; }
-            .footer-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-col:first-child { grid-column: span 2; }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-content { padding-right: 0; margin-bottom: 40px; }
+            .hero-cta { justify-content: center; }
+            .hero-visual-wrapper { display: none; }
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .nav-links {
-                position: fixed;
-                top: 70px; left: 0; right: 0;
-                background: var(--color-navy);
-                flex-direction: column;
-                padding: 20px;
-                transform: translateY(-150%);
-                transition: transform 0.3s ease;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
-            .nav-links.active { transform: translateY(0); }
-            .nav-cta { display: none; }
-            .mobile-menu-btn { display: block; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
-            .footer-col:first-child { grid-column: span 1; }
-            .footer-bottom { flex-direction: column; gap: 10px; }
-            .hero-logo-mark { width: 100px; }
+            .nav-links { display: none; position: fixed; top: 100px; left: 0; right: 0; background: white; flex-direction: column; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            .nav-links.active { display: flex; }
+            .nav-links a { color: var(--color-navy); }
+            .mobile-menu-btn { display: flex; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .logo-img { height: 70px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 0. HEADER -->
+    <!-- HEADER (SLIM & WHITE) -->
     <header>
         <div class="container nav-container">
             <a href="#" class="logo">
-                <!-- LOGO BIANCO SU SFONDO NAVY -->
-                <img src="assets/images/logo-white.png" alt="insurance-lab.ai" class="logo-img">
+                <img src="/assets/images/logo-horizontal.png" alt="Insurance Lab" class="logo-img">
             </a>
             
             <nav class="nav-links" id="navLinks">
                 <a href="#features">Caratteristiche</a>
-                <a href="#process">Come Funziona</a>
-                <a href="#stats">Metrica</a>
-                <a href="#cta">Contatti</a>
+                <a href="#services">Servizi</a>
+                <a href="#metrics">Numeri</a>
+                <a href="https://app.insurance-lab.ai" class="btn btn-primary" style="padding: 10px 24px; color: var(--color-navy-dark);">Login</a>
             </nav>
 
-            <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Menu">
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
                 <span></span><span></span><span></span>
             </button>
-
-            <a href="https://app.insurance-lab.ai" class="btn btn-primary nav-cta" style="padding: 10px 20px; font-size: 0.9rem;">Accedi all'App</a>
         </div>
     </header>
 
-    <!-- 1. HERO SECTION -->
+    <!-- HERO SECTION -->
     <section id="hero">
-        <div class="hero-bg-pattern"></div>
-        <div class="container hero-grid">
-            <div class="hero-content fade-in-up">
-                <h1>Analisi Assicurativa <br>al Livello <span class="text-gold">PhD</span></h1>
-                <h2 class="subheading">Estrai insight forense da polizze in pochi secondi. Alimentato da intelligenza artificiale di livello enterprise.</h2>
-                <p>insurance-lab.ai trasforma documenti assicurativi complessi in report strutturati, analizzati con precisione accademica. Zero interpretazioni soggettive, pura analisi dati.</p>
-                
-                <div class="hero-cta-group">
-                    <a href="#" class="btn btn-primary">Inizia Analisi Gratuita</a>
-                    <a href="#" class="btn btn-secondary">Guarda Demo</a>
-                </div>
-                <span class="trust-line">✓ GDPR Compliant | ✓ Crittografia End-to-End | ✓ Zero Log</span>
-            </div>
-
-            <div class="hero-visual fade-in-up">
-                <div class="geo-shape geo-1"></div>
-                <div class="geo-shape geo-2"></div>
-                <div class="geo-shape geo-3"></div>
-                <!-- LOGO MARK NETWORK - Al centro dell'animazione -->
-                <img src="images/logo-mark-network.png" alt="AI Core Analysis" class="hero-logo-mark">
-            </div>
-        </div>
-    </section>
-
-    <!-- 2. TRUST SECTION -->
-    <section id="trust">
         <div class="container">
-            <p class="trust-text">Trusted by 500+ insurance professionals</p>
-            <div class="logo-grid">
-                <!-- Placeholder Logos -->
-                <div class="placeholder-logo"><svg class="logo-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> ALLIANCE</div>
-                <div class="placeholder-logo"><svg class="logo-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg> RISKCORP</div>
-                <div class="placeholder-logo"><svg class="logo-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18"/></svg> BROKERAGE</div>
-                <div class="placeholder-logo"><svg class="logo-icon" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg> INSURETECH</div>
+            <div class="hero-grid">
+                
+                <!-- Left Column: Text -->
+                <div class="hero-content">
+                    <!-- FIX: Scritta Giallo Acceso + Testo aggiornato -->
+                    <span class="text-mono" style="display:block; margin-bottom: 15px; font-size: 0.9rem; color: #FFC107; font-weight: 700; letter-spacing: 1px;">AI-DRIVEN INSURANCE ANALYSIS</span>
+                    
+                    <h1>
+                        Analisi Assicurative<br>Intelligenti
+                    </h1>
+                    
+                    <p class="subtitle">
+                        Un assistente AI che legge polizze, confronta coperture e identifica gap in pochi secondi. 
+                        <!-- FIX: Testo più concreto, meno accademico -->
+                        Non sostituisce la tua esperienza. La potenzia, liberandoti dalla burocrazia operativa.
+                    </p>
+                    
+                    <div style="display: flex; gap: 16px; flex-wrap: wrap;" class="hero-cta">
+                        <a href="mailto:info@insurance-lab.ai" class="btn btn-primary">Richiedi Accesso</a>
+                        <a href="#how-it-works" class="btn btn-secondary">Guarda Come Funziona</a>
+                    </div>
+                    
+                    <div style="margin-top: 40px; font-size: 0.85rem; color: rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: flex-start; gap: 20px; font-family: var(--font-mono);">
+                        <span>✓ GDPR Compliant</span>
+                        <span>✓ ISO 27001 Ready</span>
+                    </div>
+                </div>
+
+                <!-- Right Column: Solar System Visual (PENTAGON LAYOUT) -->
+                <div class="hero-visual-wrapper">
+                    
+                    <!-- THE HALO -->
+                    <div class="center-glow"></div>
+                    
+                    <!-- ORBIT RINGS -->
+                    <div class="orbit-ring ring-1"></div>
+                    <div class="orbit-ring ring-2"></div>
+
+                    <!-- CENTER LOGO -->
+                    <img src="/assets/images/logo-mark.png" alt="AI Core" class="center-logo">
+                    
+                    <!-- FLOATING CARDS (PENTAGON) -->
+                    
+                    <!-- 1. TOP (Peak) -->
+                    <div class="float-card fc-5">
+                        <span class="text-mono" style="color: #60A5FA;">OCR Scanning...</span>
+                        <span>Policy_2026.pdf</span>
+                    </div>
+                    
+                    <!-- 2. MIDDLE LEFT (Shoulder) -->
+                    <div class="float-card fc-1">
+                        <span class="status-dot dot-gold"></span>
+                        <span>Gap Found: Art. 1917 c.c.</span>
+                    </div>
+                    
+                    <!-- 3. MIDDLE RIGHT (Shoulder) -->
+                    <div class="float-card fc-2">
+                        <span class="status-dot dot-green"></span>
+                        <span>Masking PII... 100%</span>
+                    </div>
+
+                    <!-- 4. BOTTOM LEFT (Base) -->
+                    <div class="float-card fc-4">
+                        <span class="text-gold">></span>
+                        <span>Loss Ratio: +12% YoY</span>
+                    </div>
+                    
+                    <!-- 5. BOTTOM RIGHT (Base) -->
+                    <div class="float-card fc-3">
+                        <span class="status-dot dot-red"></span>
+                        <span>Risk: Cyber Exclusion</span>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. CARATTERISTICHE -->
+    <!-- VALUE PROPOSITION -->
     <section id="features" class="section-padding">
         <div class="container">
-            <div class="section-header fade-in-up">
-                <h2>Perché insurance-lab.ai?</h2>
-                <p class="section-sub">Quattro pilastri di eccellenza tecnologica per il risk management.</p>
+            <div style="text-align: center; margin-bottom: 60px;">
+                <span style="color: var(--color-gold); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; font-weight: 600;">Perché Insurance Lab</span>
+                <h2 style="font-size: 2.5rem; margin-top: 10px;">Costruito per l'Underwriting Complesso</h2>
             </div>
 
-            <div class="features-grid">
-                <!-- Card 1 -->
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-                    </div>
-                    <h3>Analisi Forense Automatica</h3>
-                    <p>Leggi polizze come farebbe un PhD in Risk Engineering. Identifica clausole nascoste, limitazioni ed esclusioni con precisione 99.8%.</p>
-                    <a href="#" class="btn-text">Scopri la metodologia →</a>
+            <div class="feature-grid">
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Efficienza Operativa</h3>
+                    <p style="color: var(--color-text-gray);">Riduzione del tempo di analisi da 3-4 ore a < 60 secondi per polizze complesse. Focus sul valore aggiunto, non sulla lettura passiva.</p>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-                    </div>
-                    <h3>GDPR Compliance Integrato</h3>
-                    <p>Oscura automaticamente dati sensibili (PII) prima di inviare ai modelli AI. Nessun dato lascia il vostro perimetro non crittografato.</p>
-                    <a href="#" class="btn-text">Leggi security whitepaper →</a>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <!-- FIX: Rimosso "Forense" -->
+                    <h3>Precisione Tecnica</h3>
+                    <p style="color: var(--color-text-gray);">Identificazione automatica di clausole specifiche (es. Art. 2087 c.c., Coassicurazione indiretta). Zero allucinazioni generiche.</p>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="2" fill="none"/><path d="M16 13H8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M16 17H8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M10 9H8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-                    </div>
-                    <h3>Report di Livello Accademico</h3>
-                    <p>Output in HTML/PDF con struttura universitaria. Ogni claim è supportato da riferimenti contrattuali precisi e normative ISVAP.</p>
-                    <a href="#" class="btn-text">Vedi esempio report →</a>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-                    </div>
-                    <h3>Multi-Branch Coverage</h3>
-                    <p>RC Generale, Incendio, Trasporti, D&O, Cyber. Il motore semantico si adatta ad ogni ramo assicurativo senza training aggiuntivo.</p>
-                    <a href="#" class="btn-text">Rami supportati →</a>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <h3>Data Sovereignty</h3>
+                    <p style="color: var(--color-text-gray);">Mascheramento automatico PII pre-processing. I dati sensibili dei tuoi clienti non vengono mai esposti ai modelli LLM pubblici.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. STATS SECTION -->
-    <section id="stats" class="section-padding">
+    <!-- METRICS -->
+    <section id="metrics" style="background: var(--color-navy); padding: 80px 0; border-top: 1px solid rgba(255,255,255,0.1);">
         <div class="container">
-            <div class="section-header fade-in-up">
-                <h2 style="color: white;">Numeri che Parlano</h2>
-                <p class="section-sub" style="color: var(--color-gold);">Misurabile, verificabile, riproducibile.</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-item fade-in-up">
-                    <span class="stat-number" data-target="99.8">0%</span>
-                    <span class="stat-label">Accuracy</span>
-                    <span class="stat-desc">Identificazione clausole</span>
+            <div class="metrics-grid">
+                <div>
+                    <div class="metric-number">< 30s</div>
+                    <div class="metric-label">Tempo Analisi Polizza</div>
                 </div>
-                <div class="stat-item fade-in-up">
-                    <span class="stat-number" data-target="30">0</span>
-                    <span class="stat-label">Secondi</span>
-                    <span class="stat-desc">Tempo medio analisi</span>
+                <div>
+                    <div class="metric-number">99.8%</div>
+                    <div class="metric-label">Accuratezza Estrazione</div>
                 </div>
-                <div class="stat-item fade-in-up">
-                    <span class="stat-number" data-target="500">0</span>
-                    <span class="stat-label">Professionisti</span>
-                    <span class="stat-desc">Clienti attivi</span>
-                </div>
-                <div class="stat-item fade-in-up">
-                    <span class="stat-number" data-target="100">0%</span>
-                    <span class="stat-label">GDPR Compliant</span>
-                    <span class="stat-desc">Sicurezza garantita</span>
+                <div>
+                    <div class="metric-number">Zero</div>
+                    <div class="metric-label">Data Retention (No-Logs)</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 5. COME FUNZIONA -->
-    <section id="process" class="section-padding">
+    <!-- SERVICES PREVIEW -->
+    <section id="services" class="section-padding" style="background: white;">
         <div class="container">
-            <div class="section-header fade-in-up">
-                <h2>Come Funziona</h2>
-                <p class="section-sub">4 semplici step da PDF grezzo a insights strategici.</p>
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h2 style="font-size: 2.5rem;">Cosa Puoi Fare Oggi</h2>
             </div>
-
-            <div class="process-steps">
-                <!-- Step 1 -->
-                <div class="step-card fade-in-up" style="transition-delay: 0.1s;">
-                    <span class="step-number">01</span>
-                    <div class="step-icon-wrapper">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0F1F3F" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    </div>
-                    <h3>Carica Polizza</h3>
-                    <p>Drag & drop del PDF nativo o scansionato (OCR integrato).</p>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="step-card fade-in-up" style="transition-delay: 0.2s;">
-                    <span class="step-number">02</span>
-                    <div class="step-icon-wrapper">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0F1F3F" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="22" x2="12" y2="12"/><line x1="12" y1="12" x2="20" y2="5"/><line x1="4" y1="5" x2="12" y2="12"/></svg>
-                    </div>
-                    <h3>Mascheramento</h3>
-                    <p>L'IA rileva e oscura automaticamente nomi, indirizzi e valori sensibili.</p>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="step-card fade-in-up" style="transition-delay: 0.3s;">
-                    <span class="step-number">03</span>
-                    <div class="step-icon-wrapper">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0F1F3F" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    </div>
-                    <h3>Analisi Deep</h3>
-                    <p>I modelli (Claude/Gemini) analizzano semantica e cross-reference.</p>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="step-card fade-in-up" style="transition-delay: 0.4s;">
-                    <span class="step-number">04</span>
-                    <div class="step-icon-wrapper">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0F1F3F" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    </div>
-                    <h3>Report Forense</h3>
-                    <p>Ottieni un dossier interattivo con gap analysis e risk scoring.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. CTA FINALE -->
-    <section id="cta">
-        <div class="container fade-in-up">
-            <h2>Pronti a Trasformare la Vostra Analisi?</h2>
-            <p>Scopri come insurance-lab.ai aiuta broker e risk manager a risparmiare ore di lavoro e ridurre errori di omissione.</p>
             
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="#" class="btn btn-primary">Accedi all'App Gratuitamente</a>
-                <a href="#" class="btn btn-secondary">Richiedi Demo Personalizzata</a>
+            <div class="feature-grid">
+                <!-- Service 1 -->
+                <div class="card" style="background: var(--color-bg-light);">
+                    <div class="card-icon">📄</div>
+                    <h3>Analisi & Estrazione</h3>
+                    <p>Carica PDF. Ottieni tabella strutturata: Massimali, Franchigie, Scoperti, Estensioni. Ideale per Audit di Portafoglio.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="card" style="background: var(--color-bg-light);">
+                    <div class="card-icon">⚖️</div>
+                    <h3>Confronto Sinottico</h3>
+                    <p>Confronta polizza in scadenza con 3 preventivi. Evidenzia delta negative (peggioramenti) e positive. Ideale per Gare.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="card" style="background: var(--color-bg-light);">
+                    <div class="card-icon">🚗</div>
+                    <h3>Pre-Analisi Sinistro</h3>
+                    <p>Incrocia denuncia sinistro con testo polizza. Verifica operatività garanzia e calcola indennizzo teorico.</p>
+                </div>
             </div>
-            <p class="cta-trust">✓ No credit card required | ✓ Free trial 14 giorni | ✓ Instant setup</p>
         </div>
     </section>
 
-    <!-- 7. FOOTER -->
+    <!-- CTA FINAL -->
+    <section style="background: linear-gradient(135deg, #0A1428 0%, #0F1F3F 100%); padding: 100px 0; text-align: center; color: white;">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 20px;">Parliamo tra Professionisti</h2>
+            <p style="max-width: 600px; margin: 0 auto 40px; color: rgba(255,255,255,0.7);">
+                Niente demo preconfezionate. Inviaci una tua polizza (anonimizzata), la analizziamo insieme.
+            </p>
+            <a href="mailto:info@insurance-lab.ai" class="btn btn-primary">Scrivimi - info@insurance-lab.ai</a>
+        </div>
+    </section>
+
+    <!-- FOOTER (WHITE VERSION) -->
     <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <a href="#" class="logo">
-                        <!-- LOGO BIANCO PER FOOTER SCURO -->
-                        <img src="assets/images/logo-white.png" alt="insurance-lab.ai" class="footer-logo-img">
-                    </a>
-                    <p style="font-size: 0.85rem; color: #666; max-width: 250px;">
-                        Piattaforma di intelligence assicurativa per professionisti che esigono precisione.
-                    </p>
+                    <img src="/assets/images/logo-horizontal.png" alt="Insurance Lab" class="footer-logo">
+                    <!-- FIX: Rimosso "Forense" -->
+                    <p>Tecnologia dedicata al mercato assicurativo italiano.</p>
                 </div>
-
                 <div class="footer-col">
-                    <h4>Prodotto</h4>
+                    <h4>Piattaforma</h4>
                     <ul>
-                        <li><a href="#">Caratteristiche</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Sicurezza</a></li>
-                        <li><a href="#">API Docs</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#">Caratteristiche</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#">Sicurezza</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
-                    <h4>Azienda</h4>
+                    <h4>Legale</h4>
                     <ul>
-                        <li><a href="#">Chi Siamo</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contatti</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#">Privacy Policy</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#">GDPR Compliance</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
-                    <h4>Legal</h4>
+                    <h4>Contatti</h4>
                     <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Termini di Servizio</a></li>
-                        <li><a href="#">GDPR</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Social</h4>
-                    <ul>
-                        <li><a href="#">LinkedIn</a></li>
-                        <li><a href="#">Twitter / X</a></li>
-                        <li><a href="#">GitHub</a></li>
+                        <li><a href="mailto:info@insurance-lab.ai">info@insurance-lab.ai</a></li>
                     </ul>
                 </div>
             </div>
-
-            <div class="footer-bottom">
-                <p>© 2025 insurance-lab.ai. Tutti i diritti riservati.</p>
-                <a href="#" style="color: var(--color-gold);">Informativa Privacy</a>
+            <div class="copyright">
+                &copy; 2026 Insurance Lab. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT -->
     <script>
-        // Mobile Menu Toggle
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
             nav.classList.toggle('active');
-        }
-
-        // Intersection Observer for Fade-in Animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    
-                    // Trigger counter if it's a stat number
-                    if (entry.target.classList.contains('stat-item')) {
-                        const num = entry.target.querySelector('.stat-number');
-                        if (num) animateValue(num);
-                    }
-                    
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in-up, .stat-item').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Number Counter Animation
-        function animateValue(obj) {
-            const target = parseFloat(obj.getAttribute('data-target'));
-            const suffix = obj.innerText.replace(/[0-9]/g, '');
-            let start = 0;
-            const duration = 2000;
-            let startTimestamp = null;
-
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                
-                const easeProgress = 1 - Math.pow(1 - progress, 4);
-                
-                let current = progress * target;
-                
-                if (target % 1 !== 0) {
-                    obj.innerHTML = current.toFixed(1) + suffix;
-                } else {
-                    obj.innerHTML = Math.floor(current) + suffix;
-                }
-                
-                if (progress === 1) {
-                   if(target === 30) obj.innerHTML = "< " + target + suffix;
-                   else obj.innerHTML = target + suffix;
-                } else if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
         }
     </script>
 </body>
