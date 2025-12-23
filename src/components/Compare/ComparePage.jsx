@@ -20,14 +20,30 @@ const ComparePage = () => {
         const files = e.dataTransfer?.files || e.target.files;
         if (files && files[0]) {
             const file = files[0];
-            if (file.type === 'application/pdf') {
+            // Allowed MIME types and extensions
+            const allowedTypes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-outlook',
+                'message/rfc822',
+                'image/jpeg',
+                'image/png',
+                'text/plain'
+            ];
+            const allowedExtensions = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.msg', '.eml', '.jpg', '.jpeg', '.png', '.txt'];
+            const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+            if (allowedTypes.includes(file.type) || allowedExtensions.includes(ext)) {
                 setDocuments(prev => prev.map(doc =>
                     doc.id === docId
                         ? { ...doc, file: { file, name: file.name, size: (file.size / 1024 / 1024).toFixed(2) + ' MB' }, isDragging: false }
                         : doc
                 ));
             } else {
-                addToast('Seleziona un file PDF', 'error');
+                addToast('Formato non supportato. Usa PDF, DOC, XLSX, TXT o immagini.', 'error');
             }
         }
     }, [addToast]);

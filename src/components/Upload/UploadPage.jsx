@@ -79,7 +79,7 @@ const UploadPage = () => {
     <div className="upload-container fade-in">
       <div className="upload-header">
         <h1>Nuova Analisi</h1>
-        <p>Carica documenti assicurativi (PDF) per estrarre e analizzare i dati.</p>
+        <p>Carica i documenti assicurativi per estrarre e analizzare i dati.</p>
       </div>
 
       <div className="upload-content">
