@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import Button from '../Common/Button';
@@ -17,10 +17,11 @@ const LoginPage = () => {
     setLoading(true);
     try {
       await login(formData);
-      addToast('Welcome back!', 'success');
+      addToast('Bentornato!', 'success');
       navigate('/home');
     } catch (err) {
-      addToast('Invalid credentials', 'error');
+      const message = err.response?.data?.detail || 'Credenziali non valide';
+      addToast(message, 'error');
     } finally {
       setLoading(false);
     }
@@ -60,6 +61,11 @@ const LoginPage = () => {
           <Button type="submit" isLoading={loading} style={{ width: '100%' }}>
             Login
           </Button>
+          <div style={{ textAlign: 'center', marginTop: '16px' }}>
+            <Link to="/forgot-password" style={{ color: 'var(--primary)', textDecoration: 'none', fontSize: '14px' }}>
+              Password dimenticata?
+            </Link>
+          </div>
         </form>
       </div>
     </div>

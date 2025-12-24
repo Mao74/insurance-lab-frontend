@@ -25,3 +25,23 @@ export const checkAuth = async () => {
   const { data } = await api.get('/auth/me');
   return data;
 };
+
+/**
+ * Richiede il reset della password.
+ * Invia un'email con il link per resettare la password.
+ */
+export const forgotPassword = async (email) => {
+  const { data } = await api.post('/auth/forgot-password', { email });
+  return data;
+};
+
+/**
+ * Reimposta la password utilizzando il token ricevuto via email.
+ */
+export const resetPassword = async (token, newPassword) => {
+  const { data } = await api.post('/auth/reset-password', {
+    token,
+    new_password: newPassword
+  });
+  return data;
+};

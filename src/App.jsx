@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
 import LoginPage from './components/Auth/LoginPage';
+import ForgotPasswordPage from './components/Auth/ForgotPasswordPage';
+import ResetPasswordPage from './components/Auth/ResetPasswordPage';
 import DashboardPage from './components/Dashboard/DashboardPage';
 import ArchivePage from './components/Dashboard/ArchivePage';
 import UploadPage from './components/Upload/UploadPage';
@@ -28,6 +30,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
 
             {/* Protected Routes */}
             <Route path="/home" element={
