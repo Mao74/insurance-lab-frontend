@@ -28,10 +28,19 @@ const SettingsPage = () => {
     });
     const [editingUser, setEditingUser] = useState(null);
 
-    // Fetch users if admin
+    // LLM Settings state (admin only)
+    const [llmSettings, setLlmSettings] = useState({
+        llm_model_name: 'gemini-2.5-flash-preview-05-20',
+        input_cost_per_million: '0.50',
+        output_cost_per_million: '3.00'
+    });
+    const [savingSettings, setSavingSettings] = useState(false);
+
+    // Fetch users and settings if admin
     useEffect(() => {
         if (isAdmin) {
             fetchUsers();
+            fetchSettings();
         }
     }, [isAdmin]);
 
@@ -45,6 +54,28 @@ const SettingsPage = () => {
             addToast('Errore nel caricamento utenti', 'error');
         } finally {
             setLoadingUsers(false);
+        }
+    };
+
+    const fetchSettings = async () => {
+        try {
+            const { data } = await api.get('/admin/settings');
+            setLlmSettings(data);
+        } catch (err) {
+            console.error('Error fetching settings:', err);
+        }
+    };
+
+    const handleSaveSettings = async () => {
+        setSavingSettings(true);
+        try {
+            const { data } = await api.put('/admin/settings', llmSettings);
+            setLlmSettings(data);
+            addToast('Impostazioni salvate!', 'success');
+        } catch (err) {
+            addToast(err.response?.data?.detail || 'Errore nel salvataggio', 'error');
+        } finally {
+            setSavingSettings(false);
         }
     };
 
@@ -130,11 +161,10 @@ const SettingsPage = () => {
         return tokens.toString();
     };
 
-    // Calculate cost based on Gemini 3 Flash pricing
-    // Input: $0.50/M tokens, Output: $3.00/M tokens
+    // Calculate cost based on configurable pricing
     const calculateCost = (inputTokens, outputTokens) => {
-        const inputCost = ((inputTokens || 0) / 1000000) * 0.50;
-        const outputCost = ((outputTokens || 0) / 1000000) * 3.00;
+        const inputCost = ((inputTokens || 0) / 1000000) * parseFloat(llmSettings.input_cost_per_million || 0.50);
+        const outputCost = ((outputTokens || 0) / 1000000) * parseFloat(llmSettings.output_cost_per_million || 3.00);
         const totalCost = inputCost + outputCost;
 
         if (totalCost === 0) return '$0.00';
@@ -209,6 +239,51 @@ const SettingsPage = () => {
                     </form>
                 </div>
             </div>
+
+            {/* Admin LLM Configuration */}
+            {isAdmin && (
+                <div className="settings-section">
+                    <h2>🤖 Configurazione LLM</h2>
+                    <div className="settings-card">
+                        <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                            <div className="form-group">
+                                <label>Modello LLM</label>
+                                <input
+                                    type="text"
+                                    value={llmSettings.llm_model_name}
+                                    onChange={(e) => setLlmSettings({ ...llmSettings, llm_model_name: e.target.value })}
+                                    placeholder="es. gemini-2.5-flash-preview-05-20"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Costo Input ($/milione)</label>
+                                <input
+                                    type="text"
+                                    value={llmSettings.input_cost_per_million}
+                                    onChange={(e) => setLlmSettings({ ...llmSettings, input_cost_per_million: e.target.value })}
+                                    placeholder="0.50"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Costo Output ($/milione)</label>
+                                <input
+                                    type="text"
+                                    value={llmSettings.output_cost_per_million}
+                                    onChange={(e) => setLlmSettings({ ...llmSettings, output_cost_per_million: e.target.value })}
+                                    placeholder="3.00"
+                                />
+                            </div>
+                        </div>
+                        <button
+                            className="settings-btn primary"
+                            onClick={handleSaveSettings}
+                            disabled={savingSettings}
+                        >
+                            {savingSettings ? 'Salvataggio...' : '💾 Salva Configurazione'}
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Admin User Management */}
             {isAdmin && (
