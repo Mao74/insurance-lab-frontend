@@ -130,6 +130,18 @@ const SettingsPage = () => {
         return tokens.toString();
     };
 
+    // Calculate cost based on Gemini 3 Flash pricing
+    // Input: $0.50/M tokens, Output: $3.00/M tokens
+    const calculateCost = (inputTokens, outputTokens) => {
+        const inputCost = ((inputTokens || 0) / 1000000) * 0.50;
+        const outputCost = ((outputTokens || 0) / 1000000) * 3.00;
+        const totalCost = inputCost + outputCost;
+
+        if (totalCost === 0) return '$0.00';
+        if (totalCost < 0.01) return '<$0.01';
+        return '$' + totalCost.toFixed(2);
+    };
+
     return (
         <div className="settings-page">
             <h1>Impostazioni</h1>
@@ -273,6 +285,7 @@ const SettingsPage = () => {
                                         <th>Stato</th>
                                         <th>Scadenza</th>
                                         <th>Token Usati</th>
+                                        <th>Costo Stimato</th>
                                         <th>Ultimo Accesso</th>
                                         <th>Azioni</th>
                                     </tr>
@@ -292,7 +305,12 @@ const SettingsPage = () => {
                                                 </span>
                                             </td>
                                             <td>{formatDate(u.access_expires_at)}</td>
-                                            <td>{formatTokens(u.total_tokens_used)}</td>
+                                            <td title={`Input: ${formatTokens(u.total_input_tokens)} | Output: ${formatTokens(u.total_output_tokens)}`}>
+                                                {formatTokens(u.total_tokens_used)}
+                                            </td>
+                                            <td style={{ fontFamily: 'monospace', color: 'var(--success)' }}>
+                                                {calculateCost(u.total_input_tokens, u.total_output_tokens)}
+                                            </td>
                                             <td>{formatDate(u.last_login)}</td>
                                             <td className="actions">
                                                 <button
