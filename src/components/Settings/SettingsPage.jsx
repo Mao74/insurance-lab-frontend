@@ -510,18 +510,32 @@ const SettingsPage = () => {
                                             <td className="actions">
                                                 <button
                                                     className="icon-btn"
+                                                    onClick={() => {
+                                                        const newExpiry = prompt('Nuova scadenza (YYYY-MM-DD):', u.access_expires_at ? u.access_expires_at.split('T')[0] : '');
+                                                        if (newExpiry) {
+                                                            handleUpdateUser(u.id, { access_expires_at: newExpiry });
+                                                        }
+                                                    }}
+                                                    title="Modifica scadenza"
+                                                >
+                                                    📅
+                                                </button>
+                                                <button
+                                                    className="icon-btn"
                                                     onClick={() => handleUpdateUser(u.id, { is_active: !u.is_active })}
                                                     title={u.is_active ? 'Disattiva' : 'Attiva'}
                                                 >
                                                     {u.is_active ? '🚫' : '✅'}
                                                 </button>
-                                                <button
-                                                    className="icon-btn danger"
-                                                    onClick={() => handleDeleteUser(u.id, u.email)}
-                                                    title="Elimina"
-                                                >
-                                                    🗑️
-                                                </button>
+                                                {u.email !== user?.email && (
+                                                    <button
+                                                        className="icon-btn danger"
+                                                        onClick={() => handleDeleteUser(u.id, u.email)}
+                                                        title="Elimina"
+                                                    >
+                                                        🗑️
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))}
