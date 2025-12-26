@@ -36,8 +36,13 @@ const SettingsPage = () => {
     });
     const [savingSettings, setSavingSettings] = useState(false);
 
-    // Fetch users and settings if admin
+    // Subscription state (non-admin users)
+    const [subscription, setSubscription] = useState(null);
+    const [loadingSubscription, setLoadingSubscription] = useState(false);
+
+    // Fetch users and settings if admin, subscription for all
     useEffect(() => {
+        fetchSubscription();
         if (isAdmin) {
             fetchUsers();
             fetchSettings();
@@ -76,6 +81,44 @@ const SettingsPage = () => {
             addToast(err.response?.data?.detail || 'Errore nel salvataggio', 'error');
         } finally {
             setSavingSettings(false);
+        }
+    };
+
+    const fetchSubscription = async () => {
+        setLoadingSubscription(true);
+        try {
+            const { data } = await api.get('/stripe/subscription-status');
+            setSubscription(data);
+        } catch (err) {
+            console.error('Error fetching subscription:', err);
+        } finally {
+            setLoadingSubscription(false);
+        }
+    };
+
+    const handleSubscribe = async (priceType) => {
+        try {
+            const { data } = await api.post('/stripe/create-checkout', { price_type: priceType });
+            if (data.success && data.checkout_url) {
+                window.location.href = data.checkout_url;
+            } else {
+                addToast(data.error || 'Errore durante il checkout', 'error');
+            }
+        } catch (err) {
+            addToast('Errore durante il checkout', 'error');
+        }
+    };
+
+    const handleManageSubscription = async () => {
+        try {
+            const { data } = await api.post('/stripe/customer-portal');
+            if (data.success && data.portal_url) {
+                window.location.href = data.portal_url;
+            } else {
+                addToast(data.error || 'Errore apertura portale', 'error');
+            }
+        } catch (err) {
+            addToast('Errore apertura portale', 'error');
         }
     };
 
@@ -195,6 +238,92 @@ const SettingsPage = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Subscription Section (for non-admin or all users) */}
+            {!isAdmin && (
+                <div className="settings-section">
+                    <h2>💳 Abbonamento</h2>
+                    <div className="settings-card">
+                        {loadingSubscription ? (
+                            <p>Caricamento...</p>
+                        ) : subscription?.has_subscription && subscription?.status === 'active' ? (
+                            <>
+                                <div className="settings-row">
+                                    <div className="settings-label">Piano attivo</div>
+                                    <div className="settings-value">
+                                        <span className="badge badge-success">
+                                            {subscription.plan === 'monthly' ? '€49/mese' : '€470/anno'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="settings-row">
+                                    <div className="settings-label">Stato</div>
+                                    <div className="settings-value">
+                                        <span className="badge badge-success">Attivo</span>
+                                    </div>
+                                </div>
+                                <button
+                                    className="settings-btn secondary"
+                                    onClick={handleManageSubscription}
+                                    style={{ marginTop: '16px' }}
+                                >
+                                    Gestisci Abbonamento
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <p style={{ marginBottom: '16px', color: '#666' }}>
+                                    Scegli il piano più adatto alle tue esigenze:
+                                </p>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <div style={{
+                                        border: '2px solid #e5e7eb',
+                                        borderRadius: '12px',
+                                        padding: '20px',
+                                        textAlign: 'center'
+                                    }}>
+                                        <h3 style={{ margin: '0 0 8px 0' }}>Mensile</h3>
+                                        <p style={{ fontSize: '28px', fontWeight: 'bold', margin: '0 0 8px 0' }}>€49<span style={{ fontSize: '14px', fontWeight: 'normal' }}>/mese</span></p>
+                                        <button
+                                            className="settings-btn primary"
+                                            onClick={() => handleSubscribe('monthly')}
+                                            style={{ width: '100%' }}
+                                        >
+                                            Abbonati
+                                        </button>
+                                    </div>
+                                    <div style={{
+                                        border: '2px solid var(--color-gradient-end)',
+                                        borderRadius: '12px',
+                                        padding: '20px',
+                                        textAlign: 'center',
+                                        background: 'linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)'
+                                    }}>
+                                        <span style={{
+                                            background: 'var(--color-gradient-end)',
+                                            color: 'white',
+                                            padding: '2px 8px',
+                                            borderRadius: '4px',
+                                            fontSize: '12px',
+                                            marginBottom: '8px',
+                                            display: 'inline-block'
+                                        }}>RISPARMIA 20%</span>
+                                        <h3 style={{ margin: '0 0 8px 0' }}>Annuale</h3>
+                                        <p style={{ fontSize: '28px', fontWeight: 'bold', margin: '0 0 8px 0' }}>€470<span style={{ fontSize: '14px', fontWeight: 'normal' }}>/anno</span></p>
+                                        <button
+                                            className="settings-btn primary"
+                                            onClick={() => handleSubscribe('annual')}
+                                            style={{ width: '100%' }}
+                                        >
+                                            Abbonati
+                                        </button>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
 
             {/* Cambio Password */}
             <div className="settings-section">
