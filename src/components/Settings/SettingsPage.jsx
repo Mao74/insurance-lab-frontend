@@ -251,15 +251,16 @@ const SettingsPage = () => {
                                 <div className="settings-row">
                                     <div className="settings-label">Piano attivo</div>
                                     <div className="settings-value">
-                                        <span className="badge badge-success">
-                                            {subscription.plan === 'monthly' ? '€49/mese' : '€470/anno'}
-                                        </span>
+                                        <span className="badge badge-success">Attivo</span>
                                     </div>
                                 </div>
                                 <div className="settings-row">
-                                    <div className="settings-label">Stato</div>
+                                    <div className="settings-label">Scadenza</div>
                                     <div className="settings-value">
-                                        <span className="badge badge-success">Attivo</span>
+                                        {subscription.expires_at
+                                            ? new Date(subscription.expires_at).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })
+                                            : 'N/A'
+                                        }
                                     </div>
                                 </div>
                                 <button
