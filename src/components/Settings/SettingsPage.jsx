@@ -299,16 +299,7 @@ const SettingsPage = () => {
                                         textAlign: 'center',
                                         background: 'linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%)'
                                     }}>
-                                        <span style={{
-                                            background: 'var(--color-gradient-end)',
-                                            color: 'white',
-                                            padding: '2px 8px',
-                                            borderRadius: '4px',
-                                            fontSize: '12px',
-                                            marginBottom: '8px',
-                                            display: 'inline-block'
-                                        }}>RISPARMIA 20%</span>
-                                        <h3 style={{ margin: '0 0 8px 0' }}>Annuale</h3>
+                                        <h3 style={{ margin: '0 0 8px 0' }}>Annuale <span style={{ fontWeight: 'normal', color: '#333', fontSize: '14px' }}>(Risparmia 20%)</span></h3>
                                         <p style={{ fontSize: '28px', fontWeight: 'bold', margin: '0 0 8px 0' }}>€470<span style={{ fontSize: '14px', fontWeight: 'normal' }}>/anno</span></p>
                                         <button
                                             className="settings-btn primary"
