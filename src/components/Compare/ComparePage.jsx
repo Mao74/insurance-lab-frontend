@@ -150,6 +150,7 @@ const ComparePage = () => {
                     onDrop={(e) => handleDrop(e, doc.id)}
                     onDragOver={(e) => handleDragOver(e, doc.id)}
                     onDragLeave={() => handleDragLeave(doc.id)}
+                    onClick={() => document.getElementById(`file-${doc.id}`).click()}
                 >
                     <input
                         type="file"
@@ -158,13 +159,13 @@ const ComparePage = () => {
                         id={`file-${doc.id}`}
                         hidden
                     />
-                    <label htmlFor={`file-${doc.id}`} className="dropzone-content">
+                    <div className="dropzone-content">
                         <FaCloudUploadAlt className="upload-icon" />
                         <p className="upload-text">
                             Trascina qui il file oppure <span>sfoglia</span>
                         </p>
                         <p className="upload-hint">Supportati: PDF, DOC, XLSX, TXT, immagini</p>
-                    </label>
+                    </div>
                 </div>
             ) : (
                 <div className="file-preview">
@@ -184,7 +185,11 @@ const ComparePage = () => {
     );
 
     return (
-        <div className="compare-page">
+        <div
+            className="compare-page"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => e.preventDefault()}
+        >
             <div className="compare-header">
                 <div className="compare-icon">
                     <FaBalanceScale />
@@ -213,32 +218,30 @@ const ComparePage = () => {
             </div>
 
             <div className="compare-actions">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <label style={{ fontSize: '0.85rem', fontWeight: '600', color: '#64748b' }}>Ramo Assicurativo</label>
-                        <select
-                            value={policyType}
-                            onChange={(e) => setPolicyType(e.target.value)}
-                            style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.95rem', minWidth: '180px' }}
-                        >
-                            <option value="rc_generale">RC Generale</option>
-                            <option value="incendio">Incendio</option>
-                            <option value="trasporti">Trasporti</option>
-                            <option value="cyber">Cyber Risk</option>
-                            <option value="infortuni">Infortuni</option>
-                            <option value="rca">RCA Auto</option>
-                        </select>
-                    </div>
-
-                    <button
-                        className="add-document-btn"
-                        onClick={addDocument}
-                        disabled={documents.length >= 5 || isUploading}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-start' }}>
+                    <label style={{ fontSize: '0.85rem', fontWeight: '600', color: '#64748b' }}>Ramo Assicurativo</label>
+                    <select
+                        value={policyType}
+                        onChange={(e) => setPolicyType(e.target.value)}
+                        style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: '0.95rem', minWidth: '180px' }}
                     >
-                        <FaPlus />
-                        <span>Aggiungi Documento</span>
-                    </button>
+                        <option value="rc_generale">RC Generale</option>
+                        <option value="incendio">Incendio</option>
+                        <option value="trasporti">Trasporti</option>
+                        <option value="cyber">Cyber Risk</option>
+                        <option value="infortuni">Infortuni</option>
+                        <option value="rca">RCA Auto</option>
+                    </select>
                 </div>
+
+                <button
+                    className="add-document-btn"
+                    onClick={addDocument}
+                    disabled={documents.length >= 5 || isUploading}
+                >
+                    <FaPlus />
+                    <span>Aggiungi Documento</span>
+                </button>
 
                 <button
                     className={`compare-btn ${uploadedCount >= 2 && !isUploading ? 'active' : 'disabled'}`}
