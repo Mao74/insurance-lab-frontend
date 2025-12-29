@@ -41,9 +41,9 @@ const HomePage = () => {
             title: 'Genera Report',
             description: 'Analisi automatica e generazione report polizze.',
             icon: FaFileAlt,
-            path: '/dashboard',
+            path: '/upload',
             isActive: true,
-            action: () => handleModuleClick('/dashboard')
+            action: () => handleModuleClick('/upload')
         },
         {
             title: 'Confronta Polizze/Preventivi',
