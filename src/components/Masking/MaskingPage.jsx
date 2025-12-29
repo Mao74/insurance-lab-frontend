@@ -181,6 +181,7 @@ const MaskingPage = () => {
           options={options}
           onOptionsChange={setOptions}
           onSubmit={handleStartAnalysis}
+          isCompare={location.state?.isCompare || false}
         />
       </div>
 

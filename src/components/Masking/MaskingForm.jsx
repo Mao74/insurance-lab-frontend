@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '../Common/Button';
 import './Masking.css';
 
-const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => {
+const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCompare = false }) => {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
   const handleChange = (field, value) => {
@@ -30,16 +30,18 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
   const getAnalysisLevelLabel = () => {
     const labels = {
       'cliente': 'Cliente',
-      'compagnia': 'Compagnia'
+      'compagnia': 'Compagnia',
+      'confronto': 'Confronto'
     };
     return labels[options.analysisLevel] || options.analysisLevel;
   };
 
-  const handleSubmitClick = () => {
-    const confirmMessage = `Confermi di voler avviare l'analisi con le seguenti impostazioni?\n\n` +
-      `• Tipo Polizza: ${getPolicyTypeLabel()}\n` +
-      `• Livello Analisi: ${getAnalysisLevelLabel()}\n\n` +
-      `${isFormEmpty ? '⚠️ ATTENZIONE: Nessun dato di mascheramento inserito. L\'analisi verrà eseguita sul testo in chiaro.\n\n' : ''}` +
+  const handleConfirmSubmit = () => {
+    const confirmMessage =
+      `📋 RIEPILOGO ANALISI: \n\n` +
+      `• Tipo Polizza: ${getPolicyTypeLabel()} \n` +
+      `• ${isCompare ? 'Tipo: Confronto Polizze' : 'Livello Analisi: ' + getAnalysisLevelLabel()} \n\n` +
+      `${isFormEmpty ? '⚠️ ATTENZIONE: Nessun dato di mascheramento inserito. L\'analisi verrà eseguita sul testo in chiaro.\n\n' : ''} ` +
       `Premi OK per continuare.`;
 
     if (window.confirm(confirmMessage)) {
@@ -49,35 +51,38 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
 
   return (
     <div className="masking-form card">
-      <div className="form-section">
-        <h3>Configurazione</h3>
-        <div className="form-row">
-          <div className="form-group">
-            <label>Tipo Polizza</label>
-            <select
-              value={options.policyType}
-              onChange={(e) => handleOptionChange('policyType', e.target.value)}
-            >
-              <option value="rc_generale">RC Generale</option>
-              <option value="incendio">Incendio</option>
-              <option value="trasporti">Trasporti</option>
-              <option value="cyber">Cyber Risk</option>
-              <option value="infortuni">Infortuni</option>
-              <option value="rca">RCA Auto</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Livello Analisi</label>
-            <select
-              value={options.analysisLevel}
-              onChange={(e) => handleOptionChange('analysisLevel', e.target.value)}
-            >
-              <option value="cliente">Cliente</option>
-              <option value="compagnia">Compagnia</option>
-            </select>
+      {/* Hide configuration in compare mode - already selected in ComparePage */}
+      {!isCompare && (
+        <div className="form-section">
+          <h3>Configurazione</h3>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Tipo Polizza</label>
+              <select
+                value={options.policyType}
+                onChange={(e) => handleOptionChange('policyType', e.target.value)}
+              >
+                <option value="rc_generale">RC Generale</option>
+                <option value="incendio">Incendio</option>
+                <option value="trasporti">Trasporti</option>
+                <option value="cyber">Cyber Risk</option>
+                <option value="infortuni">Infortuni</option>
+                <option value="rca">RCA Auto</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Livello Analisi</label>
+              <select
+                value={options.analysisLevel}
+                onChange={(e) => handleOptionChange('analysisLevel', e.target.value)}
+              >
+                <option value="cliente">Cliente</option>
+                <option value="compagnia">Compagnia</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="form-section">
         <h3>Dati da Mascherare (Anonimizzazione)</h3>
@@ -196,7 +201,7 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
 
         <div className="btn-row">
           <Button
-            onClick={handleSubmitClick}
+            onClick={handleConfirmSubmit}
             style={{ width: '100%' }}
             disabled={!privacyAccepted}
           >
