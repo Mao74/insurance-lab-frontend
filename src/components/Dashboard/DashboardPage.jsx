@@ -75,7 +75,7 @@ const DashboardPage = () => {
           <h1>Dashboard</h1>
           <p>Bentornato su Insurance Lab AI</p>
         </div>
-        <Button onClick={() => navigate('/upload')}>
+        <Button onClick={() => navigate('/home')}>
           <FaPlus /> Nuova Analisi
         </Button>
       </div>

@@ -82,20 +82,11 @@ const ComparePage = () => {
         if (e.dataTransfer) {
             e.dataTransfer.dropEffect = 'copy';
         }
-        // No need to set state here repeatedly as dragEnter handles the start,
-        // but keeping it ensures state if enter was missed (rare)
     };
 
     const handleDragLeave = (e, docId) => {
         e.preventDefault();
         e.stopPropagation();
-
-        // If leaving to a child element, do nothing (bubble will handle it or it's still inside)
-        // e.currentTarget is the dropzone, e.relatedTarget is where we are going
-        if (e.currentTarget.contains(e.relatedTarget)) {
-            return;
-        }
-
         setDocuments(prev => prev.map(doc =>
             doc.id === docId ? { ...doc, isDragging: false } : doc
         ));

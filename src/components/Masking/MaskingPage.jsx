@@ -146,7 +146,9 @@ const MaskingPage = () => {
       addToast(isCompare ? 'Confronto avviato' : 'Analysis started successfully', 'success');
       navigate(`/analysis/${data.analysis_id}`);
     } catch (err) {
-      addToast('Failed to start analysis', 'error');
+      console.error('Analysis start error:', err);
+      const errorMessage = err.response?.data?.detail || err.message || 'Failed to start analysis';
+      addToast(`Error: ${errorMessage}`, 'error');
     }
   };
 
