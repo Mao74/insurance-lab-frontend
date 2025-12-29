@@ -12,7 +12,10 @@ const TextPreview = ({ text, maskingData }) => {
       contractor: '[CONTRAENTE_XXX]',
       vat: '[PIVA_XXX]',
       fiscalCode: '[CF_XXX]',
-      insured: '[ASSICURATO_XXX]'
+      insured: '[ASSICURATO_XXX]',
+      address: '[INDIRIZZO_XXX]',
+      city: '[CITTA_XXX]',
+      cap: '[CAP_XXX]'
     };
 
     // 1. Build a list of { value, placeholder } objects to search for
@@ -26,9 +29,9 @@ const TextPreview = ({ text, maskingData }) => {
       }
     });
 
-    // Custom fields (other) - split by newline
+    // Custom fields (other) - split by semicolon or newline
     if (maskingData.other) {
-      maskingData.other.split('\n').filter(Boolean).forEach((val, idx) => {
+      maskingData.other.split(/[;\n]/).filter(Boolean).forEach((val, idx) => {
         if (val && val.trim().length > 2) {
           replacements.push({ value: val.trim(), placeholder: `[DATO_OSCURATO_${idx + 1}]`, type: 'other' });
         }
