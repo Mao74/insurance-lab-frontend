@@ -1,865 +1,743 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Meta Tags -->
-    <title>Insurance Lab | Analisi Tecnica & Risk Intelligence per Broker</title>
-    <meta name="description"
-        content="Piattaforma AI per analisi polizze assicurative. Gap analysis automatica, confronto massimali e verifica compliance normativa.">
-    <meta name="theme-color" content="#ffffff">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
-    <link rel="shortcut icon" href="/assets/images/favicon.ico">
-
-    <!-- Fonts -->
+    <title>Insurance Lab | Analisi Polizze Corporate con AI</title>
+    <meta name="description" content="Analizza polizze corporate in 30 secondi. L'unico strumento AI costruito da un broker con 20+ anni di esperienza. GDPR compliant, zero data retention.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ==================== VARIABLES ==================== */
         :root {
-            --color-navy: #0F1F3F;
-            --color-navy-dark: #0A1428;
-            --color-gold: #D4AF37;
-            --color-gold-bright: #FFC107;
-            /* Giallo acceso per testi su sfondo scuro */
-            --color-gold-hover: #E5C158;
-            --color-bg-light: #F8F9FA;
-            --color-bg-white: #FFFFFF;
-            --color-text-dark: #1A1A1A;
-            --color-text-gray: #475569;
-            --font-display: 'Inter', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-primary: #08080C; --bg-secondary: #0E0E14; --bg-tertiary: #14141C;
+            --bg-card: #111118; --bg-card-hover: #18181F;
+            --accent-primary: #3B82F6; --accent-primary-glow: rgba(59, 130, 246, 0.4);
+            --accent-secondary: #10B981; --accent-warning: #F59E0B; --accent-purple: #8B5CF6;
+            --text-primary: #FFFFFF; --text-secondary: #A1A1AA; --text-muted: #71717A; --text-dark: #52525B;
+            --border-subtle: rgba(255, 255, 255, 0.06); --border-light: rgba(255, 255, 255, 0.1);
+            --gradient-glow: radial-gradient(ellipse at center, var(--accent-primary-glow) 0%, transparent 70%);
+            --section-padding: 120px; --container-width: 1200px;
+            --font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            --transition-base: 0.3s ease;
+            --radius-sm: 6px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px;
         }
-
-        /* ==================== RESET & BASE ==================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            font-family: var(--font-display);
-            color: var(--color-text-dark);
-            background-color: var(--color-bg-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-weight: 700;
-            line-height: 1.2;
-            color: var(--color-navy);
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .section-padding {
-            padding: 100px 0;
-        }
-
-        .text-mono {
-            font-family: var(--font-mono);
-        }
-
-        /* ==================== BUTTONS ==================== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 32px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid transparent;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--color-gold) 0%, #C5A028 100%);
-            color: var(--color-navy-dark);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #FFFFFF;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(4px);
-        }
-
-        .btn-secondary:hover {
-            background: var(--color-gold);
-            color: var(--color-navy-dark);
-            border-color: var(--color-gold);
-            transform: translateY(-2px);
-        }
-
-        /* ==================== HEADER (SLIM VERSION) ==================== */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid #E5E7EB;
-            padding: 5px 0;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-        }
-
-        .logo-img {
-            height: 90px;
-            width: auto;
-            filter: none;
-            display: block;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--color-navy);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover {
-            color: var(--color-gold);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-        }
-
-        .mobile-menu-btn span {
-            width: 25px;
-            height: 2px;
-            background: var(--color-navy);
-        }
-
-        /* ==================== HERO SECTION ==================== */
-        #hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: radial-gradient(circle at 70% 20%, #1A2B4A 0%, var(--color-navy) 100%);
-            padding-top: 100px;
-            overflow: hidden;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
-
-        .hero-content {
-            z-index: 10;
-            padding-right: 20px;
-        }
-
-        .hero-content h1 {
-            color: #FFFFFF;
-            font-size: clamp(2.5rem, 4vw, 4rem);
-            margin-bottom: 1.5rem;
-            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-content .subtitle {
-            color: #E2E8F0;
-            font-size: 1.25rem;
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-        }
-
-        /* ==================== ORBIT SYSTEM ==================== */
-        .hero-visual-wrapper {
-            position: relative;
-            width: 100%;
-            height: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .center-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 320px;
-            height: 320px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(212, 175, 55, 0.3) 50%, transparent 70%);
-            border-radius: 50%;
-            z-index: 1;
-            filter: blur(10px);
-            opacity: 0.8;
-            animation: pulse-glow 5s ease-in-out infinite;
-        }
-
-        @keyframes pulse-glow {
-
-            0%,
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-
-            50% {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 1;
-            }
-        }
-
-        .center-logo {
-            width: 240px;
-            height: auto;
-            position: relative;
-            z-index: 2;
-            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
-        }
-
-        .float-card {
-            position: absolute;
-            background: rgba(15, 31, 63, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            padding: 12px 20px;
-            color: #fff;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 3;
-            transition: transform 0.3s ease;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .dot-green {
-            background: #10B981;
-            box-shadow: 0 0 8px #10B981;
-        }
-
-        .dot-gold {
-            background: var(--color-gold);
-            box-shadow: 0 0 8px var(--color-gold);
-        }
-
-        .dot-red {
-            background: #EF4444;
-            box-shadow: 0 0 8px #EF4444;
-        }
-
-        /* --- PENTAGON POSITIONS --- */
-
-        .fc-5 {
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: float-center 8s ease-in-out infinite;
-        }
-
-        .fc-1 {
-            top: 40%;
-            left: -5%;
-            animation: float 6s ease-in-out infinite 0.5s;
-        }
-
-        .fc-2 {
-            top: 40%;
-            right: -5%;
-            animation: float 7s ease-in-out infinite 1s;
-        }
-
-        .fc-4 {
-            bottom: 10%;
-            left: 10%;
-            animation: float 9s ease-in-out infinite 1.5s;
-        }
-
-        .fc-3 {
-            bottom: 10%;
-            right: 10%;
-            animation: float 5s ease-in-out infinite 2s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes float-center {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-        }
-
-        .orbit-ring {
-            position: absolute;
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .ring-1 {
-            width: 350px;
-            height: 350px;
-        }
-
-        .ring-2 {
-            width: 550px;
-            height: 550px;
-            border-color: rgba(212, 175, 55, 0.1);
-        }
-
-        /* ==================== SECTIONS ==================== */
-        .card {
-            background: var(--color-bg-white);
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #E5E7EB;
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-gold);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            text-align: center;
-        }
-
-        .metric-number {
-            font-family: var(--font-mono);
-            font-size: 3.5rem;
-            color: var(--color-gold);
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-
-        .metric-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ==================== FOOTER ==================== */
-        footer {
-            background: #FFFFFF;
-            color: var(--color-text-gray);
-            padding: 80px 0 40px;
-            font-size: 0.9rem;
-            border-top: 1px solid #E5E7EB;
-        }
-
-        .footer-logo {
-            height: 90px;
-            margin-bottom: 20px;
-            filter: none;
-        }
-
-        .footer-col h4 {
-            color: var(--color-navy);
-            margin-bottom: 20px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 60px;
-        }
-
-        .copyright {
-            border-top: 1px solid #E5E7EB;
-            padding-top: 20px;
-            text-align: center;
-            font-size: 0.8rem;
-            margin-top: 40px;
-            color: #94A3B8;
-        }
-
-        /* ==================== RESPONSIVE RULES ==================== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-family); background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+        img { max-width: 100%; height: auto; } a { color: inherit; text-decoration: none; } ul { list-style: none; }
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .section { padding: var(--section-padding) 0; position: relative; }
+        h1, h2, h3, h4 { font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); }
+        h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+        p { color: var(--text-secondary); }
+        .bg-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--border-subtle) 1px, transparent 1px), linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); pointer-events: none; }
+        .bg-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: var(--gradient-glow); filter: blur(100px); opacity: 0.3; pointer-events: none; animation: pulse 8s ease-in-out infinite; }
+        .bg-noise { position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); opacity: 0.03; pointer-events: none; z-index: 1000; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
+        .section-label { display: inline-block; padding: 10px 20px; background: var(--bg-tertiary); border: 1px solid var(--border-light); border-radius: 100px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 24px; line-height: 1; text-align: center; }
+        .badge { display: inline-block; padding: 6px 12px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple)); border-radius: 100px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .pillar-label { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; color: var(--text-muted); }
+        .pillar-label .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .pillar-label.green .dot { background: var(--accent-secondary); }
+        .pillar-label.blue .dot { background: var(--accent-primary); }
+        .pillar-label.orange .dot { background: var(--accent-warning); }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 32px; font-family: var(--font-family); font-size: 15px; font-weight: 600; border-radius: var(--radius-md); border: none; cursor: pointer; transition: all var(--transition-base); }
+        .btn-primary { background: var(--accent-primary); color: white; box-shadow: 0 0 30px var(--accent-primary-glow); }
+        .btn-primary:hover { background: #2563EB; transform: translateY(-2px); box-shadow: 0 0 50px var(--accent-primary-glow); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-light); }
+        .btn-secondary:hover { background: var(--bg-tertiary); }
+        .btn-ghost { background: transparent; color: var(--text-secondary); padding: 8px 0; }
+        .btn-ghost:hover { color: var(--text-primary); }
+        .card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 32px; transition: all var(--transition-base); }
+        .card:hover { background: var(--bg-card-hover); border-color: var(--border-light); transform: translateY(-4px); }
+        /* Header */
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 0; background: rgba(8, 8, 12, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle); }
+        .header .container { display: flex; align-items: center; justify-content: space-between; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple)); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
+        .logo-icon svg { width: 20px; height: 20px; color: white; }
+        .nav { display: flex; align-items: center; gap: 40px; }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-link { font-size: 14px; font-weight: 500; color: var(--text-secondary); transition: color 0.15s ease; }
+        .nav-link:hover { color: var(--text-primary); }
+        .nav-cta { padding: 10px 20px; font-size: 14px; }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text-primary); cursor: pointer; }
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 100px; position: relative; overflow: hidden; }
+        .hero .bg-glow { top: -200px; right: -200px; }
+        .hero .bg-glow-2 { bottom: -300px; left: -200px; background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%); }
+        .hero .container { display: flex; align-items: center; justify-content: space-between; gap: 60px; }
+        .hero-content { position: relative; z-index: 2; max-width: 600px; flex-shrink: 0; }
+        .hero h1 { margin-bottom: 24px; }
+        .hero .highlight { color: var(--accent-primary); }
+        .hero-subtitle { font-size: 1.25rem; line-height: 1.7; margin-bottom: 40px; max-width: 600px; }
+        .hero-ctas { display: flex; gap: 16px; margin-bottom: 48px; flex-wrap: wrap; }
+        .hero-trust { display: flex; gap: 24px; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted); }
+        .trust-item svg { width: 16px; height: 16px; color: var(--accent-secondary); }
+        /* Scrolling images */
+        .hero-visuals { position: relative; display: flex; gap: 20px; height: 600px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); }
+        .scroll-column { display: flex; flex-direction: column; gap: 20px; }
+        .scroll-column.up { animation: scrollUp 25s linear infinite; }
+        .scroll-column.down { animation: scrollDown 25s linear infinite; }
+        @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+        @keyframes scrollDown { 0% { transform: translateY(-50%); } 100% { transform: translateY(0); } }
+        .scroll-image { width: 280px; height: 200px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-light); background: var(--bg-card); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .scroll-image svg { width: 48px; height: 48px; color: var(--text-dark); }
+        /* Problem */
+        .problem { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+        .problem-header { text-align: center; max-width: 700px; margin: 0 auto 64px; display: flex; flex-direction: column; align-items: center; }
+        .problem-header h2 { margin-bottom: 24px; }
+        .problem-warning { background: var(--bg-tertiary); border: 1px solid var(--border-light); border-left: 4px solid var(--accent-warning); border-radius: var(--radius-md); padding: 24px 32px; margin: 40px auto; max-width: 700px; }
+        .problem-warning h4 { font-size: 1.1rem; font-style: italic; margin-bottom: 8px; }
+        .problem-warning p { font-size: 14px; color: var(--text-muted); }
+        .problem-solution { max-width: 800px; margin: 0 auto; text-align: center; }
+        .problem-solution p { font-size: 1.1rem; line-height: 1.8; }
+        .problem-solution strong { color: var(--text-primary); }
+        /* Founder */
+        .founder-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: center; }
+        .founder-image-wrapper { position: relative; border-radius: var(--radius-xl); overflow: hidden; aspect-ratio: 3/4; background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-card)); border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; }
+        .founder-image-wrapper svg { width: 120px; height: 120px; color: var(--text-dark); }
+        .founder-image-glow { position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: var(--gradient-glow); filter: blur(80px); opacity: 0.5; }
+        .founder-content h2 { margin-bottom: 16px; }
+        .founder-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+        .founder-title { color: var(--accent-primary); font-weight: 500; margin-bottom: 32px; }
+        .founder-credentials { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+        .credential { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-secondary); }
+        .credential svg { width: 18px; height: 18px; color: var(--accent-primary); flex-shrink: 0; }
+        .founder-quote { font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); padding-left: 24px; border-left: 2px solid var(--accent-primary); font-style: italic; }
+        .founder-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; color: var(--accent-primary); font-weight: 500; font-size: 14px; }
+        .founder-link:hover { text-decoration: underline; }
+        /* Pillars */
+        .pillars { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); }
+        .pillars-header { text-align: center; max-width: 600px; margin: 0 auto 80px; display: flex; flex-direction: column; align-items: center; }
+        .pillars-header h2 { margin-bottom: 16px; }
+        .pillar { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 80px 0; border-bottom: 1px solid var(--border-subtle); }
+        .pillar:last-child { border-bottom: none; }
+        .pillar:nth-child(even) .pillar-content { order: 2; }
+        .pillar:nth-child(even) .pillar-visual { order: 1; }
+        .pillar-content h3 { font-size: 2rem; margin-bottom: 20px; }
+        .pillar-content > p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 32px; }
+        .pillar-features { display: flex; flex-direction: column; gap: 16px; }
+        .pillar-feature { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: var(--text-secondary); }
+        .pillar-feature svg { width: 20px; height: 20px; color: var(--accent-secondary); flex-shrink: 0; margin-top: 2px; }
+        .pillar-mockup { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; aspect-ratio: 4/3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+        .pillar-mockup svg { width: 64px; height: 64px; color: var(--text-dark); }
+        .pillar-mockup span { color: var(--text-muted); font-size: 14px; }
+        /* Branches */
+        .branches-header { text-align: center; max-width: 600px; margin: 0 auto 64px; display: flex; flex-direction: column; align-items: center; }
+        .branches-header h2 { margin-bottom: 16px; }
+        .branches-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .branch-icon { width: 48px; height: 48px; background: var(--bg-tertiary); border: 1px solid var(--border-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .branch-icon svg { width: 24px; height: 24px; color: var(--accent-primary); }
+        .branch-card h4 { font-size: 1.1rem; margin-bottom: 12px; }
+        .branch-card p { font-size: 14px; line-height: 1.6; }
+        .branches-note { text-align: center; margin-top: 48px; }
+        .branches-note span { display: inline-flex; align-items: center; gap: 12px; padding: 16px 24px; background: var(--bg-tertiary); border-radius: var(--radius-md); font-size: 14px; color: var(--text-secondary); }
+        /* Steps */
+        .steps { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+        .steps-header { text-align: center; max-width: 500px; margin: 0 auto 80px; display: flex; flex-direction: column; align-items: center; }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+        .step { text-align: center; position: relative; }
+        .step::after { content: ''; position: absolute; top: 40px; right: -16px; width: calc(100% - 80px); height: 1px; background: linear-gradient(90deg, var(--border-light), transparent); }
+        .step:last-child::after { display: none; }
+        .step-number { width: 80px; height: 80px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: var(--accent-primary); margin: 0 auto 24px; }
+        .step h4 { font-size: 1.1rem; margin-bottom: 12px; }
+        .step p { font-size: 14px; line-height: 1.6; }
+        /* Security */
+        .security { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); }
+        .security-header { text-align: center; max-width: 600px; margin: 0 auto 64px; display: flex; flex-direction: column; align-items: center; }
+        .security-header h2 { margin-bottom: 16px; }
+        .security-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .security-card { display: flex; gap: 20px; }
+        .security-icon { width: 48px; height: 48px; background: var(--bg-tertiary); border: 1px solid var(--border-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .security-icon svg { width: 24px; height: 24px; color: var(--accent-secondary); }
+        .security-content h4 { font-size: 1.1rem; margin-bottom: 8px; }
+        .security-content p { font-size: 14px; line-height: 1.6; }
+        /* Pricing */
+        .pricing-header { text-align: center; max-width: 500px; margin: 0 auto 64px; display: flex; flex-direction: column; align-items: center; }
+        .pricing-header h2 { margin-bottom: 16px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 900px; margin: 0 auto; }
+        .pricing-card { position: relative; }
+        .pricing-card.featured { border-color: var(--accent-primary); background: linear-gradient(135deg, var(--bg-card), rgba(59, 130, 246, 0.05)); }
+        .pricing-card.featured::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+        .pricing-badge { position: absolute; top: -12px; right: 24px; }
+        .pricing-title { font-size: 1.25rem; margin-bottom: 8px; }
+        .pricing-subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+        .pricing-price { display: flex; align-items: baseline; gap: 4px; margin-bottom: 32px; }
+        .pricing-currency { font-size: 1.5rem; font-weight: 600; color: var(--text-secondary); }
+        .pricing-amount { font-size: 4rem; font-weight: 800; line-height: 1; }
+        .pricing-period { font-size: 1rem; color: var(--text-muted); }
+        .pricing-features { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+        .pricing-feature { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-secondary); }
+        .pricing-feature svg { width: 18px; height: 18px; color: var(--accent-secondary); }
+        .pricing-card .btn { width: 100%; }
+        .pricing-notes { display: flex; justify-content: center; gap: 32px; margin-top: 48px; flex-wrap: wrap; }
+        .pricing-note { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted); }
+        /* FAQ */
+        .faq { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); }
+        .faq-header { text-align: center; max-width: 500px; margin: 0 auto 64px; display: flex; flex-direction: column; align-items: center; }
+        .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+        .faq-question { font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
+        .faq-answer { font-size: 14px; line-height: 1.7; }
+        /* CTA */
+        .cta { position: relative; text-align: center; overflow: hidden; }
+        .cta .bg-glow { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 400px; opacity: 0.4; }
+        .cta-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+        .cta h2 { margin-bottom: 20px; }
+        .cta p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        /* Footer */
+        .footer { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); padding: 80px 0 40px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px; }
+        .footer-brand .logo { margin-bottom: 16px; }
+        .footer-brand p { font-size: 14px; line-height: 1.6; }
+        .footer-column h5 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 20px; }
+        .footer-links { display: flex; flex-direction: column; gap: 12px; }
+        .footer-link { font-size: 14px; color: var(--text-secondary); transition: color 0.15s ease; }
+        .footer-link:hover { color: var(--text-primary); }
+        .footer-bottom { padding-top: 32px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-copyright { font-size: 13px; color: var(--text-muted); }
+        .footer-disclaimer { font-size: 12px; color: var(--text-dark); max-width: 500px; text-align: right; }
+        /* Animations */
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        /* Responsive */
         @media (max-width: 1024px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-content {
-                padding-right: 0;
-                margin-bottom: 40px;
-            }
-
-            .hero-cta {
-                justify-content: center;
-            }
-
-            .hero-visual-wrapper {
-                display: none;
-            }
+            :root { --section-padding: 80px; }
+            .founder-grid, .pillar { grid-template-columns: 1fr; gap: 48px; }
+            .pillar:nth-child(even) .pillar-content, .pillar:nth-child(even) .pillar-visual { order: unset; }
+            .branches-grid, .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .step::after { display: none; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero .container { flex-direction: column; }
+            .hero-content { max-width: 100%; text-align: center; }
+            .hero-ctas { justify-content: center; }
+            .hero-trust { justify-content: center; }
+            .hero-visuals { display: none; }
         }
-
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 100px;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 30px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                color: var(--color-navy);
-            }
-
-            .mobile-menu-btn {
-                display: flex;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .logo-img {
-                height: 70px;
-            }
+            :root { --section-padding: 60px; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero-ctas { flex-direction: column; }
+            .hero-ctas .btn { width: 100%; }
+            .hero-trust { flex-direction: column; gap: 12px; align-items: center; }
+            .branches-grid, .steps-grid, .security-grid, .pricing-grid, .faq-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-disclaimer { text-align: center; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.75rem; }
+            .pricing-amount { font-size: 3rem; }
         }
     </style>
 </head>
-
 <body>
-
-    <!-- HEADER (SLIM & WHITE) -->
-    <header>
-        <div class="container nav-container">
+    <div class="bg-noise"></div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
             <a href="#" class="logo">
-                <img src="/assets/images/logo-horizontal.png" alt="Insurance Lab" class="logo-img">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <span>Insurance Lab</span>
             </a>
-
-            <nav class="nav-links" id="navLinks">
-                <a href="#features">Caratteristiche</a>
-                <a href="#services">Servizi</a>
-                <a href="#pricing">Prezzi</a>
-                <a href="#metrics">Numeri</a>
-                <a href="https://app.insurance-lab.ai" class="btn btn-primary"
-                    style="padding: 10px 24px; color: var(--color-navy-dark);">Login</a>
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="#pillars" class="nav-link">Funzionalità</a></li>
+                    <li><a href="#steps" class="nav-link">Metodo</a></li>
+                    <li><a href="#founder" class="nav-link">Chi Siamo</a></li>
+                    <li><a href="#pricing" class="nav-link">Prezzi</a></li>
+                </ul>
+                <a href="https://app.insurance-lab.ai" class="btn btn-primary nav-cta">Accedi</a>
             </nav>
-
-            <button class="mobile-menu-btn" onclick="toggleMenu()">
-                <span></span><span></span><span></span>
+            <button class="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
             </button>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section id="hero">
+    <!-- Hero -->
+    <section class="hero section">
+        <div class="bg-grid"></div>
+        <div class="bg-glow"></div>
+        <div class="bg-glow bg-glow-2"></div>
         <div class="container">
-            <div class="hero-grid">
-
-                <!-- Left Column: Text -->
-                <div class="hero-content">
-                    <!-- FIX: Scritta Giallo Acceso + Testo aggiornato -->
-                    <span class="text-mono"
-                        style="display:block; margin-bottom: 15px; font-size: 0.9rem; color: #FFC107; font-weight: 700; letter-spacing: 1px;">AI-DRIVEN
-                        INSURANCE ANALYSIS</span>
-
-                    <h1>
-                        Analisi Assicurative<br>Intelligenti
-                    </h1>
-
-                    <p class="subtitle">
-                        Un assistente AI che legge polizze, confronta coperture e identifica gap in pochi secondi.
-                        <!-- FIX: Testo più concreto, meno accademico -->
-                        Non sostituisce la tua esperienza. La potenzia, liberandoti dalla burocrazia operativa.
-                    </p>
-
-                    <div style="display: flex; gap: 16px; flex-wrap: wrap;" class="hero-cta">
-                        <a href="mailto:info@insurance-lab.ai" class="btn btn-primary">Richiedi Accesso</a>
-                        <a href="#how-it-works" class="btn btn-secondary">Guarda Come Funziona</a>
+            <div class="hero-content animate-on-scroll">
+                <div class="section-label">AI-Powered Insurance Analysis</div>
+                <h1>Analizza polizze in <span class="highlight">90 secondi</span>, non in 3 ore.</h1>
+                <p class="hero-subtitle">Lo strumento di analisi assicurativa costruito da un professionista con oltre 20 anni di esperienza. Zero promesse vuote, solo tecnologia che funziona, validata sul campo.</p>
+                <div class="hero-ctas">
+                    <a href="mailto:info@insurance-lab.ai" class="btn btn-primary">Contattaci</a>
+                    <a href="#steps" class="btn btn-ghost">Guarda come funziona →</a>
+                </div>
+                <div class="hero-trust">
+                    <div class="trust-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>GDPR & Privacy by Design</span>
                     </div>
-
-                    <div
-                        style="margin-top: 40px; font-size: 0.85rem; color: rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: flex-start; gap: 20px; font-family: var(--font-mono);">
-                        <span>✓ GDPR Compliant</span>
-                        <span>✓ ISO 27001 Ready</span>
+                    <div class="trust-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>Server in UE, zero data retention</span>
                     </div>
                 </div>
-
-                <!-- Right Column: Solar System Visual (PENTAGON LAYOUT) -->
-                <div class="hero-visual-wrapper">
-
-                    <!-- THE HALO -->
-                    <div class="center-glow"></div>
-
-                    <!-- ORBIT RINGS -->
-                    <div class="orbit-ring ring-1"></div>
-                    <div class="orbit-ring ring-2"></div>
-
-                    <!-- CENTER LOGO -->
-                    <img src="/assets/images/logo-mark.png" alt="AI Core" class="center-logo">
-
-                    <!-- FLOATING CARDS (PENTAGON) -->
-
-                    <!-- 1. TOP (Peak) -->
-                    <div class="float-card fc-5">
-                        <span class="text-mono" style="color: #60A5FA;">OCR Scanning...</span>
-                        <span>Policy_2026.pdf</span>
-                    </div>
-
-                    <!-- 2. MIDDLE LEFT (Shoulder) -->
-                    <div class="float-card fc-1">
-                        <span class="status-dot dot-gold"></span>
-                        <span>Gap Found: Art. 1917 c.c.</span>
-                    </div>
-
-                    <!-- 3. MIDDLE RIGHT (Shoulder) -->
-                    <div class="float-card fc-2">
-                        <span class="status-dot dot-green"></span>
-                        <span>Masking PII... 100%</span>
-                    </div>
-
-                    <!-- 4. BOTTOM LEFT (Base) -->
-                    <div class="float-card fc-4">
-                        <span class="text-gold">></span>
-                        <span>Loss Ratio: +12% YoY</span>
-                    </div>
-
-                    <!-- 5. BOTTOM RIGHT (Base) -->
-                    <div class="float-card fc-3">
-                        <span class="status-dot dot-red"></span>
-                        <span>Risk: Cyber Exclusion</span>
-                    </div>
-
+            </div>
+            <div class="hero-visuals">
+                <div class="scroll-column up">
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div>
+                </div>
+                <div class="scroll-column down">
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h10"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10"/><path d="M7 12h10"/><path d="M7 17h10"/></svg></div>
+                    <div class="scroll-image"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- VALUE PROPOSITION -->
-    <section id="features" class="section-padding">
+    <!-- Problem -->
+    <section class="problem section">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 60px;">
-                <span
-                    style="color: var(--color-gold); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; font-weight: 600;">Perché
-                    Insurance Lab</span>
-                <h2 style="font-size: 2.5rem; margin-top: 10px;">Costruito per l'Underwriting Complesso</h2>
+            <div class="problem-header animate-on-scroll">
+                <div class="section-label">Il problema</div>
+                <h2>Nel 2026 una cosa è evidente.</h2>
+                <p>Il mercato è invaso da tool generici che promettono "AI per le assicurazioni" ma non capiscono la differenza tra un Art. 1917 c.c. e una clausola di coassicurazione indiretta.</p>
             </div>
+            <div class="problem-warning animate-on-scroll">
+                <h4>"Analizza qualsiasi documento in secondi con l'AI magica"</h4>
+                <p>— Ogni tool generico promette questo. Poi ti ritrovi con output inutilizzabili, allucinazioni, e 2 ore perse a correggere errori.</p>
+            </div>
+            <div class="problem-solution animate-on-scroll">
+                <p>Insurance Lab nasce per essere l'opposto. Non un tool generico adattato alle assicurazioni. Ma uno strumento costruito <strong>DA</strong> un professionista del settore, <strong>PER</strong> professionisti del settore. Ogni prompt, ogni template, ogni output è stato validato su polizze reali, con la precisione che ti aspetti da un collega.</p>
+            </div>
+        </div>
+    </section>
 
-            <div class="feature-grid">
-                <div class="card">
-                    <div class="card-icon">⚡</div>
-                    <h3>Efficienza Operativa</h3>
-                    <p style="color: var(--color-text-gray);">Riduzione del tempo di analisi da 3-4 ore a < 60 secondi
-                            per polizze complesse. Focus sul valore aggiunto, non sulla lettura passiva.</p>
+    <!-- Founder -->
+    <section id="founder" class="founder section">
+        <div class="container">
+            <div class="founder-grid">
+                <div class="founder-image animate-on-scroll" style="position: relative;">
+                    <div class="founder-image-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div class="founder-image-glow"></div>
                 </div>
-
-                <div class="card">
-                    <div class="card-icon">🎯</div>
-                    <!-- FIX: Rimosso "Forense" -->
-                    <h3>Precisione Tecnica</h3>
-                    <p style="color: var(--color-text-gray);">Identificazione automatica di clausole specifiche (es.
-                        Art. 2087 c.c., Coassicurazione indiretta). Zero allucinazioni generiche.</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🔒</div>
-                    <h3>Data Sovereignty</h3>
-                    <p style="color: var(--color-text-gray);">Mascheramento automatico PII pre-processing. I dati
-                        sensibili dei tuoi clienti non vengono mai esposti ai modelli LLM pubblici.</p>
+                <div class="founder-content animate-on-scroll">
+                    <div class="section-label">Chi c'è dietro</div>
+                    <h2>Costruito da chi fa questo lavoro ogni giorno.</h2>
+                    <p class="founder-name">Maurizio Molinari</p>
+                    <p class="founder-title">Founder & Insurance Technologist</p>
+                    <div class="founder-credentials">
+                        <div class="credential">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                            <span>Laurea in Ingegneria — Politecnico di Milano</span>
+                        </div>
+                        <div class="credential">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                            <span>Master Risk Engineering — Cineas</span>
+                        </div>
+                        <div class="credential">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            <span>20+ anni nel corporate insurance</span>
+                        </div>
+                    </div>
+                    <blockquote class="founder-quote">"Ho passato vent'anni a leggere polizze, centinaia di pagine per ogni cliente. Ho costruito Insurance-Lab perché volevo lo strumento che avrei voluto avere dal primo giorno. Non per sostituire il mio giudizio — ma per liberare il mio tempo per quello che conta davvero: la consulenza, il rapporto con il cliente, le decisioni strategiche."</blockquote>
+                    <a href="https://linkedin.com" target="_blank" class="founder-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        Connettiti su LinkedIn
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- METRICS -->
-    <section id="metrics"
-        style="background: var(--color-navy); padding: 80px 0; border-top: 1px solid rgba(255,255,255,0.1);">
+    <!-- Pillars -->
+    <section id="pillars" class="pillars section">
         <div class="container">
-            <div class="metrics-grid">
-                <div>
-                    <div class="metric-number">
-                        < 30s</div>
-                            <div class="metric-label">Tempo Analisi Polizza</div>
+            <div class="pillars-header animate-on-scroll">
+                <div class="section-label">Il nostro metodo</div>
+                <h2>I 3 Pilastri di Insurance Lab</h2>
+                <p style="color: var(--text-secondary);">Analisi, confronto, gestione sinistri. Tutto quello che serve per il lavoro quotidiano di un broker o di un agente.</p>
+            </div>
+            <div class="pillar animate-on-scroll">
+                <div class="pillar-content">
+                    <div class="pillar-label green"><span class="dot"></span>Pilastro n. 1</div>
+                    <h3>Analisi Documentale Profonda</h3>
+                    <p>Non un semplice OCR, ma un'estrazione intelligente che comprende la struttura di una polizza italiana: condizioni generali, condizioni particolari, appendici, allegati. Tutto riconciliato in un unico report.</p>
+                    <div class="pillar-features">
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Estrazione massimali, franchigie, scoperti, sublimiti</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Identificazione clausole critiche</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Mappatura esclusioni e limitazioni</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Selezione del ramo assicurativo per il migliore risultato</span></div>
                     </div>
-                    <div>
-                        <div class="metric-number">99.8%</div>
-                        <div class="metric-label">Accuratezza Estrazione</div>
-                    </div>
-                    <div>
-                        <div class="metric-number">Zero</div>
-                        <div class="metric-label">Data Retention (No-Logs)</div>
+                </div>
+                <div class="pillar-visual">
+                    <div class="pillar-mockup">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                        <span>Screenshot interfaccia analisi</span>
                     </div>
                 </div>
             </div>
-    </section>
-
-    <!-- SERVICES PREVIEW -->
-    <section id="services" class="section-padding" style="background: white;">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 60px;">
-                <h2 style="font-size: 2.5rem;">Cosa Puoi Fare Oggi</h2>
+            <div class="pillar animate-on-scroll">
+                <div class="pillar-content">
+                    <div class="pillar-label blue"><span class="dot"></span>Pilastro n. 2</div>
+                    <h3>Confronto Sinottico Intelligente</h3>
+                    <p>Carica la polizza in scadenza e fino a 3 preventivi. Ottieni una matrice comparativa che evidenzia automaticamente peggioramenti e miglioramenti. Pronta per la presentazione al cliente.</p>
+                    <div class="pillar-features">
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Delta negativi evidenziati in rosso</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Delta positivi evidenziati in verde</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Analisi economica (premio vs copertura)</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Export professionale</span></div>
+                    </div>
+                </div>
+                <div class="pillar-visual">
+                    <div class="pillar-mockup">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+                        <span>Screenshot confronto polizze</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="feature-grid">
-                <!-- Service 1 -->
-                <div class="card" style="background: var(--color-bg-light);">
-                    <div class="card-icon">📄</div>
-                    <h3>Analisi & Estrazione</h3>
-                    <p>Carica PDF. Ottieni tabella strutturata: Massimali, Franchigie, Scoperti, Estensioni. Ideale per
-                        Audit di Portafoglio.</p>
+            <div class="pillar animate-on-scroll">
+                <div class="pillar-content">
+                    <div class="pillar-label orange"><span class="dot"></span>Pilastro n. 3</div>
+                    <h3>Pre-Analisi Sinistri</h3>
+                    <p>Incrocia la denuncia di sinistro con il testo di polizza. Verifica l'operatività della garanzia, calcola l'indennizzo teorico, identifica possibili contestazioni. Supporto concreto per la gestione del sinistro.</p>
+                    <div class="pillar-features">
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Verifica automatica operatività garanzia</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Calcolo indennizzo teorico (max, franchigia, scoperto)</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Identificazione clausole potenzialmente ostatative</span></div>
+                        <div class="pillar-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Timeline e prescrizioni</span></div>
+                    </div>
                 </div>
-                <!-- Service 2 -->
-                <div class="card" style="background: var(--color-bg-light);">
-                    <div class="card-icon">⚖️</div>
-                    <h3>Confronto Sinottico</h3>
-                    <p>Confronta polizza in scadenza con 3 preventivi. Evidenzia delta negative (peggioramenti) e
-                        positive. Ideale per Gare.</p>
-                </div>
-                <!-- Service 3 -->
-                <div class="card" style="background: var(--color-bg-light);">
-                    <div class="card-icon">🚗</div>
-                    <h3>Pre-Analisi Sinistro</h3>
-                    <p>Incrocia denuncia sinistro con testo polizza. Verifica operatività garanzia e calcola indennizzo
-                        teorico.</p>
+                <div class="pillar-visual">
+                    <div class="pillar-mockup">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+                        <span>Screenshot analisi sinistro</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PRICING SECTION -->
-    <section id="pricing" class="section-padding" style="background: var(--color-bg-light);">
+    <!-- Branches -->
+    <section id="branches" class="branches section">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 60px;">
-                <span
-                    style="color: var(--color-gold); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; font-weight: 600;">Prezzi
-                    Trasparenti</span>
-                <h2 style="font-size: 2.5rem; margin-top: 10px;">Un Piano Semplice, Nessuna Sorpresa</h2>
-                <p style="color: var(--color-text-gray); max-width: 600px; margin: 20px auto 0;">Accesso completo a
-                    tutti i moduli. Nessun costo nascosto, nessun limite di utilizzo.</p>
+            <div class="branches-header animate-on-scroll">
+                <div class="section-label">Copertura</div>
+                <h2>6 Rami Assicurativi. Precisione Verticale.</h2>
+                <p style="color: var(--text-secondary);">Non un tool generico. Prompt e template specifici per ogni linea di business, costruiti con la terminologia e le logiche del mercato italiano.</p>
             </div>
-
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 800px; margin: 0 auto;">
-                <!-- Monthly Plan -->
-                <div class="card" style="text-align: center; position: relative;">
-                    <h3 style="font-size: 1.5rem; margin-bottom: 20px;">Mensile</h3>
-                    <div style="font-size: 3.5rem; font-weight: 700; color: var(--color-navy); margin-bottom: 10px;">
-                        €49<span style="font-size: 1rem; font-weight: 400; color: var(--color-text-gray);">/mese</span>
-                    </div>
-                    <p style="color: var(--color-text-gray); margin-bottom: 30px;">Fatturazione mensile<br>Disdici
-                        quando vuoi</p>
-                    <ul style="text-align: left; list-style: none; margin-bottom: 30px; color: var(--color-text-gray);">
-                        <li style="margin-bottom: 12px;">✓ Analisi Polizze Illimitate</li>
-                        <li style="margin-bottom: 12px;">✓ Confronto Sinottico</li>
-                        <li style="margin-bottom: 12px;">✓ Pre-Analisi Sinistri</li>
-                        <li style="margin-bottom: 12px;">✓ Export PDF Professionale</li>
-                        <li style="margin-bottom: 12px;">✓ Supporto Email</li>
-                    </ul>
-                    <a href="https://app.insurance-lab.ai/settings" class="btn btn-secondary"
-                        style="width: 100%; border-color: var(--color-navy); color: var(--color-navy);">Inizia Ora</a>
+            <div class="branches-grid">
+                <div class="card branch-card animate-on-scroll">
+                    <div class="branch-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg></div>
+                    <h4>Responsabilitá Civile Generale</h4>
+                    <p>Responsabilità civile verso terzi, prodotti. Art. 1917 c.c., retroattività, claims made vs loss occurrence.</p>
                 </div>
-
-                <!-- Annual Plan -->
-                <div class="card"
-                    style="text-align: center; position: relative; border: 2px solid var(--color-gold); transform: scale(1.02);">
-                    <div
-                        style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--color-gold); color: var(--color-navy-dark); padding: 6px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
-                        RISPARMIA 20%</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 20px; margin-top: 10px;">Annuale</h3>
-                    <div style="font-size: 3.5rem; font-weight: 700; color: var(--color-navy); margin-bottom: 10px;">
-                        €470<span style="font-size: 1rem; font-weight: 400; color: var(--color-text-gray);">/anno</span>
-                    </div>
-                    <p style="color: var(--color-text-gray); margin-bottom: 30px;">Equivalente a €39/mese<br>Risparmia
-                        €118/anno</p>
-                    <ul style="text-align: left; list-style: none; margin-bottom: 30px; color: var(--color-text-gray);">
-                        <li style="margin-bottom: 12px;">✓ Tutto il piano Mensile</li>
-                        <li style="margin-bottom: 12px;">✓ <strong>20% di sconto</strong></li>
-                        <li style="margin-bottom: 12px;">✓ Supporto Prioritario</li>
-                        <li style="margin-bottom: 12px;">✓ Accesso Beta Features</li>
-                        <li style="margin-bottom: 12px;">✓ Onboarding Dedicato</li>
-                    </ul>
-                    <a href="https://app.insurance-lab.ai/settings" class="btn btn-primary" style="width: 100%;">Inizia
-                        Ora</a>
+                <div class="card branch-card animate-on-scroll">
+                    <div class="branch-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg></div>
+                    <h4>Incendio</h4>
+                    <p>All Risks, Named Perils, Danni indiretti. Somme assicurate, primo rischio assoluto, regola proporzionale.</p>
+                </div>
+                <div class="card branch-card animate-on-scroll">
+                    <div class="branch-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h4>D&O</h4>
+                    <p>Directors & Officers Liability. Side A/B/C, entity coverage, insured vs insured, retroattività.</p>
+                </div>
+                <div class="card branch-card animate-on-scroll">
+                    <div class="branch-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg></div>
+                    <h4>Cyber Risk</h4>
+                    <p>Data breach, ransomware, business interruption cyber. Limiti aggregati, sublimiti per tipologia, waiting period.</p>
+                </div>
+                <div class="card branch-card animate-on-scroll">
+                    <div class="branch-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg></div>
+                    <h4>Trasporti</h4>
+                    <p>Polizze merci, CMR, stock throughput. Incoterms, valore assicurato, clausole Institute Cargo.</p>
+                </div>
+                <div class="card branch-card animate-on-scroll">
+                    <div class="branch-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg></div>
+                    <h4>Infortuni Collettive</h4>
+                    <p>Invalidità permanente, morte, diaria. Tabelle INAIL/ANIA, franchigie percentuali, professionale vs extraprofessionale.</p>
                 </div>
             </div>
-
-            <p style="text-align: center; margin-top: 40px; color: var(--color-text-gray); font-size: 0.9rem;">
-                💳 Pagamento sicuro con Stripe • Disdici in qualsiasi momento • Fattura italiana disponibile
-            </p>
+            <div class="branches-note animate-on-scroll">
+                <span>🚧 In sviluppo: RCA Fleet, Cauzioni, CAR/EAR, Spese Mediche</span>
+            </div>
         </div>
     </section>
 
-    <!-- CTA FINAL -->
-    <section
-        style="background: linear-gradient(135deg, #0A1428 0%, #0F1F3F 100%); padding: 100px 0; text-align: center; color: white;">
+    <!-- Steps -->
+    <section id="steps" class="steps section">
         <div class="container">
-            <h2 style="color: white; margin-bottom: 20px;">Parliamo tra Professionisti</h2>
-            <p style="max-width: 600px; margin: 0 auto 40px; color: rgba(255,255,255,0.7);">
-                Niente demo preconfezionate. Inviaci una tua polizza (anonimizzata), la analizziamo insieme.
-            </p>
-            <a href="mailto:info@insurance-lab.ai" class="btn btn-primary">Scrivimi - info@insurance-lab.ai</a>
+            <div class="steps-header animate-on-scroll">
+                <div class="section-label">Il processo</div>
+                <h2>Come funziona, in 4 step.</h2>
+            </div>
+            <div class="steps-grid">
+                <div class="step animate-on-scroll">
+                    <div class="step-number">01</div>
+                    <h4>Carica il documento</h4>
+                    <p>Trascina i documenti di polizza: condizioni generali, appendici, certificati, preventivi.</p>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">02</div>
+                    <h4>L'AI analizza</h4>
+                    <p>Il sistema estrae clausole, massimali, esclusioni. I dati sensibili vengono mascherati automaticamente.</p>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">03</div>
+                    <h4>Rivedi il report</h4>
+                    <p>Ottieni un documento strutturato con tutte le informazioni critiche. Aggiungi note, evidenzia sezioni.</p>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">04</div>
+                    <h4>Esporta e condividi</h4>
+                    <p>Scarica in PDF professionale. Pronto per l'invio al cliente o l'archivio interno.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- FOOTER (WHITE VERSION) -->
-    <footer>
+    <!-- Security -->
+    <section id="security" class="security section">
+        <div class="container">
+            <div class="security-header animate-on-scroll">
+                <div class="section-label">Privacy & Sicurezza</div>
+                <h2>I tuoi dati. Sotto il tuo controllo.</h2>
+                <p style="color: var(--text-secondary);">La sicurezza non è una feature aggiuntiva. È il fondamento su cui è costruito tutto il sistema.</p>
+            </div>
+            <div class="security-grid">
+                <div class="card security-card animate-on-scroll">
+                    <div class="security-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></svg></div>
+                    <div class="security-content">
+                        <h4>Strumenti di Mascheramento PII</h4>
+                        <p>Mettiamo a disposizione strumenti per mascherare dati sensibili. L'utente decide cosa anonimizzare prima dell'elaborazione.</p>
+                    </div>
+                </div>
+                <div class="card security-card animate-on-scroll">
+                    <div class="security-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></div>
+                    <div class="security-content">
+                        <h4>Infrastruttura Europea</h4>
+                        <p>Server in Germania (Hetzner). Nessun trasferimento dati extra-UE. Sovranità digitale garantita.</p>
+                    </div>
+                </div>
+                <div class="card security-card animate-on-scroll">
+                    <div class="security-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></div>
+                    <div class="security-content">
+                        <h4>Zero Data Retention</h4>
+                        <p>I documenti vengono elaborati e cancellati. Non conserviamo copie. Non addestriamo modelli sui tuoi dati.</p>
+                    </div>
+                </div>
+                <div class="card security-card animate-on-scroll">
+                    <div class="security-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></div>
+                    <div class="security-content">
+                        <h4>GDPR Compliant</h4>
+                        <p>Piena conformità al Regolamento UE 2016/679. DPA (Data Processing Agreement) disponibile su richiesta.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing section">
+        <div class="container">
+            <div class="pricing-header animate-on-scroll">
+                <div class="section-label">Prezzi</div>
+                <h2>Un piano semplice. Nessuna sorpresa.</h2>
+                <p style="color: var(--text-secondary);">Accesso completo a tutte le funzionalità. Nessun tier nascosto, nessun limite artificiale.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="card pricing-card animate-on-scroll">
+                    <h3 class="pricing-title">Mensile</h3>
+                    <p class="pricing-subtitle">Fatturazione mensile. Disdici quando vuoi.</p>
+                    <div class="pricing-price">
+                        <span class="pricing-currency">€</span>
+                        <span class="pricing-amount">49</span>
+                        <span class="pricing-period">/mese</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Analisi polizze illimitate</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Confronto sinottico (fino a 3 preventivi)</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Pre-analisi sinistri</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Audit portafoglio</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Export PDF professionale</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Supporto email</span></div>
+                    </div>
+                    <a href="https://app.insurance-lab.ai" class="btn btn-secondary">Abbonati Ora</a>
+                </div>
+                <div class="card pricing-card featured animate-on-scroll">
+                    <span class="badge pricing-badge">Risparmia 20%</span>
+                    <h3 class="pricing-title">Annuale</h3>
+                    <p class="pricing-subtitle">Equivalente a €39/mese. Risparmi €118/anno.</p>
+                    <div class="pricing-price">
+                        <span class="pricing-currency">€</span>
+                        <span class="pricing-amount">470</span>
+                        <span class="pricing-period">/anno</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Tutto il piano mensile</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Supporto prioritario</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Accesso anticipato nuove funzionalità</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Onboarding dedicato (30 min call)</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Priorità richieste nuovi rami</span></div>
+                    </div>
+                    <a href="https://app.insurance-lab.ai" class="btn btn-primary">Abbonati Ora</a>
+                </div>
+            </div>
+            <div class="pricing-notes animate-on-scroll">
+                <div class="pricing-note"><span>💳</span><span>Pagamento sicuro con Stripe</span></div>
+                <div class="pricing-note"><span>🔄</span><span>Disdici in qualsiasi momento</span></div>
+                <div class="pricing-note"><span>🧾</span><span>Fattura italiana</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq section">
+        <div class="container">
+            <div class="faq-header animate-on-scroll">
+                <div class="section-label">Domande frequenti</div>
+                <h2>Hai domande? Ecco le risposte.</h2>
+            </div>
+            <div class="faq-grid">
+                <div class="card faq-item animate-on-scroll">
+                    <h4 class="faq-question">I miei documenti sono al sicuro?</h4>
+                    <p class="faq-answer">I documenti vengono elaborati e cancellati dopo l'analisi. Non conserviamo copie permanenti e non addestriamo modelli sui tuoi dati. Server in UE, piena conformità GDPR. <strong>Importante:</strong> la piattaforma offre strumenti di mascheramento dati, ma è responsabilità dell'utente anonimizzare i documenti prima del caricamento.</p>
+                </div>
+                <div class="card faq-item animate-on-scroll">
+                    <h4 class="faq-question">Quali tipi di polizze posso analizzare?</h4>
+                    <p class="faq-answer">Attualmente supportiamo 6 rami: RC Professionale e Generale, Property/Incendio, D&O, Cyber Risk, Trasporti merci, Infortuni collettive. Altri rami sono in sviluppo continuo.</p>
+                </div>
+                <div class="card faq-item animate-on-scroll">
+                    <h4 class="faq-question">L'AI può sbagliare?</h4>
+                    <p class="faq-answer">Insurance Lab è uno strumento di supporto, non un sostituto del giudizio professionale. Raccomandiamo sempre una revisione finale. Lo strumento ti fa risparmiare ore — la decisione finale resta tua.</p>
+                </div>
+                <div class="card faq-item animate-on-scroll">
+                    <h4 class="faq-question">Posso provarlo prima di pagare?</h4>
+                    <p class="faq-answer">Contattaci per richiedere una demo personalizzata. Ti mostreremo le funzionalità della piattaforma analizzando insieme una tua polizza (anonimizzata).</p>
+                </div>
+                <div class="card faq-item animate-on-scroll">
+                    <h4 class="faq-question">Come funziona la fatturazione?</h4>
+                    <p class="faq-answer">Emettiamo fattura italiana regolare. Accettiamo pagamenti con carta via Stripe. Puoi scegliere fatturazione mensile o annuale (con 20% di sconto).</p>
+                </div>
+                <div class="card faq-item animate-on-scroll">
+                    <h4 class="faq-question">È adatto anche per polizze retail?</h4>
+                    <p class="faq-answer">Insurance Lab è ottimizzato per polizze corporate e PMI, dove la complessità documentale giustifica l'automazione. Per polizze retail standard le funzionalità sono disponibili ma il valore aggiunto è inferiore.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta section">
+        <div class="bg-glow"></div>
+        <div class="container">
+            <div class="cta-content animate-on-scroll">
+                <h2>Parliamo da professionista a professionista.</h2>
+                <p>Niente demo preconfezionate. Niente slide di marketing. Mandami una tua polizza (anonimizzata) e la analizziamo insieme. Vedrai esattamente cosa può fare Insurance Lab per il tuo lavoro quotidiano.</p>
+                <div class="cta-buttons">
+                    <a href="mailto:info@insurance-lab.ai" class="btn btn-primary">Richiedi una Demo Personalizzata</a>
+                    <a href="mailto:info@insurance-lab.ai" class="btn btn-secondary">✉️ info@insurance-lab.ai</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
-                    <img src="/assets/images/logo-horizontal.png" alt="Insurance Lab" class="footer-logo">
-                    <!-- FIX: Rimosso "Forense" -->
-                    <p>Tecnologia dedicata al mercato assicurativo italiano.</p>
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                        </div>
+                        <span>Insurance Lab</span>
+                    </a>
+                    <p>Analisi assicurative intelligenti per broker professionisti.</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Piattaforma</h4>
-                    <ul>
-                        <li style="margin-bottom: 10px;"><a href="#">Caratteristiche</a></li>
-                        <li style="margin-bottom: 10px;"><a href="#">Sicurezza</a></li>
-                    </ul>
+                <div class="footer-column">
+                    <h5>Piattaforma</h5>
+                    <nav class="footer-links">
+                        <a href="#pillars" class="footer-link">Funzionalità</a>
+                        <a href="#steps" class="footer-link">Come Funziona</a>
+                        <a href="#pricing" class="footer-link">Prezzi</a>
+                    </nav>
                 </div>
-                <div class="footer-col">
-                    <h4>Legale</h4>
-                    <ul>
-                        <li style="margin-bottom: 10px;"><a href="#">Privacy Policy</a></li>
-                        <li style="margin-bottom: 10px;"><a href="#">GDPR Compliance</a></li>
-                    </ul>
+                <div class="footer-column">
+                    <h5>Risorse</h5>
+                    <nav class="footer-links">
+                        <a href="#" class="footer-link">Blog (coming soon)</a>
+                        <a href="#" class="footer-link">Guide Tecniche</a>
+                        <a href="#" class="footer-link">Webinar</a>
+                    </nav>
                 </div>
-                <div class="footer-col">
-                    <h4>Contatti</h4>
-                    <ul>
-                        <li><a href="mailto:info@insurance-lab.ai">info@insurance-lab.ai</a></li>
-                    </ul>
+                <div class="footer-column">
+                    <h5>Legale</h5>
+                    <nav class="footer-links">
+                        <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+                        <a href="terms-of-service.html" class="footer-link">Termini di Servizio</a>
+                        <a href="privacy-policy.html#cookie" class="footer-link">Cookie Policy</a>
+                    </nav>
+                </div>
+                <div class="footer-column">
+                    <h5>Contatti</h5>
+                    <nav class="footer-links">
+                        <a href="mailto:info@insurance-lab.ai" class="footer-link">info@insurance-lab.ai</a>
+                        <a href="https://linkedin.com" class="footer-link">LinkedIn</a>
+                    </nav>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; 2026 Insurance Lab. All rights reserved.
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Insurance Lab. Tutti i diritti riservati.</p>
+                <p class="footer-disclaimer">Insurance Lab è uno strumento di supporto all'analisi documentale. Non costituisce consulenza assicurativa. Le decisioni professionali restano responsabilità del broker.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        function toggleMenu() {
-            const nav = document.getElementById('navLinks');
-            nav.classList.toggle('active');
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+            window.addEventListener('scroll', () => {
+                document.querySelector('.header').style.background = window.scrollY > 100 ? 'rgba(8, 8, 12, 0.95)' : 'rgba(8, 8, 12, 0.8)';
+            });
+        });
     </script>
 </body>
-
 </html>
