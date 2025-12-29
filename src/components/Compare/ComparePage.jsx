@@ -17,48 +17,68 @@ const ComparePage = () => {
         { id: 2, file: null, isDragging: false }
     ]);
 
-    const handleDrop = useCallback((e, docId) => {
-        e.preventDefault();
+    const processFile = (file, docId) => {
+        // Allowed MIME types and extensions
+        const allowedTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-outlook',
+            'message/rfc822',
+            'image/jpeg',
+            'image/png',
+            'text/plain'
+        ];
+        const allowedExtensions = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.msg', '.eml', '.jpg', '.jpeg', '.png', '.txt'];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
 
-        const files = e.dataTransfer?.files || e.target.files;
-        if (files && files[0]) {
-            const file = files[0];
-            // Allowed MIME types and extensions
-            const allowedTypes = [
-                'application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.ms-excel',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'application/vnd.ms-outlook',
-                'message/rfc822',
-                'image/jpeg',
-                'image/png',
-                'text/plain'
-            ];
-            const allowedExtensions = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.msg', '.eml', '.jpg', '.jpeg', '.png', '.txt'];
-            const ext = '.' + file.name.split('.').pop().toLowerCase();
-
-            if (allowedTypes.includes(file.type) || allowedExtensions.includes(ext)) {
-                setDocuments(prev => prev.map(doc =>
-                    doc.id === docId
-                        ? { ...doc, file: { file, name: file.name, size: (file.size / 1024 / 1024).toFixed(2) + ' MB' }, isDragging: false }
-                        : doc
-                ));
-            } else {
-                addToast('Formato non supportato. Usa PDF, DOC, XLSX, TXT o immagini.', 'error');
-            }
+        if (allowedTypes.includes(file.type) || allowedExtensions.includes(ext)) {
+            setDocuments(prev => prev.map(doc =>
+                doc.id === docId
+                    ? { ...doc, file: { file, name: file.name, size: (file.size / 1024 / 1024).toFixed(2) + ' MB' }, isDragging: false }
+                    : doc
+            ));
+        } else {
+            addToast('Formato non supportato. Usa PDF, DOC, XLSX, TXT o immagini.', 'error');
         }
+    };
+
+    const handleFileDrop = useCallback((e, docId) => {
+        e.preventDefault();
+        e.stopPropagation(); // Stop propagation to global handler
+
+        const files = e.dataTransfer?.files;
+        if (files && files[0]) {
+            processFile(files[0], docId);
+        }
+
+        // Reset dragging state
+        setDocuments(prev => prev.map(doc =>
+            doc.id === docId ? { ...doc, isDragging: false } : doc
+        ));
+    }, [addToast]);
+
+    const handleFileSelect = useCallback((e, docId) => {
+        const files = e.target.files;
+        if (files && files[0]) {
+            processFile(files[0], docId);
+        }
+        e.target.value = ''; // Reset input
     }, [addToast]);
 
     const handleDragOver = (e, docId) => {
         e.preventDefault();
+        e.stopPropagation();
         setDocuments(prev => prev.map(doc =>
             doc.id === docId ? { ...doc, isDragging: true } : doc
         ));
     };
 
-    const handleDragLeave = (docId) => {
+    const handleDragLeave = (e, docId) => {
+        e.preventDefault();
+        e.stopPropagation();
         setDocuments(prev => prev.map(doc =>
             doc.id === docId ? { ...doc, isDragging: false } : doc
         ));
@@ -79,8 +99,8 @@ const ComparePage = () => {
     };
 
     const addDocument = () => {
-        if (documents.length >= 5) {
-            addToast('Massimo 5 documenti per confronto', 'warning');
+        if (documents.length >= 6) {
+            addToast('Massimo 6 documenti per confronto', 'warning');
             return;
         }
         const newId = Math.max(...documents.map(d => d.id)) + 1;
@@ -147,15 +167,15 @@ const ComparePage = () => {
             {!doc.file ? (
                 <div
                     className={`upload-dropzone ${doc.isDragging ? 'dragging' : ''}`}
-                    onDrop={(e) => handleDrop(e, doc.id)}
+                    onDrop={(e) => handleFileDrop(e, doc.id)}
                     onDragOver={(e) => handleDragOver(e, doc.id)}
-                    onDragLeave={() => handleDragLeave(doc.id)}
+                    onDragLeave={(e) => handleDragLeave(e, doc.id)}
                     onClick={() => document.getElementById(`file-${doc.id}`).click()}
                 >
                     <input
                         type="file"
                         accept=".pdf,.doc,.docx,.xls,.xlsx,.msg,.eml,.jpg,.jpeg,.png,.txt"
-                        onChange={(e) => handleDrop(e, doc.id)}
+                        onChange={(e) => handleFileSelect(e, doc.id)}
                         id={`file-${doc.id}`}
                         hidden
                     />
