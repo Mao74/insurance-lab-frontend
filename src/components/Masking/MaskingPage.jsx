@@ -15,7 +15,8 @@ const MaskingPage = () => {
   const [documents, setDocuments] = useState([]);
   const [activeDocIndex, setActiveDocIndex] = useState(0);
   const [maskingData, setMaskingData] = useState({
-    policyNumber: '', contractor: '', vat: '', fiscalCode: '', insured: '', other: ''
+    policyNumber: '', contractor: '', vat: '', fiscalCode: '', insured: '',
+    address: '', city: '', cap: '', other: ''
   });
   const [options, setOptions] = useState({
     policyType: 'rc_generale',

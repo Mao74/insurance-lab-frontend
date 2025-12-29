@@ -131,10 +131,41 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
           </div>
         </div>
 
+        <div className="form-row">
+          <div className="form-group">
+            <label>Indirizzo</label>
+            <input
+              type="text"
+              value={data.address}
+              onChange={(e) => handleChange('address', e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label>Città</label>
+            <input
+              type="text"
+              value={data.city}
+              onChange={(e) => handleChange('city', e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>CAP</label>
+            <input
+              type="text"
+              value={data.cap}
+              onChange={(e) => handleChange('cap', e.target.value)}
+            />
+          </div>
+        </div>
+
         <div className="form-group">
-          <label>Altri Dati (Note)</label>
-          <textarea
-            rows="3"
+          <label>Altri Dati (Dati separati da ;)</label>
+          <input
+            type="text"
+            placeholder="es. Mario Rossi; Via Roma 1; +39 123456789"
             value={data.other}
             onChange={(e) => handleChange('other', e.target.value)}
           />
