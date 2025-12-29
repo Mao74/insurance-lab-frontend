@@ -125,6 +125,8 @@ const MaskingPage = () => {
 
   const handleStartAnalysis = async () => {
     try {
+      const isCompare = location.state?.isCompare;
+
       const payload = {
         document_ids: documents.map(d => d.id),
         policy_type: options.policyType,
@@ -133,8 +135,11 @@ const MaskingPage = () => {
         masking_data: maskingData
       };
 
-      const { data } = await api.post('/analysis/start', payload);
-      addToast('Analysis started successfully', 'success');
+      // Use compare endpoint if in comparison mode
+      const endpoint = isCompare ? '/compare/start' : '/analysis/start';
+      const { data } = await api.post(endpoint, payload);
+
+      addToast(isCompare ? 'Confronto avviato' : 'Analysis started successfully', 'success');
       navigate(`/analysis/${data.analysis_id}`);
     } catch (err) {
       addToast('Failed to start analysis', 'error');
