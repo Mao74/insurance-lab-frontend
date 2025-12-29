@@ -127,13 +127,17 @@ const MaskingPage = () => {
     try {
       const isCompare = location.state?.isCompare;
 
+      // Construct payload based on mode
       const payload = {
         document_ids: documents.map(d => d.id),
         policy_type: options.policyType,
-        analysis_level: options.analysisLevel,
         llm_model: options.model,
         masking_data: maskingData
       };
+
+      if (!isCompare) {
+        payload.analysis_level = options.analysisLevel;
+      }
 
       // Use compare endpoint if in comparison mode
       const endpoint = isCompare ? '/compare/start' : '/analysis/start';
