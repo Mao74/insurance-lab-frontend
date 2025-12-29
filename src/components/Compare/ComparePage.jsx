@@ -68,7 +68,7 @@ const ComparePage = () => {
         e.target.value = ''; // Reset input
     }, [addToast]);
 
-    const handleDragOver = (e, docId) => {
+    const handleDragEnter = (e, docId) => {
         e.preventDefault();
         e.stopPropagation();
         setDocuments(prev => prev.map(doc =>
@@ -76,9 +76,26 @@ const ComparePage = () => {
         ));
     };
 
+    const handleDragOver = (e, docId) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer) {
+            e.dataTransfer.dropEffect = 'copy';
+        }
+        // No need to set state here repeatedly as dragEnter handles the start,
+        // but keeping it ensures state if enter was missed (rare)
+    };
+
     const handleDragLeave = (e, docId) => {
         e.preventDefault();
         e.stopPropagation();
+
+        // If leaving to a child element, do nothing (bubble will handle it or it's still inside)
+        // e.currentTarget is the dropzone, e.relatedTarget is where we are going
+        if (e.currentTarget.contains(e.relatedTarget)) {
+            return;
+        }
+
         setDocuments(prev => prev.map(doc =>
             doc.id === docId ? { ...doc, isDragging: false } : doc
         ));
@@ -168,6 +185,7 @@ const ComparePage = () => {
                 <div
                     className={`upload-dropzone ${doc.isDragging ? 'dragging' : ''}`}
                     onDrop={(e) => handleFileDrop(e, doc.id)}
+                    onDragEnter={(e) => handleDragEnter(e, doc.id)}
                     onDragOver={(e) => handleDragOver(e, doc.id)}
                     onDragLeave={(e) => handleDragLeave(e, doc.id)}
                     onClick={() => document.getElementById(`file-${doc.id}`).click()}
@@ -257,7 +275,7 @@ const ComparePage = () => {
                 <button
                     className="add-document-btn"
                     onClick={addDocument}
-                    disabled={documents.length >= 5 || isUploading}
+                    disabled={documents.length >= 6 || isUploading}
                 >
                     <FaPlus />
                     <span>Aggiungi Documento</span>
