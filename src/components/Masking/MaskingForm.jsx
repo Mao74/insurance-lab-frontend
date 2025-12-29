@@ -19,7 +19,10 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
     const labels = {
       'rc_generale': 'RC Generale',
       'incendio': 'Incendio',
-      'trasporti': 'Trasporti'
+      'trasporti': 'Trasporti',
+      'cyber': 'Cyber Risk',
+      'infortuni': 'Infortuni',
+      'rca': 'RCA Auto'
     };
     return labels[options.policyType] || options.policyType;
   };
@@ -27,8 +30,7 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
   const getAnalysisLevelLabel = () => {
     const labels = {
       'cliente': 'Cliente',
-      'compagnia': 'Compagnia',
-      'sinistro': 'Sinistro'
+      'compagnia': 'Compagnia'
     };
     return labels[options.analysisLevel] || options.analysisLevel;
   };
@@ -59,6 +61,9 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
               <option value="rc_generale">RC Generale</option>
               <option value="incendio">Incendio</option>
               <option value="trasporti">Trasporti</option>
+              <option value="cyber">Cyber Risk</option>
+              <option value="infortuni">Infortuni</option>
+              <option value="rca">RCA Auto</option>
             </select>
           </div>
           <div className="form-group">
@@ -69,7 +74,6 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit }) => 
             >
               <option value="cliente">Cliente</option>
               <option value="compagnia">Compagnia</option>
-              <option value="sinistro">Sinistro</option>
             </select>
           </div>
         </div>

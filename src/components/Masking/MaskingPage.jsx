@@ -112,6 +112,16 @@ const MaskingPage = () => {
     return () => { mounted = false; };
   }, [location.state, navigate, addToast]); // Removed 'loading' from deps
 
+  // Read policyType and analysisLevel from navigation state (from ClaimsPage or similar)
+  useEffect(() => {
+    if (location.state?.policyType) {
+      setOptions(prev => ({ ...prev, policyType: location.state.policyType }));
+    }
+    if (location.state?.analysisLevel) {
+      setOptions(prev => ({ ...prev, analysisLevel: location.state.analysisLevel }));
+    }
+  }, [location.state]);
+
   const handleStartAnalysis = async () => {
     try {
       const payload = {

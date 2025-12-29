@@ -10,6 +10,7 @@ import '../Upload/Upload.css'; // Reuse upload styles for now
 const ClaimsPage = () => {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
+    const [policyType, setPolicyType] = useState('rc_generale');
     const navigate = useNavigate();
     const { addToast } = useNotification();
 
@@ -51,11 +52,12 @@ const ClaimsPage = () => {
             addToast('Caricamento e elaborazione completati', 'success');
 
             // Navigate to masking page with the processed document IDs
-            // 'sinistri' is implied by the flow, or we can pass it in state if needed by masking page
+            // Pass policyType and sinistro analysis level
             navigate('/masking', {
                 state: {
                     document_ids: data.document_ids,
-                    policyType: 'sinistri' // Hint for masking page logic if needed
+                    policyType: policyType,
+                    analysisLevel: 'sinistro'
                 }
             });
         } catch (err) {
@@ -71,6 +73,21 @@ const ClaimsPage = () => {
             <div className="upload-header">
                 <h1>Analisi Sinistro</h1>
                 <p>Carica documenti (PDF, Email, Excel, Word, Immagini) per l'analisi del sinistro.</p>
+                <div style={{ marginTop: '16px', maxWidth: '300px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>Ramo Assicurativo</label>
+                    <select
+                        value={policyType}
+                        onChange={(e) => setPolicyType(e.target.value)}
+                        style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }}
+                    >
+                        <option value="rc_generale">RC Generale</option>
+                        <option value="incendio">Incendio</option>
+                        <option value="trasporti">Trasporti</option>
+                        <option value="cyber">Cyber Risk</option>
+                        <option value="infortuni">Infortuni</option>
+                        <option value="rca">RCA Auto</option>
+                    </select>
+                </div>
             </div>
 
             <div className="upload-content">
