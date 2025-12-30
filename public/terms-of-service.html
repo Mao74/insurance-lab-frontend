@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termini di Servizio | Insurance Lab</title>
+    <meta name="description" content="Termini e Condizioni di utilizzo della piattaforma Insurance Lab">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #08080C; --bg-secondary: #0E0E14; --bg-tertiary: #14141C;
+            --bg-card: #111118;
+            --accent-primary: #3B82F6; --accent-warning: #F59E0B;
+            --text-primary: #FFFFFF; --text-secondary: #A1A1AA; --text-muted: #71717A;
+            --border-subtle: rgba(255, 255, 255, 0.06); --border-light: rgba(255, 255, 255, 0.1);
+            --font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            --radius-md: 12px; --radius-lg: 16px;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font-family); background: var(--bg-primary); color: var(--text-primary); line-height: 1.8; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+        a { color: var(--accent-primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        /* Header */
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 0; background: rgba(8, 8, 12, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle); }
+        .header .container { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; }
+        .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent-primary), #8B5CF6); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon svg { width: 20px; height: 20px; color: white; }
+        .back-link { font-size: 14px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; }
+        .back-link:hover { color: var(--text-primary); text-decoration: none; }
+        /* Content */
+        .legal-content { padding: 140px 0 80px; }
+        .legal-header { margin-bottom: 48px; }
+        .legal-header h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .legal-meta { color: var(--text-muted); font-size: 14px; }
+        .legal-section { margin-bottom: 48px; }
+        .legal-section h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; color: var(--text-primary); }
+        .legal-section h3 { font-size: 1.1rem; font-weight: 600; margin: 24px 0 12px; color: var(--text-primary); }
+        .legal-section p { color: var(--text-secondary); margin-bottom: 16px; }
+        .legal-section ul, .legal-section ol { margin: 16px 0; padding-left: 24px; }
+        .legal-section li { color: var(--text-secondary); margin-bottom: 8px; }
+        .legal-section ul li { list-style-type: disc; }
+        .legal-section ol li { list-style-type: decimal; }
+        .legal-section li::marker { color: var(--accent-primary); }
+        .info-box { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 24px; margin: 24px 0; }
+        .info-box h4 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--accent-primary); }
+        .info-box p { margin-bottom: 8px; }
+        .info-box p:last-child { margin-bottom: 0; }
+        .warning-box { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-left: 4px solid var(--accent-warning); border-radius: var(--radius-md); padding: 24px; margin: 24px 0; }
+        .warning-box h4 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--accent-warning); }
+        .warning-box p { color: var(--text-secondary); margin-bottom: 0; }
+        /* Footer */
+        .footer { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); padding: 40px 0; text-align: center; }
+        .footer p { color: var(--text-muted); font-size: 13px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <span>Insurance Lab</span>
+            </a>
+            <a href="index.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                Torna alla Home
+            </a>
+        </div>
+    </header>
+
+    <main class="legal-content">
+        <div class="container">
+            <div class="legal-header">
+                <h1>Termini di Servizio</h1>
+                <p class="legal-meta">Ultimo aggiornamento: Gennaio 2025</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>1. Definizioni</h2>
+                <p>Ai fini dei presenti Termini di Servizio:</p>
+                <ul>
+                    <li><strong>"Servizio"</strong> o <strong>"Piattaforma"</strong>: la piattaforma web Insurance Lab accessibile all'indirizzo app.insurance-lab.ai</li>
+                    <li><strong>"Titolare"</strong> o <strong>"Fornitore"</strong>: Insurance Lab, proprietario e gestore del Servizio</li>
+                    <li><strong>"Utente"</strong>: qualsiasi persona fisica o giuridica che utilizza il Servizio</li>
+                    <li><strong>"Contenuti"</strong>: documenti, file, dati e informazioni caricati dall'Utente sulla Piattaforma</li>
+                    <li><strong>"Report"</strong>: gli output generati dal Servizio a seguito dell'elaborazione dei Contenuti</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. Accettazione dei Termini</h2>
+                <p>L'accesso e l'utilizzo del Servizio sono subordinati all'accettazione integrale dei presenti Termini di Servizio e della <a href="privacy-policy.html">Privacy Policy</a>. Registrandosi o utilizzando il Servizio, l'Utente dichiara di aver letto, compreso e accettato integralmente i presenti Termini.</p>
+                <p>Il Titolare si riserva il diritto di modificare i presenti Termini in qualsiasi momento. Le modifiche saranno comunicate via email o tramite avviso sulla Piattaforma almeno 30 giorni prima della loro entrata in vigore.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. Descrizione del Servizio</h2>
+                <p>Insurance Lab è una piattaforma di analisi documentale che utilizza tecnologie di intelligenza artificiale per:</p>
+                <ul>
+                    <li>Analizzare polizze assicurative ed estrarre informazioni chiave</li>
+                    <li>Confrontare più polizze/preventivi evidenziando differenze</li>
+                    <li>Supportare la pre-analisi di sinistri</li>
+                    <li>Generare report strutturati e professionali</li>
+                </ul>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Avvertenza Importante</h4>
+                    <p>Insurance Lab è uno <strong>strumento di supporto</strong> all'attività professionale del broker/agente assicurativo. I Report generati <strong>non costituiscono consulenza assicurativa, legale o professionale</strong> e non sostituiscono il giudizio professionale dell'operatore. Le decisioni basate sui Report restano di esclusiva responsabilità dell'Utente.</p>
+                </div>
+            </div>
+
+            <div class="legal-section">
+                <h2>4. Registrazione e Account</h2>
+                <h3>4.1 Requisiti</h3>
+                <p>Per utilizzare il Servizio è necessario:</p>
+                <ul>
+                    <li>Essere maggiorenni</li>
+                    <li>Fornire informazioni accurate e veritiere in fase di registrazione</li>
+                    <li>Mantenere aggiornate le informazioni del proprio account</li>
+                </ul>
+
+                <h3>4.2 Sicurezza dell'Account</h3>
+                <p>L'Utente è responsabile della custodia delle proprie credenziali di accesso e di tutte le attività effettuate tramite il proprio account. In caso di accesso non autorizzato, l'Utente deve notificarlo immediatamente al Titolare.</p>
+
+                <h3>4.3 Un Account per Utente</h3>
+                <p>Ogni Utente può registrare un solo account. La condivisione delle credenziali o la creazione di account multipli può comportare la sospensione del Servizio.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>5. Utilizzo del Servizio</h2>
+                <h3>5.1 Uso Consentito</h3>
+                <p>L'Utente può utilizzare il Servizio esclusivamente per:</p>
+                <ul>
+                    <li>Analizzare documenti assicurativi relativi alla propria attività professionale</li>
+                    <li>Generare report per uso interno o per i propri clienti</li>
+                    <li>Confrontare polizze e preventivi nell'ambito della propria attività di intermediazione</li>
+                </ul>
+
+                <h3>5.2 Uso Vietato</h3>
+                <p>È espressamente vietato:</p>
+                <ul>
+                    <li>Utilizzare il Servizio per attività illecite o fraudolente</li>
+                    <li>Caricare documenti contenenti malware o codice dannoso</li>
+                    <li>Tentare di accedere a dati di altri utenti</li>
+                    <li>Effettuare reverse engineering del Servizio</li>
+                    <li>Rivendere o sublicenziare l'accesso al Servizio</li>
+                    <li>Sovraccaricare intenzionalmente i sistemi</li>
+                    <li>Utilizzare il Servizio per finalità diverse da quelle previste</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>6. Contenuti dell'Utente e Responsabilità Anonimizzazione</h2>
+                
+                <div class="warning-box">
+                    <h4>⚠️ CLAUSOLA FONDAMENTALE - LEGGERE CON ATTENZIONE</h4>
+                    <p>L'anonimizzazione dei documenti caricati è <strong>esclusiva responsabilità dell'Utente</strong>. Insurance Lab fornisce strumenti di mascheramento ma <strong>NON effettua alcun mascheramento automatico</strong>. L'Utente è l'unico responsabile della protezione dei dati personali di terzi contenuti nei documenti.</p>
+                </div>
+
+                <h3>6.1 Proprietà dei Contenuti</h3>
+                <p>L'Utente mantiene la piena proprietà dei Contenuti caricati sulla Piattaforma. Il caricamento dei Contenuti implica la concessione al Titolare di una licenza limitata, non esclusiva e temporanea per elaborare i Contenuti al solo fine di erogare il Servizio.</p>
+
+                <h3>6.2 Responsabilità dell'Anonimizzazione</h3>
+                <p><strong>L'Utente riconosce e accetta espressamente che:</strong></p>
+                <ol>
+                    <li>La Piattaforma mette a disposizione <strong>strumenti di mascheramento</strong> per anonimizzare dati personali (nomi, codici fiscali, indirizzi, IBAN, targhe, ecc.) contenuti nei documenti</li>
+                    <li>L'utilizzo di tali strumenti è <strong>facoltativo</strong> e a <strong>totale discrezione dell'Utente</strong></li>
+                    <li>Il sistema <strong>NON effettua alcun mascheramento automatico</strong> dei dati personali</li>
+                    <li>È <strong>esclusiva responsabilità dell'Utente</strong>:
+                        <ul>
+                            <li>Decidere quali dati mascherare prima dell'elaborazione</li>
+                            <li>Verificare che il mascheramento sia stato eseguito correttamente</li>
+                            <li>Assicurarsi di avere le autorizzazioni necessarie per trattare i dati di terzi</li>
+                        </ul>
+                    </li>
+                    <li>I documenti vengono inviati ai modelli di intelligenza artificiale <strong>esattamente come caricati dall'Utente</strong>, mascherati o non mascherati</li>
+                    <li>Il Titolare <strong>non è responsabile</strong> per eventuali violazioni della privacy derivanti dalla mancata o incompleta anonimizzazione dei documenti da parte dell'Utente</li>
+                </ol>
+
+                <h3>6.3 Garanzie dell'Utente</h3>
+                <p>Caricando documenti sulla Piattaforma, l'Utente <strong>dichiara e garantisce</strong> di:</p>
+                <ul>
+                    <li>Avere il diritto di caricare i Contenuti sulla Piattaforma</li>
+                    <li>Aver ottenuto le necessarie autorizzazioni per il trattamento dei dati personali eventualmente contenuti nei documenti ai sensi del GDPR e della normativa privacy applicabile</li>
+                    <li>Aver provveduto, sotto la propria esclusiva responsabilità, all'anonimizzazione dei dati personali di terzi prima del caricamento, ove necessario</li>
+                    <li>Manlevare e tenere indenne il Titolare da qualsiasi reclamo, sanzione, danno o costo derivante dalla violazione di tali garanzie</li>
+                </ul>
+
+                <h3>6.4 Trattamento Tecnico dei Contenuti</h3>
+                <p>Dal punto di vista tecnico:</p>
+                <ul>
+                    <li>I documenti caricati vengono elaborati da modelli di intelligenza artificiale di terze parti (Anthropic Claude)</li>
+                    <li>I documenti non vengono conservati permanentemente dopo l'elaborazione</li>
+                    <li>I documenti non vengono utilizzati per addestrare modelli AI</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>7. Piani e Pagamenti</h2>
+                <h3>7.1 Piani Disponibili</h3>
+                <p>Il Servizio è disponibile con i seguenti piani:</p>
+                <ul>
+                    <li><strong>Piano Mensile:</strong> €49/mese + IVA</li>
+                    <li><strong>Piano Annuale:</strong> €470/anno + IVA (risparmio del 20%)</li>
+                </ul>
+                <p>È possibile richiedere una demo personalizzata contattando <a href="mailto:info@insurance-lab.ai">info@insurance-lab.ai</a>.</p>
+
+                <h3>7.2 Fatturazione</h3>
+                <p>I pagamenti sono gestiti tramite Stripe. L'Utente riceverà fattura italiana regolare. Il rinnovo è automatico salvo disdetta.</p>
+
+                <h3>7.3 Disdetta</h3>
+                <p>L'Utente può disdire l'abbonamento in qualsiasi momento dalle impostazioni dell'account. La disdetta avrà effetto alla scadenza del periodo di fatturazione in corso. Non sono previsti rimborsi per periodi parziali.</p>
+
+                <h3>7.4 Modifiche ai Prezzi</h3>
+                <p>Il Titolare si riserva il diritto di modificare i prezzi con preavviso di almeno 30 giorni. Le modifiche non si applicano agli abbonamenti già in corso fino al rinnovo.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>8. Proprietà Intellettuale</h2>
+                <p>La Piattaforma, inclusi software, algoritmi, interfaccia grafica, marchi, loghi e documentazione, sono di proprietà esclusiva del Titolare o dei suoi licenzianti e sono protetti dalle leggi sulla proprietà intellettuale.</p>
+                <p>L'Utente riceve una licenza limitata, non esclusiva, non trasferibile e revocabile per utilizzare il Servizio conformemente ai presenti Termini.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>9. Limitazione di Responsabilità</h2>
+                <div class="warning-box">
+                    <h4>Esclusione di Garanzie</h4>
+                    <p>Il Servizio è fornito "così com'è" (as is) senza garanzie di alcun tipo, espresse o implicite. Il Titolare non garantisce che il Servizio sia privo di errori, interruzioni o che i Report siano completi o accurati al 100%.</p>
+                </div>
+
+                <h3>9.1 Limitazioni</h3>
+                <p>Nei limiti consentiti dalla legge applicabile, il Titolare non sarà responsabile per:</p>
+                <ul>
+                    <li>Danni indiretti, incidentali, speciali o consequenziali</li>
+                    <li>Perdita di profitti, dati o opportunità commerciali</li>
+                    <li>Decisioni prese dall'Utente sulla base dei Report</li>
+                    <li>Interruzioni o malfunzionamenti del Servizio</li>
+                    <li>Azioni di terze parti</li>
+                </ul>
+
+                <h3>9.2 Responsabilità Massima</h3>
+                <p>In ogni caso, la responsabilità massima del Titolare è limitata all'importo pagato dall'Utente nei 12 mesi precedenti l'evento che ha dato origine alla responsabilità.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>10. Manleva</h2>
+                <p>L'Utente si impegna a manlevare e tenere indenne il Titolare, i suoi dipendenti, collaboratori e fornitori da qualsiasi reclamo, danno, costo, sanzione o spesa (incluse le spese legali) derivanti da:</p>
+                <ul>
+                    <li>Violazione dei presenti Termini da parte dell'Utente</li>
+                    <li>Utilizzo improprio del Servizio</li>
+                    <li>Violazione di diritti di terzi</li>
+                    <li>Contenuti caricati dall'Utente</li>
+                    <li><strong>Mancata o incompleta anonimizzazione dei documenti caricati</strong></li>
+                    <li><strong>Violazioni della normativa privacy (GDPR) derivanti dal trattamento di dati personali di terzi contenuti nei documenti caricati senza le necessarie autorizzazioni o senza adeguata anonimizzazione</strong></li>
+                    <li><strong>Reclami, richieste di risarcimento o sanzioni da parte di terzi i cui dati personali siano stati trattati attraverso la Piattaforma senza il loro consenso o in violazione della normativa applicabile</strong></li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>11. Sospensione e Risoluzione</h2>
+                <h3>11.1 Sospensione</h3>
+                <p>Il Titolare può sospendere l'accesso al Servizio in caso di:</p>
+                <ul>
+                    <li>Violazione dei presenti Termini</li>
+                    <li>Mancato pagamento</li>
+                    <li>Attività sospette o potenzialmente dannose</li>
+                    <li>Richiesta delle autorità competenti</li>
+                </ul>
+
+                <h3>11.2 Risoluzione</h3>
+                <p>L'Utente può risolvere il contratto in qualsiasi momento cancellando il proprio account. Il Titolare può risolvere il contratto per giusta causa con effetto immediato.</p>
+
+                <h3>11.3 Effetti della Risoluzione</h3>
+                <p>Alla risoluzione, l'accesso al Servizio cesserà immediatamente. I dati dell'Utente saranno cancellati entro 30 giorni, salvo obblighi di legge.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>12. Disponibilità del Servizio</h2>
+                <p>Il Titolare si impegna a garantire la disponibilità del Servizio ma non garantisce un uptime del 100%. Sono possibili interruzioni per manutenzione, aggiornamenti o cause di forza maggiore.</p>
+                <p>Le manutenzioni programmate saranno comunicate con ragionevole anticipo quando possibile.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>13. Legge Applicabile e Foro Competente</h2>
+                <p>I presenti Termini sono regolati dalla legge italiana. Per qualsiasi controversia derivante dai presenti Termini sarà competente in via esclusiva il Foro di [Città da inserire], fatte salve le norme inderogabili a tutela dei consumatori.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>14. Disposizioni Finali</h2>
+                <h3>14.1 Intero Accordo</h3>
+                <p>I presenti Termini, insieme alla Privacy Policy, costituiscono l'intero accordo tra le parti e sostituiscono ogni precedente intesa.</p>
+
+                <h3>14.2 Cessione</h3>
+                <p>L'Utente non può cedere i propri diritti o obblighi derivanti dai presenti Termini senza il consenso scritto del Titolare.</p>
+
+                <h3>14.3 Rinuncia</h3>
+                <p>La mancata applicazione di una disposizione dei presenti Termini non costituisce rinuncia al diritto di farla valere in futuro.</p>
+
+                <h3>14.4 Separabilità</h3>
+                <p>Se una disposizione dei presenti Termini fosse ritenuta invalida, le restanti disposizioni rimarranno in vigore.</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>15. Contatti</h2>
+                <div class="info-box">
+                    <h4>Per domande sui Termini di Servizio</h4>
+                    <p>Email: <a href="mailto:legal@insurance-lab.ai">legal@insurance-lab.ai</a></p>
+                    <p>Per richieste generali: <a href="mailto:info@insurance-lab.ai">info@insurance-lab.ai</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Insurance Lab. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+</body>
+</html>
