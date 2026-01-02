@@ -63,6 +63,26 @@ const AnalysisStatus = () => {
     window.open(`${baseUrl}/analysis/${analysisId}/download-html?type=masked`, '_blank');
   };
 
+  const handleDownloadPdfClear = () => {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+    const link = document.createElement('a');
+    link.href = `${baseUrl}/analysis/${analysisId}/pdf?type=clear`;
+    link.download = `report_${analysisId}_chiaro.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadPdfMasked = () => {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+    const link = document.createElement('a');
+    link.href = `${baseUrl}/analysis/${analysisId}/pdf?type=masked`;
+    link.download = `report_${analysisId}_mascherato.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const toggleViewMode = () => {
     if (isEditing) {
       addToast("Termina la modifica prima di cambiare vista.", "warning");
@@ -189,6 +209,9 @@ const AnalysisStatus = () => {
                     <Button onClick={() => setShowCorrection(true)} title="Segnala errore">
                       <FaLightbulb /> Suggerisci Correzione
                     </Button>
+                    <Button onClick={handleArchive} title="Salva nei report">
+                      <FaFolderOpen /> Archivia
+                    </Button>
                   </>
                 )}
               </div>
@@ -207,17 +230,26 @@ const AnalysisStatus = () => {
                     </Button>
                   </>
                 ) : (
-                  <>
-                    <Button onClick={handleArchive} title="Salva nei report">
-                      <FaFolderOpen /> Archivia
-                    </Button>
-                    <Button onClick={handleDownloadClear} title="Scarica HTML Chiaro">
-                      <FaDownload /> HTML Chiaro
-                    </Button>
-                    <Button onClick={handleDownloadMasked} title="Scarica HTML Mascherato" variant="secondary">
-                      <FaDownload /> HTML Mascherato
-                    </Button>
-                  </>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }}>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '12px', color: '#666' }}>HTML:</span>
+                      <Button onClick={handleDownloadClear} title="Scarica HTML Chiaro" style={{ padding: '6px 12px', fontSize: '13px' }}>
+                        <FaDownload /> Chiaro
+                      </Button>
+                      <Button onClick={handleDownloadMasked} title="Scarica HTML Mascherato" variant="secondary" style={{ padding: '6px 12px', fontSize: '13px' }}>
+                        <FaDownload /> Mascherato
+                      </Button>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '12px', color: '#666', marginRight: '5px' }}>PDF:</span>
+                      <Button onClick={handleDownloadPdfClear} title="Scarica PDF Chiaro" style={{ padding: '6px 12px', fontSize: '13px' }}>
+                        <FaDownload /> Chiaro
+                      </Button>
+                      <Button onClick={handleDownloadPdfMasked} title="Scarica PDF Mascherato" variant="secondary" style={{ padding: '6px 12px', fontSize: '13px' }}>
+                        <FaDownload /> Mascherato
+                      </Button>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

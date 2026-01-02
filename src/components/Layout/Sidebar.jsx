@@ -13,7 +13,7 @@ const Sidebar = () => {
         <NavLink to="/home">
           {/* Caricamento logo orizzontale da public/ */}
           <img
-            src="/logo-horizontal-white.png"
+            src="/logo-horizontal.png"
             alt="Insurance Lab"
             style={{ height: '40px', objectFit: 'contain' }}
           />

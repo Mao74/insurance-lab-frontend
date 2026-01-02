@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import api from '../../services/api';
+import CostAnalytics from './CostAnalytics';
 import './Settings.css';
 
 const SettingsPage = () => {
@@ -403,6 +404,14 @@ const SettingsPage = () => {
                             {savingSettings ? 'Salvataggio...' : '💾 Salva Configurazione'}
                         </button>
                     </div>
+                </div>
+            )}
+
+            {/* Admin Cost Analytics */}
+            {isAdmin && (
+                <div className="settings-section">
+                    <h2>📊 Analytics Costi LLM</h2>
+                    <CostAnalytics llmSettings={llmSettings} />
                 </div>
             )}
 

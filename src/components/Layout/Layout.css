@@ -29,7 +29,7 @@
 /* --- LOGO --- */
 .sidebar-logo img {
   display: block;
-  transform: scale(2.0);
+  transform: scale(1.0);
   transform-origin: left center;
 }
 

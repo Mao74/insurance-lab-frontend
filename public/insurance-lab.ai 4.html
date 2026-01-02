@@ -202,27 +202,6 @@
         .footer-bottom { padding-top: 32px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
         .footer-copyright { font-size: 13px; color: var(--text-muted); }
         .footer-disclaimer { font-size: 12px; color: var(--text-dark); max-width: 500px; text-align: right; }
-        /* Flowchart */
-        .flowchart { display: flex; align-items: flex-start; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 40px 0; }
-        .flow-step { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 160px; padding: 20px 12px; }
-        .flow-icon { width: 72px; height: 72px; border-radius: 16px; background: var(--bg-card); border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--accent-primary); transition: all 0.3s ease; }
-        .flow-icon-warning { color: var(--accent-warning); border-color: rgba(245, 158, 11, 0.3); }
-        .flow-icon-ai { color: var(--accent-purple); border-color: rgba(139, 92, 246, 0.3); }
-        .flow-icon-success { color: var(--accent-secondary); border-color: rgba(16, 185, 129, 0.3); }
-        .flow-step:hover .flow-icon { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2); }
-        .flow-step:hover .flow-icon-warning { box-shadow: 0 8px 30px rgba(245, 158, 11, 0.2); }
-        .flow-step:hover .flow-icon-ai { box-shadow: 0 8px 30px rgba(139, 92, 246, 0.2); }
-        .flow-step:hover .flow-icon-success { box-shadow: 0 8px 30px rgba(16, 185, 129, 0.2); }
-        .flow-number { font-size: 11px; font-weight: 700; color: var(--accent-primary); background: rgba(59, 130, 246, 0.1); padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; }
-        .flow-step h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
-        .flow-step p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
-        .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--text-muted); margin-top: 24px; }
-        .flow-arrow svg { opacity: 0.5; }
-        @media (max-width: 900px) {
-            .flowchart { flex-direction: column; align-items: center; }
-            .flow-arrow { transform: rotate(90deg); margin: 8px 0; }
-            .flow-step { max-width: 280px; }
-        }
         /* Animations */
         .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
         .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
@@ -265,7 +244,7 @@
     <header class="header">
         <div class="container">
             <a href="#" class="logo">
-                <img src="assets/images/logo-horizontal.png" alt="Insurance Lab" style="height: 80px; width: auto;">
+                <img src="logo-horizontal.png" alt="Insurance Lab" style="height: 80px; width: auto;">
             </a>
             <nav class="nav">
                 <ul class="nav-links">
@@ -309,32 +288,28 @@
             </div>
             <div class="hero-visuals">
                 <div class="scroll-column up">
-                    <div class="scroll-image"><img src="assets/images/screen-1.png" alt="Report Analisi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-2.png" alt="Analisi Rischi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-3.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-4.png" alt="Dettagli Polizza" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-5.png" alt="Garanzie" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-6.png" alt="Analisi Completa" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-1.png" alt="Report Analisi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-2.png" alt="Analisi Rischi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-3.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-4.png" alt="Dettagli Polizza" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-5.png" alt="Garanzie" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-6.png" alt="Analisi Completa" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-1.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-2.png" alt="Analisi Polizza" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-3.png" alt="Report Dettagliato" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-4.png" alt="Confronto Polizze" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-5.png" alt="Gestione Sinistri" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-6.png" alt="Archivio" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-1.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-2.png" alt="Analisi Polizza" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-3.png" alt="Report Dettagliato" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-4.png" alt="Confronto Polizze" style="width:100%;height:100%;object-fit:cover;"></div>
                 </div>
                 <div class="scroll-column down">
-                    <div class="scroll-image"><img src="assets/images/screen-4.png" alt="Dettagli Polizza" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-5.png" alt="Garanzie" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-6.png" alt="Analisi Completa" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-1.png" alt="Report Analisi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-2.png" alt="Analisi Rischi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-3.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-4.png" alt="Dettagli Polizza" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-5.png" alt="Garanzie" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-6.png" alt="Analisi Completa" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-1.png" alt="Report Analisi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-2.png" alt="Analisi Rischi" style="width:100%;height:100%;object-fit:cover;"></div>
-                    <div class="scroll-image"><img src="assets/images/screen-3.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-4.png" alt="Confronto Polizze" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-5.png" alt="Gestione Sinistri" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-6.png" alt="Archivio" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-1.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-2.png" alt="Analisi Polizza" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-3.png" alt="Report Dettagliato" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-4.png" alt="Confronto Polizze" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-5.png" alt="Gestione Sinistri" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-6.png" alt="Archivio" style="width:100%;height:100%;object-fit:cover;"></div>
+                    <div class="scroll-image"><img src="screen-1.png" alt="Dashboard" style="width:100%;height:100%;object-fit:cover;"></div>
                 </div>
             </div>
         </div>
@@ -358,28 +333,41 @@
         </div>
     </section>
 
-    <!-- Chi Siamo -->
+    <!-- Founder -->
     <section id="founder" class="founder section">
         <div class="container">
-            <div class="founder-content animate-on-scroll" style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <div class="section-label">Chi siamo</div>
-                <h2>Costruito da chi fa questo lavoro ogni giorno.</h2>
-                <p class="founder-title" style="margin-top: 8px; margin-bottom: 32px;">Un team con esperienza ventennale nel settore assicurativo corporate.</p>
-                <div class="founder-credentials" style="justify-content: center; margin-bottom: 32px;">
-                    <div class="credential">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-                        <span>Background ingegneristico e tecnico</span>
+            <div class="founder-grid">
+                <div class="founder-image animate-on-scroll" style="position: relative;">
+                    <div class="founder-image-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </div>
-                    <div class="credential">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                        <span>Specializzazione in Risk Management</span>
-                    </div>
-                    <div class="credential">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                        <span>20+ anni nel corporate insurance</span>
-                    </div>
+                    <div class="founder-image-glow"></div>
                 </div>
-                <blockquote class="founder-quote" style="text-align: center; border-left: none; padding-left: 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); padding: 32px 0;">"Abbiamo passato vent'anni a leggere polizze, centinaia di pagine per ogni cliente. Abbiamo costruito Insurance Lab perché volevamo lo strumento che avremmo voluto avere dal primo giorno. Non per sostituire il nostro giudizio — ma per liberare il tempo per quello che conta davvero: la consulenza, il rapporto con il cliente, le decisioni strategiche."</blockquote>
+                <div class="founder-content animate-on-scroll">
+                    <div class="section-label">Chi c'è dietro</div>
+                    <h2>Costruito da chi fa questo lavoro ogni giorno.</h2>
+                    <p class="founder-name">Maurizio Molinari</p>
+                    <p class="founder-title">Founder & Insurance Technologist</p>
+                    <div class="founder-credentials">
+                        <div class="credential">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                            <span>Laurea in Ingegneria — Politecnico di Milano</span>
+                        </div>
+                        <div class="credential">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                            <span>Master Risk Engineering — Cineas</span>
+                        </div>
+                        <div class="credential">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                            <span>20+ anni nel corporate insurance</span>
+                        </div>
+                    </div>
+                    <blockquote class="founder-quote">"Ho passato vent'anni a leggere polizze, centinaia di pagine per ogni cliente. Ho costruito Insurance-Lab perché volevo lo strumento che avrei voluto avere dal primo giorno. Non per sostituire il mio giudizio — ma per liberare il mio tempo per quello che conta davvero: la consulenza, il rapporto con il cliente, le decisioni strategiche."</blockquote>
+                    <a href="https://linkedin.com" target="_blank" class="founder-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        Connettiti su LinkedIn
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -406,7 +394,8 @@
                 </div>
                 <div class="pillar-visual">
                     <div class="pillar-mockup">
-                        <img src="assets/images/Pilastro 1.png" alt="Analisi Documentale Profonda" style="width:100%;height:auto;object-fit:cover;border-radius:var(--radius-lg);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                        <span>Screenshot interfaccia analisi</span>
                     </div>
                 </div>
             </div>
@@ -497,78 +486,35 @@
         </div>
     </section>
 
-    <!-- Steps - Flowchart -->
+    <!-- Steps -->
     <section id="steps" class="steps section">
         <div class="container">
             <div class="steps-header animate-on-scroll">
                 <div class="section-label">Il processo</div>
-                <h2>Come funziona, in 5 step.</h2>
+                <h2>Come funziona, in 4 step.</h2>
             </div>
-            
-            <!-- Flowchart orizzontale -->
-            <div class="flowchart animate-on-scroll">
-                <div class="flow-step">
-                    <div class="flow-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
-                    </div>
-                    <div class="flow-number">01</div>
-                    <h4>Upload PDF</h4>
-                    <p>Carica la polizza assicurativa in formato PDF</p>
+            <div class="steps-grid">
+                <div class="step animate-on-scroll">
+                    <div class="step-number">01</div>
+                    <h4>Carica il documento</h4>
+                    <p>Trascina i documenti di polizza: condizioni generali, appendici, certificati, preventivi.</p>
                 </div>
-                
-                <div class="flow-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">02</div>
+                    <h4>L'AI analizza</h4>
+                    <p>Il sistema estrae clausole, massimali, esclusioni. I dati sensibili vengono mascherati automaticamente.</p>
                 </div>
-                
-                <div class="flow-step">
-                    <div class="flow-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
-                    </div>
-                    <div class="flow-number">02</div>
-                    <h4>Estrazione Testo</h4>
-                    <p>OCR intelligente e parsing automatico del documento</p>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">03</div>
+                    <h4>Rivedi il report</h4>
+                    <p>Ottieni un documento strutturato con tutte le informazioni critiche. Aggiungi note, evidenzia sezioni.</p>
                 </div>
-                
-                <div class="flow-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </div>
-                
-                <div class="flow-step">
-                    <div class="flow-icon flow-icon-warning">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    </div>
-                    <div class="flow-number">03</div>
-                    <h4>Mascheramento PII</h4>
-                    <p>Strumenti per anonimizzare dati sensibili <span style="color: var(--accent-warning);">(a cura dell'utente)</span></p>
-                </div>
-                
-                <div class="flow-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </div>
-                
-                <div class="flow-step">
-                    <div class="flow-icon flow-icon-ai">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.1-.9 2-2 2h-4a2 2 0 0 1-2-2 4 4 0 0 1 4-4z"/><path d="M12 8v14"/><path d="m9 12 3-2 3 2"/><path d="m9 17 3-2 3 2"/><circle cx="12" cy="5" r="1"/></svg>
-                    </div>
-                    <div class="flow-number">04</div>
-                    <h4>Analisi AI</h4>
-                    <p>Elaborazione intelligente con modelli avanzati</p>
-                </div>
-                
-                <div class="flow-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </div>
-                
-                <div class="flow-step">
-                    <div class="flow-icon flow-icon-success">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m9 15 2 2 4-4"/></svg>
-                    </div>
-                    <div class="flow-number">05</div>
-                    <h4>Report Finale</h4>
-                    <p>Documento strutturato pronto per export PDF</p>
+                <div class="step animate-on-scroll">
+                    <div class="step-number">04</div>
+                    <h4>Esporta e condividi</h4>
+                    <p>Scarica in PDF professionale. Pronto per l'invio al cliente o l'archivio interno.</p>
                 </div>
             </div>
-            
         </div>
     </section>
 
@@ -619,7 +565,7 @@
             <div class="pricing-header animate-on-scroll">
                 <div class="section-label">Prezzi</div>
                 <h2>Un piano semplice. Nessuna sorpresa.</h2>
-                <p style="color: var(--text-secondary);">Accesso completo a tutte le funzionalità. Scegli solo la frequenza di pagamento.</p>
+                <p style="color: var(--text-secondary);">Accesso completo a tutte le funzionalità. Nessun tier nascosto, nessun limite artificiale.</p>
             </div>
             <div class="pricing-grid">
                 <div class="card pricing-card animate-on-scroll">
@@ -629,6 +575,14 @@
                         <span class="pricing-currency">€</span>
                         <span class="pricing-amount">49</span>
                         <span class="pricing-period">/mese</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Analisi polizze illimitate</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Confronto sinottico (fino a 3 preventivi)</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Pre-analisi sinistri</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Audit portafoglio</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Export PDF professionale</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Supporto email</span></div>
                     </div>
                     <a href="https://app.insurance-lab.ai" class="btn btn-secondary">Abbonati Ora</a>
                 </div>
@@ -640,6 +594,13 @@
                         <span class="pricing-currency">€</span>
                         <span class="pricing-amount">470</span>
                         <span class="pricing-period">/anno</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Tutto il piano mensile</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Supporto prioritario</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Accesso anticipato nuove funzionalità</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Onboarding dedicato (30 min call)</span></div>
+                        <div class="pricing-feature"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Priorità richieste nuovi rami</span></div>
                     </div>
                     <a href="https://app.insurance-lab.ai" class="btn btn-primary">Abbonati Ora</a>
                 </div>
@@ -709,7 +670,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="#" class="logo">
-                        <img src="assets/images/logo-horizontal.png" alt="Insurance Lab" style="height: 60px; width: auto;">
+                        <img src="logo-horizontal.png" alt="Insurance Lab" style="height: 60px; width: auto;">
                     </a>
                     <p>Analisi assicurative intelligenti per broker professionisti.</p>
                 </div>

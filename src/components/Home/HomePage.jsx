@@ -87,10 +87,10 @@ const HomePage = () => {
         <div className="home-page fade-in">
             <header className="home-header">
                 <div className="home-logo">
-                    <img src="/logo-horizontal.png" alt="Insurance Lab" />
+                    <img src="/logo-horizontal-white.png" alt="Insurance Lab" />
                 </div>
                 <div className="home-user">
-                    <span>Benvenuto, {user?.username || 'Utente'}</span>
+                    <span>Benvenuto, {user?.email || user?.username || 'Utente'}</span>
                     <button onClick={logout} className="logout-btn-text">
                         <FaSignOutAlt /> Esci
                     </button>
