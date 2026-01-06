@@ -25,16 +25,39 @@ const AnalysisStatus = () => {
 
   const { addToast } = useNotification();
 
-  // Polling status
+  // Polling status - stops when completed to prevent overwriting user edits
+  const pollingActiveRef = useRef(true);
+
   useEffect(() => {
     let interval;
+
+    // Don't start polling if already completed or in error state
+    if (status.status === 'completed' || status.status === 'error') {
+      pollingActiveRef.current = false;
+      return;
+    }
+
+    pollingActiveRef.current = true;
+
     const fetchStatus = async () => {
+      // Double-check we should still be polling
+      if (!pollingActiveRef.current) {
+        clearInterval(interval);
+        return;
+      }
+
       try {
-        const { data } = await api.get(`/analysis/${analysisId}`);
+        // Determine endpoint based on current analysis_level
+        // First call uses /analysis, then we switch based on the response
+        const isCompare = status.analysis_level === 'confronto';
+        const endpoint = isCompare ? `/compare/${analysisId}` : `/analysis/${analysisId}`;
+
+        const { data } = await api.get(endpoint);
         console.log('Analysis API Response:', data); // DEBUG
         setStatus(data);
 
         if (data.status === 'completed' || data.status === 'error') {
+          pollingActiveRef.current = false;
           clearInterval(interval);
           if (data.status === 'completed' && status.status !== 'completed') {
             addToast('Analisi completata!', 'success');
@@ -42,14 +65,31 @@ const AnalysisStatus = () => {
         }
       } catch (err) {
         console.error(err);
+        // If /compare fails, fallback to /analysis (for backwards compatibility)
+        if (err.response?.status === 400 || err.response?.status === 404) {
+          try {
+            const { data } = await api.get(`/analysis/${analysisId}`);
+            setStatus(data);
+            // Also check for completion in fallback
+            if (data.status === 'completed' || data.status === 'error') {
+              pollingActiveRef.current = false;
+              clearInterval(interval);
+            }
+          } catch (fallbackErr) {
+            console.error('Fallback also failed:', fallbackErr);
+          }
+        }
       }
     };
 
     fetchStatus();
     interval = setInterval(fetchStatus, 3000);
 
-    return () => clearInterval(interval);
-  }, [analysisId, addToast, status.status]);
+    return () => {
+      pollingActiveRef.current = false;
+      clearInterval(interval);
+    };
+  }, [analysisId, addToast]);
 
 
 
@@ -126,13 +166,18 @@ const AnalysisStatus = () => {
       // Extract full HTML including head/styles
       const newContent = iframe.contentDocument.documentElement.outerHTML;
 
-      await api.post(`/analysis/${analysisId}/content`, {
+      // Use correct endpoint based on analysis type
+      const isCompare = status.analysis_level === 'confronto';
+      const endpoint = isCompare ? `/compare/${analysisId}/content` : `/analysis/${analysisId}/content`;
+
+      await api.post(endpoint, {
         html_content: newContent
       });
 
       setStatus(prev => ({
         ...prev,
-        report_html: newContent
+        report_html_display: newContent,  // Update display field (what backend saves)
+        report_html: newContent  // Keep both in sync
       }));
 
       setIsEditing(false);
@@ -151,9 +196,14 @@ const AnalysisStatus = () => {
 
     setLoadingAction(true);
     try {
-      await api.post(`/analysis/${analysisId}/save`, { title: name });
+      // Use correct endpoint based on analysis type
+      const isCompare = status.analysis_level === 'confronto';
+      const endpoint = isCompare ? `/compare/${analysisId}/save` : `/analysis/${analysisId}/save`;
+
+      await api.post(endpoint, { title: name });
       addToast('Report archiviato con successo', 'success');
     } catch (err) {
+      console.error(err);
       addToast('Errore durante l\'archiviazione', 'error');
     } finally {
       setLoadingAction(false);
@@ -181,7 +231,7 @@ const AnalysisStatus = () => {
           <div className="processing-state">
             <Loader size="large" />
             <h3>Generazione report con AI in corso...</h3>
-            <p>Richiede solitamente 30-60 secondi in base alla dimensione del documento.</p>
+            <p>Richiede solitamente da 1 a 20 minuti in base alla dimensione del documento.</p>
           </div>
         )}
 
