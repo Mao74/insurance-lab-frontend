@@ -50,7 +50,10 @@ const AnalysisStatus = () => {
         // Determine endpoint based on current analysis_level
         // First call uses /analysis, then we switch based on the response
         const isCompare = status.analysis_level === 'confronto';
-        const endpoint = isCompare ? `/compare/${analysisId}` : `/analysis/${analysisId}`;
+        // Add timestamp to prevent caching
+        const endpoint = isCompare
+          ? `/compare/${analysisId}?_t=${Date.now()}`
+          : `/analysis/${analysisId}?_t=${Date.now()}`;
 
         const { data } = await api.get(endpoint);
         console.log('Analysis API Response:', data); // DEBUG
