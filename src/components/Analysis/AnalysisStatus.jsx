@@ -14,6 +14,7 @@ const AnalysisStatus = () => {
     status: 'processing',
     report_html: null,
     report_html_masked: null,
+    report_html_display: null, // Add this to track display content
     policy_type: '',
     analysis_level: ''
   });
@@ -57,7 +58,22 @@ const AnalysisStatus = () => {
 
         const { data } = await api.get(endpoint);
         console.log('Analysis API Response:', data); // DEBUG
+        // Populate report_html from display if available (for Compare)
+        if (data.report_html_display && !data.report_html) {
+          data.report_html = data.report_html_display;
+        }
         setStatus(data);
+
+        // Initial load for IFrame not in edit mode
+        if (iframeRef.current && !isEditing) {
+          const doc = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
+          const content = viewMode === 'masked' ? data.report_html_masked : (data.report_html_display || data.report_html);
+          if (content) {
+            doc.open();
+            doc.write(content);
+            doc.close();
+          }
+        }
 
         if (data.status === 'completed' || data.status === 'error') {
           pollingActiveRef.current = false;
@@ -94,7 +110,22 @@ const AnalysisStatus = () => {
     };
   }, [analysisId, addToast]);
 
+  // Load iframe content when status changes and report is ready
+  useEffect(() => {
+    if (status.status === 'completed' && iframeRef.current && !isEditing) {
+      const iframe = iframeRef.current;
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const content = viewMode === 'masked'
+        ? status.report_html_masked
+        : (status.report_html_display || status.report_html);
 
+      if (content) {
+        doc.open();
+        doc.write(content);
+        doc.close();
+      }
+    }
+  }, [status.status, status.report_html, status.report_html_masked, status.report_html_display, viewMode, isEditing]);
 
   const handleDownloadClear = () => {
     const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
@@ -126,37 +157,51 @@ const AnalysisStatus = () => {
     document.body.removeChild(link);
   };
 
+  // Toggle View Mode (Chiaro/Mascherato)
   const toggleViewMode = () => {
-    if (isEditing) {
-      addToast("Termina la modifica prima di cambiare vista.", "warning");
-      return;
+    const newMode = viewMode === 'display' ? 'masked' : 'display';
+    setViewMode(newMode);
+
+    // Update iframe content when not in edit mode
+    if (!isEditing && iframeRef.current) {
+      const iframe = iframeRef.current;
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const content = newMode === 'masked' ? status.report_html_masked : (status.report_html_display || status.report_html);
+      if (content) {
+        doc.open();
+        doc.write(content);
+        doc.close();
+      }
     }
-    setViewMode(prev => prev === 'display' ? 'masked' : 'display');
+  };
+
+  // Toggle Edit Mode - improved pattern from ProspectPage
+  const toggleEdit = () => {
+    setIsEditing(!isEditing);
+    // Logic handled in useEffect or separate trigger, but key is how we load content
   };
 
   const handleEdit = () => {
-    const content = viewMode === 'masked' ? status.report_html_masked : status.report_html;
-    if (!content) {
-      addToast("Nessun contenuto da modificare", "warning");
-      return;
-    }
     setIsEditing(true);
+    // Delay to allow render, then inject content for editing
+    setTimeout(() => {
+      const iframe = iframeRef.current;
+      if (iframe) {
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        const content = viewMode === 'masked' ? status.report_html_masked : status.report_html;
+        doc.open();
+        doc.write(content);
+        doc.close();
+        doc.designMode = "on";
+        doc.body.style.border = "4px solid #b4963c";
+      }
+    }, 100);
   };
 
-  // Toggle designMode on the iframe when isEditing changes
-  useEffect(() => {
-    const iframe = iframeRef.current;
-    if (iframe && iframe.contentDocument) {
-      iframe.contentDocument.designMode = isEditing ? 'on' : 'off';
-
-      // Visual feedback inside iframe (optional)
-      if (isEditing) {
-        iframe.contentDocument.body.style.border = "4px solid #b4963c";
-      } else {
-        iframe.contentDocument.body.style.border = "none";
-      }
-    }
-  }, [isEditing]);
+  // Revert to view mode
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+  };
 
   const handleSaveContent = async () => {
     setLoadingAction(true);
@@ -312,16 +357,10 @@ const AnalysisStatus = () => {
               {currentHtml ? (
                 <iframe
                   ref={iframeRef}
-                  srcDoc={currentHtml}
+                  // Remove srcDoc to manually manage content for editing stability
                   title="Report"
                   className="report-iframe"
-                  onLoad={(e) => {
-                    // Re-apply designMode if reloaded while editing
-                    if (isEditing && e.target.contentDocument) {
-                      e.target.contentDocument.designMode = 'on';
-                      e.target.contentDocument.body.style.border = "4px solid #b4963c";
-                    }
-                  }}
+                  style={{ width: '100%', height: '800px', border: 'none' }}
                 />
               ) : (
                 <div className="empty-state-message" style={{ padding: '40px', textAlign: 'center', color: '#666' }}>

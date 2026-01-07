@@ -26,6 +26,8 @@ const CorrectionChat = ({ analysisId, onClose, onCorrectionApplied }) => {
         setIsLoading(true);
 
         try {
+            // Note: /analysis/{id}/correct handles both normal analyses and comparisons
+            // The backend checks source_document_ids to handle both cases
             const response = await fetch(`/api/analysis/${analysisId}/correct`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

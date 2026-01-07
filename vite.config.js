@@ -8,9 +8,11 @@ export default defineConfig({
     host: true, // Espone il server (opzionale, utile per docker/network)
     proxy: {
       '/api': {
-        target: 'http://localhost:8010',
+        target: 'http://localhost:8001',
         changeOrigin: true,
         secure: false,
+        timeout: 300000,      // 5 minutes
+        proxyTimeout: 300000, // 5 minutes
       },
     },
   },

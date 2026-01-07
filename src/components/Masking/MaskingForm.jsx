@@ -40,7 +40,8 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCom
     const confirmMessage =
       `📋 RIEPILOGO ANALISI: \n\n` +
       `• Tipo Polizza: ${getPolicyTypeLabel()} \n` +
-      `• ${isCompare ? 'Tipo: Confronto Polizze' : 'Livello Analisi: ' + getAnalysisLevelLabel()} \n\n` +
+      `• Tipo Polizza: ${getPolicyTypeLabel()} \n` +
+      `${(isCompare || ['analisi_capitolati', 'analisi_economica'].includes(options.policyType)) ? '' : '• Livello Analisi: ' + getAnalysisLevelLabel() + '\n'}\n` +
       `${isFormEmpty ? '⚠️ ATTENZIONE: Nessun dato di mascheramento inserito. L\'analisi verrà eseguita sul testo in chiaro.\n\n' : ''} ` +
       `Premi OK per continuare.`;
 
@@ -49,18 +50,22 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCom
     }
   };
 
+  const hiddenConfigTypes = ['analisi_capitolati', 'analisi_economica', 'analisi_prospect'];
+  const shouldHideConfig = isCompare || hiddenConfigTypes.includes(options.policyType);
+
   return (
     <div className="masking-form card">
-      {/* Hide configuration in compare mode - already selected in ComparePage */}
-      {!isCompare && (
+      {/* Hide configuration if compare mode or special analysis type */}
+      {!shouldHideConfig && (
         <div className="form-section">
           <h3>Configurazione</h3>
           <div className="form-row">
             <div className="form-group">
-              <label>Tipo Polizza</label>
+              <label style={{ color: '#e11d48', fontWeight: 'bold' }}>Tipo Polizza *</label>
               <select
                 value={options.policyType}
                 onChange={(e) => handleOptionChange('policyType', e.target.value)}
+                style={{ border: '2px solid #e11d48', background: '#fff1f2' }}
               >
                 <option value="rc_generale">RC Generale</option>
                 <option value="incendio">Incendio</option>
@@ -71,10 +76,11 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCom
               </select>
             </div>
             <div className="form-group">
-              <label>Livello Analisi</label>
+              <label style={{ color: '#e11d48', fontWeight: 'bold' }}>Livello Analisi *</label>
               <select
                 value={options.analysisLevel}
                 onChange={(e) => handleOptionChange('analysisLevel', e.target.value)}
+                style={{ border: '2px solid #e11d48', background: '#fff1f2' }}
               >
                 <option value="cliente">Cliente</option>
                 <option value="compagnia">Compagnia</option>

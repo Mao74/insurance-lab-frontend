@@ -13,21 +13,32 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
 
   // Define handleDelete inside the component
-  const handleDelete = async (id, e) => {
+  const handleDelete = async (doc, e) => {
     e.stopPropagation(); // Prevent row click navigation if any
-    if (!window.confirm("Sei sicuro di voler eliminare questa analisi?")) return;
+
+    const isSaved = doc.is_saved;
+    const confirmMsg = isSaved
+      ? "Questa analisi è archiviata. Vuoi rimuoverla dalla Dashboard? (Rimarrà nell'Archivio)"
+      : "Sei sicuro di voler eliminare definitivamente questa analisi?";
+
+    if (!window.confirm(confirmMsg)) return;
 
     try {
-      await api.delete(`/analysis/${id}`);
-      setRecentDocs(prev => prev.filter(doc => doc.id !== id));
+      if (isSaved) {
+        await api.post(`/analysis/${doc.id}/dismiss`);
+      } else {
+        await api.delete(`/analysis/${doc.id}`);
+      }
+
+      setRecentDocs(prev => prev.filter(d => d.id !== doc.id));
       setStats(prev => ({
         ...prev,
         total_docs: Math.max(0, prev.total_docs - 1),
-        completed_analyses: Math.max(0, prev.completed_analyses - 1) // Simplified estimate
+        completed_analyses: Math.max(0, prev.completed_analyses - (doc.status === 'completed' ? 1 : 0))
       }));
     } catch (err) {
-      console.error("Delete failed", err);
-      alert("Errore durante l'eliminazione");
+      console.error("Delete/Dismiss failed", err);
+      alert("Errore durante l'operazione");
     }
   };
 
@@ -47,7 +58,8 @@ const DashboardPage = () => {
           filename: a.title || `Analisi #${a.analysis_id}`, // Filename might need separate fetch or join
           date: new Date(a.created_at).toLocaleDateString(),
           status: a.status,
-          type: a.policy_type
+          type: a.policy_type,
+          is_saved: a.is_saved
         }));
 
         setStats({
@@ -75,9 +87,6 @@ const DashboardPage = () => {
           <h1>Dashboard</h1>
           <p>Bentornato su Insurance Lab AI</p>
         </div>
-        <Button onClick={() => navigate('/home')}>
-          <FaPlus /> Nuova Analisi
-        </Button>
       </div>
 
       {/* Quick Stats */}
@@ -136,11 +145,11 @@ const DashboardPage = () => {
                       </button>
                       <button
                         className="icon-btn"
-                        onClick={(e) => handleDelete(doc.id, e)}
-                        title="Elimina"
+                        onClick={(e) => handleDelete(doc, e)}
+                        title={doc.is_saved ? "Rimuovi dalla Dashboard" : "Elimina"}
                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
                       >
-                        <FaTrash color="#ef4444" size={14} />
+                        <FaTrash color={doc.is_saved ? "#64748b" : "#ef4444"} size={14} />
                       </button>
                     </div>
                   </td>

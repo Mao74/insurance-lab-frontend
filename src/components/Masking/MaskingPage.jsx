@@ -22,7 +22,7 @@ const MaskingPage = () => {
   const [options, setOptions] = useState({
     policyType: 'rc_generale',
     analysisLevel: 'cliente',
-    model: 'gemini-3-flash-preview'
+    model: null
   });
 
   // OCR Loading state with progress
@@ -31,19 +31,27 @@ const MaskingPage = () => {
     current: 0,
     total: 0,
     retries: 0,
-    currentFile: '',
     timedOut: false
   });
 
+  // Load docs from previous step (Upload)
   // Load docs from previous step (Upload)
   useEffect(() => {
     let mounted = true;
 
     const fetchDocuments = async () => {
+      // Logic to handle source IDs (flat or grouped)
+      let ids = [];
+      if (location.state?.grouped_document_ids) {
+        // Flatten for OCR polling
+        ids = location.state.grouped_document_ids.flat();
+      } else if (location.state?.document_ids) {
+        ids = location.state.document_ids;
+      }
+
       // Only fetch if we have IDs and haven't loaded yet
-      if (location.state?.document_ids) {
+      if (ids.length > 0) {
         try {
-          const ids = location.state.document_ids;
           const docs = [];
 
           setOcrProgress(prev => ({ ...prev, total: ids.length }));
@@ -56,15 +64,15 @@ const MaskingPage = () => {
               ...prev,
               current: i + 1,
               retries: 0,
-              currentFile: `Documento ${i + 1}`,
+              currentFile: `Documento ${i + 1}`, // Temporary placeholder
               timedOut: false
             }));
 
             let retries = 0;
             let docData = null;
-            const MAX_RETRIES = 60; // 60 retry × 2s = 120 secondi (era 20 = 40s)
+            const MAX_RETRIES = 1800; // 1800 retry × 2s = 3600 secondi (1 ora) - Safe for slow local OCR
 
-            // Poll for text availability (max 120 seconds)
+            // Poll for text availability (max 60 minutes)
             while (retries < MAX_RETRIES && mounted) {
               try {
                 setOcrProgress(prev => ({ ...prev, retries: retries + 1 }));
@@ -73,12 +81,13 @@ const MaskingPage = () => {
                 docData = data;
                 break; // Success
               } catch (e) {
-                if (e.response && e.response.status === 404) {
-                  // Text not ready yet, wait and retry
+                // If 404 (not ready) or Network Error (sometimes happens during heavy load), keep waiting
+                if ((e.response && e.response.status === 404) || !e.response) {
                   await new Promise(r => setTimeout(r, 2000));
                   retries++;
                 } else {
-                  // Retry on network errors too
+                  // Real error (500, 401, etc) - wait deeper
+                  console.warn("Polling error", e);
                   await new Promise(r => setTimeout(r, 2000));
                   retries++;
                 }
@@ -92,11 +101,12 @@ const MaskingPage = () => {
                 text_preview: docData.text,
                 token_count: docData.token_count
               });
-            } else {
-              // Timeout reached
+            } else if (retries >= MAX_RETRIES) {
+              // Timeout reached (only if actually exhausted retries)
               setOcrProgress(prev => ({ ...prev, timedOut: true }));
-              addToast(`Timeout attesa OCR per documento ${id} (${retries * 2}s). Riprova con refresh.`, 'error');
+              addToast(`L'elaborazione sta impiegando molto tempo. Controlla il terminale backend.`, 'warning');
             }
+            // If mounted is false, we just exit silently
           }
 
           if (mounted) {
@@ -153,13 +163,21 @@ const MaskingPage = () => {
 
       // Construct payload based on mode
       const payload = {
-        document_ids: documents.map(d => d.id),
         policy_type: options.policyType,
         llm_model: options.model,
         masking_data: maskingData
       };
 
-      if (!isCompare) {
+      if (isCompare) {
+        // Check for grouped IDs first
+        if (location.state?.grouped_document_ids) {
+          payload.grouped_document_ids = location.state.grouped_document_ids;
+          payload.document_ids = location.state.grouped_document_ids.flat(); // Legacy/Fallback
+        } else {
+          payload.document_ids = documents.map(d => d.id);
+        }
+      } else {
+        payload.document_ids = documents.map(d => d.id);
         payload.analysis_level = options.analysisLevel;
       }
 
@@ -176,9 +194,35 @@ const MaskingPage = () => {
     }
   };
 
+
   const handleRetryOCR = () => {
     // Reload page to retry OCR
     window.location.reload();
+  };
+
+  // Helper for dynamic message based on OCR method
+  const getDynamicStatusMessage = (ocrMethod) => {
+    if (!ocrMethod || ocrMethod === 'processing') {
+      return "Analisi formato documento in corso...";
+    }
+
+    // Check if it's processing with page info
+    if (ocrMethod.startsWith('processing_page_')) {
+      return "Estrazione OCR in corso pagina per pagina (PDF scannerizzato o immagine).";
+    }
+
+    // Native PDF - fast extraction
+    if (ocrMethod === 'nativo') {
+      return "PDF nativo rilevato - estrazione testo rapida in corso.";
+    }
+
+    // Hybrid or OCR methods - slow extraction
+    if (ocrMethod === 'ibrido' || ocrMethod.includes('ocr') || ocrMethod.includes('tesseract')) {
+      return "PDF scannerizzato rilevato - estrazione OCR lenta in corso (dipende dal numero di pagine).";
+    }
+
+    // Default
+    return "Elaborazione in corso...";
   };
 
   // Loading state with detailed progress
@@ -239,16 +283,17 @@ const MaskingPage = () => {
                 fontSize: '13px',
                 color: '#64748b'
               }}>
-                <div>{ocrProgress.currentFile}</div>
+                <div style={{ fontWeight: '500', color: '#0F1F3F' }}>
+                  Documento {ocrProgress.current} di {ocrProgress.total}
+                </div>
                 <div style={{ marginTop: '4px' }}>
-                  Tentativo {ocrProgress.retries} di 60 (max 120 secondi)
+                  Attesa: {ocrProgress.retries * 2}s
                 </div>
               </div>
             </div>
 
             <p style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>
-              L'estrazione OCR può richiedere fino a 2 minuti per documento,
-              specialmente per file scansionati o di grandi dimensioni.
+              L'estrazione OCR può richiedere fino a 20 minuti per documenti complessi o scannerizzati.
             </p>
 
             {ocrProgress.timedOut && (

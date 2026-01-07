@@ -52,10 +52,11 @@ const UploadPage = () => {
 
     try {
       const { data } = await api.post('/documents/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 300000 // 5 minutes (OCR is slow)
       });
 
-      addToast('Upload successful', 'success');
+      addToast('Caricamento completato', 'success');
 
       // Map API response to what Masking page expects
       // Backend returns: { status: "success", document_ids: [1], ... }
@@ -69,7 +70,7 @@ const UploadPage = () => {
       // Let's pass the document IDs
       navigate('/masking', { state: { document_ids: data.document_ids } });
     } catch (err) {
-      addToast('Upload failed', 'error');
+      addToast('Caricamento fallito', 'error');
     } finally {
       setUploading(false);
     }
@@ -78,7 +79,7 @@ const UploadPage = () => {
   return (
     <div className="upload-container fade-in">
       <div className="upload-header">
-        <h1>Nuova Analisi</h1>
+        <h1>Genera Report</h1>
         <p>Carica i documenti assicurativi per estrarre e analizzare i dati.</p>
       </div>
 

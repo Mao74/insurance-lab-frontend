@@ -10,16 +10,13 @@ import '../Upload/Upload.css'; // Reuse upload styles for now
 const ClaimsPage = () => {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
-    const [policyType, setPolicyType] = useState('rc_generale');
+    // policyType is to be selected in MaskingPage
     const navigate = useNavigate();
     const { addToast } = useNotification();
 
     const handleFilesSelected = (newFiles) => {
         // Allow PDF, Images, Word, Excel, Email
-        // Note: FileDropZone might filter by accept prop, need to check if we can override or if it accepts all.
-        // Assuming we pass valid files or DropZone handles it.
-        // We will validate extensions here loosely.
-        const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx', 'msg', 'eml'];
+        const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx', 'xls', 'xlsx', 'msg', 'eml', 'txt'];
 
         const validFiles = newFiles.filter(f => {
             const ext = f.name.split('.').pop().toLowerCase();
@@ -52,11 +49,11 @@ const ClaimsPage = () => {
             addToast('Caricamento e elaborazione completati', 'success');
 
             // Navigate to masking page with the processed document IDs
-            // Pass policyType and sinistro analysis level
+            // Pass sinistro analysis level. policyType isn't set yet, defaults to rc_generale or user choice.
             navigate('/masking', {
                 state: {
                     document_ids: data.document_ids,
-                    policyType: policyType,
+                    policyType: 'rc_generale', // Default, can be changed in Masking
                     analysisLevel: 'sinistro'
                 }
             });
@@ -72,29 +69,13 @@ const ClaimsPage = () => {
         <div className="upload-container fade-in">
             <div className="upload-header">
                 <h1>Analisi Sinistro</h1>
-                <p>Carica documenti (PDF, Email, Excel, Word, Immagini) per l'analisi del sinistro.</p>
-                <div style={{ marginTop: '16px', maxWidth: '300px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>Ramo Assicurativo</label>
-                    <select
-                        value={policyType}
-                        onChange={(e) => setPolicyType(e.target.value)}
-                        style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }}
-                    >
-                        <option value="rc_generale">RC Generale</option>
-                        <option value="incendio">Incendio</option>
-                        <option value="trasporti">Trasporti</option>
-                        <option value="cyber">Cyber Risk</option>
-                        <option value="infortuni">Infortuni</option>
-                        <option value="rca">RCA Auto</option>
-                    </select>
-                </div>
+                <p>Carica i documenti necessari all'analisi del sinistro.</p>
             </div>
 
             <div className="upload-content">
-                {/* We might need to adjust DropZone to allow these types if it has hardcoded accept */}
                 <FileDropZone
                     onFilesSelected={handleFilesSelected}
-                    title="Trascina qui i file del Sinistro"
+                    title="Trascina qui i file"
                     helperText="Supportati: PDF, Office, Email, Immagini"
                     accept=".pdf,.doc,.docx,.xls,.xlsx,.msg,.eml,.jpg,.jpeg,.png,.txt"
                 />

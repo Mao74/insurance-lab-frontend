@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { useAuth } from '../../context/AuthContext';
+import ChatAssistant from '../Chat/ChatAssistant';
 import './Layout.css';
 
 const Layout = () => {
@@ -31,6 +32,7 @@ const Layout = () => {
           <Outlet />
         </div>
       </main>
+      <ChatAssistant />
     </div>
   );
 };

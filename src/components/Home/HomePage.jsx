@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaFileAlt, FaBalanceScale, FaCarCrash, FaChartLine, FaComments, FaSignOutAlt, FaUserTie } from 'react-icons/fa';
+import { FaFileAlt, FaBalanceScale, FaCarCrash, FaChartLine, FaComments, FaSignOutAlt, FaUserTie, FaFileContract } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import './Home.css';
@@ -64,38 +64,30 @@ const HomePage = () => {
             title: 'Analisi Prospect',
             description: 'Analisi rischi e proposte per nuovi clienti.',
             icon: FaUserTie,
-            isActive: false,
-            action: handleComingSoon
+            isActive: true, // Activated
+            action: () => handleModuleClick('/prospect')
         },
         {
             title: 'Analisi Economica',
             description: 'Dashboard finanziaria e proiezioni di costo.',
             icon: FaChartLine,
-            isActive: false,
-            action: handleComingSoon
+            path: '/economic-analysis',
+            isActive: true, // Activated
+            action: () => handleModuleClick('/economic-analysis')
         },
         {
-            title: 'AI Chat Assistant',
-            description: 'Assistente virtuale per domande immediate.',
-            icon: FaComments,
-            isActive: false,
-            action: handleComingSoon
+            title: 'Analisi Capitolati',
+            description: 'Analisi automatica capitolati d\'appalto.',
+            icon: FaFileContract,
+            path: '/tender',
+            isActive: true,
+            action: () => handleModuleClick('/tender')
         }
     ];
 
     return (
         <div className="home-page fade-in">
-            <header className="home-header">
-                <div className="home-logo">
-                    <img src="/logo-horizontal-white.png" alt="Insurance Lab" />
-                </div>
-                <div className="home-user">
-                    <span>Benvenuto, {user?.email || user?.username || 'Utente'}</span>
-                    <button onClick={logout} className="logout-btn-text">
-                        <FaSignOutAlt /> Esci
-                    </button>
-                </div>
-            </header>
+            {/* Header removed as it is now provided by Layout sidebar */}
 
             <main className="home-content">
                 <div className="home-title">
