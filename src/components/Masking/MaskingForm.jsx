@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '../Common/Button';
 import './Masking.css';
 
-const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCompare = false }) => {
+const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCompare = false, isChat = false }) => {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
   const handleChange = (field, value) => {
@@ -38,10 +38,9 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCom
 
   const handleConfirmSubmit = () => {
     const confirmMessage =
-      `📋 RIEPILOGO ANALISI: \n\n` +
+      `clipboard RIEPILOGO ANALISI: \n\n` +
       `• Tipo Polizza: ${getPolicyTypeLabel()} \n` +
-      `• Tipo Polizza: ${getPolicyTypeLabel()} \n` +
-      `${(isCompare || ['analisi_capitolati', 'analisi_economica'].includes(options.policyType)) ? '' : '• Livello Analisi: ' + getAnalysisLevelLabel() + '\n'}\n` +
+      `${(isCompare || isChat || ['analisi_capitolati', 'analisi_economica'].includes(options.policyType)) ? '' : '• Livello Analisi: ' + getAnalysisLevelLabel() + '\n'}\n` +
       `${isFormEmpty ? '⚠️ ATTENZIONE: Nessun dato di mascheramento inserito. L\'analisi verrà eseguita sul testo in chiaro.\n\n' : ''} ` +
       `Premi OK per continuare.`;
 
@@ -51,11 +50,12 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCom
   };
 
   const hiddenConfigTypes = ['analisi_capitolati', 'analisi_economica', 'analisi_prospect'];
-  const shouldHideConfig = isCompare || hiddenConfigTypes.includes(options.policyType);
+  // Show config for Compare, but hide for Chat or special types
+  const shouldHideConfig = isChat || hiddenConfigTypes.includes(options.policyType);
 
   return (
     <div className="masking-form card">
-      {/* Hide configuration if compare mode or special analysis type */}
+      {/* Hide configuration if chat mode or special analysis type */}
       {!shouldHideConfig && (
         <div className="form-section">
           <h3>Configurazione</h3>
@@ -75,17 +75,27 @@ const MaskingForm = ({ data, onChange, options, onOptionsChange, onSubmit, isCom
                 <option value="rca">RCA Auto</option>
               </select>
             </div>
-            <div className="form-group">
-              <label style={{ color: '#e11d48', fontWeight: 'bold' }}>Livello Analisi *</label>
-              <select
-                value={options.analysisLevel}
-                onChange={(e) => handleOptionChange('analysisLevel', e.target.value)}
-                style={{ border: '2px solid #e11d48', background: '#fff1f2' }}
-              >
-                <option value="cliente">Cliente</option>
-                <option value="compagnia">Compagnia</option>
-              </select>
-            </div>
+
+            {!isCompare && (
+              <div className="form-group">
+                <label style={{ color: '#e11d48', fontWeight: 'bold' }}>Livello Analisi *</label>
+                <select
+                  value={options.analysisLevel}
+                  onChange={(e) => handleOptionChange('analysisLevel', e.target.value)}
+                  style={{ border: '2px solid #e11d48', background: '#fff1f2' }}
+                >
+                  <option value="cliente">Cliente</option>
+                  <option value="compagnia">Compagnia</option>
+                </select>
+              </div>
+            )}
+
+            {isCompare && (
+              <div className="form-group">
+                <label>Livello Analisi</label>
+                <input type="text" value="Confronto" disabled style={{ background: '#f1f5f9', color: '#64748b' }} />
+              </div>
+            )}
           </div>
         </div>
       )}

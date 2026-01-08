@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
   FaChartPie,
   FaFileAlt,
@@ -18,6 +18,7 @@ import './Layout.css';
 
 const Sidebar = () => {
   const { logout } = useAuth();
+  const location = useLocation();
 
   return (
     <aside className="sidebar">
@@ -38,7 +39,7 @@ const Sidebar = () => {
           <FaChartPie /> Dashboard
         </NavLink>
         <div className="nav-divider" style={{ margin: '8px 24px', borderTop: '1px solid rgba(255,255,255,0.1)' }}></div>
-        <NavLink to="/upload" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+        <NavLink to="/upload" className={({ isActive }) => (isActive && location.state?.mode !== 'chat') ? 'nav-item active' : 'nav-item'}>
           <FaFileAlt /> Genera Report
         </NavLink>
         <NavLink to="/compare" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>

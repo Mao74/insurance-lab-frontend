@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaRobot, FaPaperPlane, FaTimes, FaComments, FaShieldAlt } from 'react-icons/fa';
+import { FaRobot, FaPaperPlane, FaTimes, FaComments, FaShieldAlt, FaPaperclip, FaFileAlt, FaTrash } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './ChatAssistant.css';
 
 const ChatAssistant = () => {
@@ -14,8 +15,32 @@ const ChatAssistant = () => {
     ]);
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [attachedContext, setAttachedContext] = useState(null); // { text, filename }
+
     const messagesEndRef = useRef(null);
     const textareaRef = useRef(null);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Check for returned context from MaskingPage
+    useEffect(() => {
+        if (location.state?.chatContext && location.state?.fileName) {
+            setIsOpen(true);
+            setAttachedContext({
+                text: location.state.chatContext,
+                filename: location.state.fileName
+            });
+            // Optional: Auto-add a system message acknowledging the file
+            setMessages(prev => [...prev, {
+                type: 'assistant',
+                text: `Ho ricevuto il documento **${location.state.fileName}**. Mascheramento completato. Chiedimi pure qualsiasi cosa a riguardo.`,
+                timestamp: new Date().toISOString()
+            }]);
+
+            // Clean up state to prevent re-reading on refresh
+            window.history.replaceState({}, document.title);
+        }
+    }, [location.state]);
 
     // Auto-scroll to bottom
     const scrollToBottom = () => {
@@ -35,6 +60,24 @@ const ChatAssistant = () => {
             textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
         }
     }, [inputValue]);
+
+    const handleAttachClick = () => {
+        navigate('/upload', { state: { mode: 'chat' } });
+        setIsOpen(false); // Close chat while navigating
+    };
+
+    const handleClearChat = () => {
+        if (window.confirm('Sei sicuro di voler cancellare tutta la conversazione?')) {
+            setMessages([{
+                type: 'assistant',
+                text: 'Ciao! Sono il tuo assistente virtuale specializzato in ambito **assicurativo e legale**. Come posso aiutarti oggi?',
+                timestamp: new Date().toISOString()
+            }]);
+            setAttachedContext(null);
+            // Clear history state to prevent re-attach on refresh
+            window.history.replaceState({}, document.title);
+        }
+    };
 
     const handleSendMessage = async (e) => {
         e?.preventDefault();
@@ -66,16 +109,28 @@ const ChatAssistant = () => {
                 content: m.text
             }));
 
-            // Streaming fetch
+            // Inject context if present
+            let payloadMessage = userMessage;
+            if (attachedContext) {
+                // Prepend context to this message ONLY once, then clear it
+                // Or: handling context as a separate hidden system message in backend is better, 
+                // but simpler for now:
+                // We'll reset attachedContext after sending, treating it as "consumed" for the immediate interaction context, 
+                // but ideally the LLM history remembers it.
+                // However, to ensure it's treated as a document, let's prepend it clearly.
+                payloadMessage = `[CONTESTO DOCUMENTO MASCHERATO]\n${attachedContext.text}\n\n[DOMANDA UTENTE]\n${userMessage}`;
+                setAttachedContext(null); // Consumed
+            }
+
+            // Chat API call
             const response = await fetch('/api/chat/stream', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // Include cookies for session auth
                 credentials: 'include',
                 body: JSON.stringify({
-                    message: userMessage,
+                    message: payloadMessage,
                     history: history
                 })
             });
@@ -103,7 +158,6 @@ const ChatAssistant = () => {
                 const chunk = decoder.decode(value, { stream: true });
                 accumulatedText += chunk;
 
-                // Update the last message (which is the assistant's)
                 setMessages(prev => {
                     const newArr = [...prev];
                     const lastIndex = newArr.length - 1;
@@ -173,9 +227,14 @@ const ChatAssistant = () => {
                             </p>
                         </div>
                     </div>
-                    <button className="close-chat-btn" onClick={() => setIsOpen(false)}>
-                        <FaTimes />
-                    </button>
+                    <div className="chat-actions">
+                        <button className="icon-btn" onClick={handleClearChat} title="Cancella chat">
+                            <FaTrash />
+                        </button>
+                        <button className="close-chat-btn" onClick={() => setIsOpen(false)}>
+                            <FaTimes />
+                        </button>
+                    </div>
                 </div>
 
                 {/* Messages */}
@@ -220,7 +279,18 @@ const ChatAssistant = () => {
                 {/* Input Area */}
                 <div className="chat-input-area">
                     <div className="chat-input-container-col" style={{ width: '100%' }}>
-                        {messages.length < 3 && !isLoading && (
+                        {/* Attached File Chip */}
+                        {attachedContext && (
+                            <div className="attached-file-chip">
+                                <FaFileAlt />
+                                <span>{attachedContext.filename}</span>
+                                <button onClick={() => setAttachedContext(null)} className="remove-file-btn">
+                                    <FaTimes />
+                                </button>
+                            </div>
+                        )}
+
+                        {messages.length < 3 && !isLoading && !attachedContext && (
                             <div className="suggestions-container" style={{ marginBottom: '12px' }}>
                                 {suggestions.map((s, i) => (
                                     <button
@@ -236,12 +306,21 @@ const ChatAssistant = () => {
                             </div>
                         )}
 
-                        <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
-                            <div className="chat-input-wrapper">
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
+                            <button
+                                className="attach-btn"
+                                onClick={handleAttachClick}
+                                title="Allega documento da analizzare"
+                                disabled={isLoading}
+                            >
+                                <FaPaperclip />
+                            </button>
+
+                            <div className="chat-input-wrapper" style={{ flex: 1 }}>
                                 <textarea
                                     ref={textareaRef}
                                     className="chat-input"
-                                    placeholder="Scrivi una domanda..."
+                                    placeholder={attachedContext ? "Chiedi qualcosa sul documento..." : "Scrivi una domanda..."}
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     onKeyDown={handleKeyDown}

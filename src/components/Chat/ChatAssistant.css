@@ -147,6 +147,27 @@
     transition: all 0.2s;
 }
 
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ef4444;
+    /* Red hover */
+}
+
 .close-chat-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: rotate(90deg);
@@ -282,6 +303,35 @@
     border-color: #3B82F6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     background-color: white;
+}
+
+.attach-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 20px;
+    /* Larger icon */
+}
+
+.attach-btn:hover:not(:disabled) {
+    background-color: #e2e8f0;
+    color: #0F1F3F;
+    /* Dark blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.attach-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .chat-input {

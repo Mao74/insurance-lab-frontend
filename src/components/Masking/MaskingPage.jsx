@@ -183,6 +183,26 @@ const MaskingPage = () => {
 
       // Use compare endpoint if in comparison mode
       const endpoint = isCompare ? '/compare/start' : '/analysis/start';
+
+      // Special handling for CHAT MODE
+      if (location.state?.mode === 'chat') {
+        const chatPayload = {
+          document_ids: documents.map(d => d.id),
+          masking_data: maskingData
+        };
+        const { data } = await api.post('/chat/context/prepare', chatPayload);
+        addToast('Documento elaborato per la chat', 'success');
+
+        // Navigate back to Home (where ChatAssistant will pick it up)
+        navigate('/', {
+          state: {
+            chatContext: data.context,
+            fileName: data.filename
+          }
+        });
+        return;
+      }
+
       const { data } = await api.post(endpoint, payload);
 
       addToast(isCompare ? 'Confronto avviato' : 'Analisi avviata con successo', 'success');
@@ -441,6 +461,7 @@ const MaskingPage = () => {
           onOptionsChange={setOptions}
           onSubmit={handleStartAnalysis}
           isCompare={location.state?.isCompare || false}
+          isChat={location.state?.mode === 'chat'}
         />
       </div>
 

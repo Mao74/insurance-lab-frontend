@@ -214,9 +214,9 @@ const AnalysisStatus = () => {
       // Extract full HTML including head/styles
       const newContent = iframe.contentDocument.documentElement.outerHTML;
 
-      // Use correct endpoint based on analysis type
-      const isCompare = status.analysis_level === 'confronto';
-      const endpoint = isCompare ? `/compare/${analysisId}/content` : `/analysis/${analysisId}/content`;
+      // Use generic analysis endpoint which handles both types correctly
+      // This avoids schema issues in the specific compare endpoint
+      const endpoint = `/analysis/${analysisId}/content`;
 
       await api.post(endpoint, {
         html_content: newContent
@@ -244,9 +244,8 @@ const AnalysisStatus = () => {
 
     setLoadingAction(true);
     try {
-      // Use correct endpoint based on analysis type
-      const isCompare = status.analysis_level === 'confronto';
-      const endpoint = isCompare ? `/compare/${analysisId}/save` : `/analysis/${analysisId}/save`;
+      // Use generic analysis endpoint for archiving
+      const endpoint = `/analysis/${analysisId}/save`;
 
       await api.post(endpoint, { title: name });
       addToast('Report archiviato con successo', 'success');

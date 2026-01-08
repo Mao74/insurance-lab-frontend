@@ -28,12 +28,18 @@
 }
 
 .status-badge {
-  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 36px;
+  padding: 0 16px;
   border-radius: 20px;
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: 700;
+  font-size: 13px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  line-height: normal;
 }
 
 .status-badge.processing {

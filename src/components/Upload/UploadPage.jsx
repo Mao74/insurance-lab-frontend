@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaTrash, FaCheck, FaSpinner } from 'react-icons/fa';
 import api from '../../services/api';
 import FileDropZone from './FileDropZone';
@@ -11,6 +11,7 @@ const UploadPage = () => {
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { addToast } = useNotification();
 
   const handleFilesSelected = (newFiles) => {
@@ -68,7 +69,13 @@ const UploadPage = () => {
       // Let's assume for MVP we pass IDs and the next page fetches, OR we just trust IDs.
 
       // Let's pass the document IDs
-      navigate('/masking', { state: { document_ids: data.document_ids } });
+      // Let's pass the document IDs
+      navigate('/masking', {
+        state: {
+          ...location.state, // Pass forward any mode (e.g. 'chat')
+          document_ids: data.document_ids
+        }
+      });
     } catch (err) {
       addToast('Caricamento fallito', 'error');
     } finally {
@@ -79,8 +86,12 @@ const UploadPage = () => {
   return (
     <div className="upload-container fade-in">
       <div className="upload-header">
-        <h1>Genera Report</h1>
-        <p>Carica i documenti assicurativi per estrarre e analizzare i dati.</p>
+        <h1>{location.state?.mode === 'chat' ? 'Allega Documento alla Chat' : 'Genera Report'}</h1>
+        <p>
+          {location.state?.mode === 'chat'
+            ? 'Carica il documento da analizzare con l\'assistente virtuale.'
+            : 'Carica i documenti assicurativi per estrarre e analizzare i dati.'}
+        </p>
       </div>
 
       <div className="upload-content">
