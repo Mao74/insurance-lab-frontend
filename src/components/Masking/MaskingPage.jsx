@@ -164,7 +164,7 @@ const MaskingPage = () => {
       // Construct payload based on mode
       const payload = {
         policy_type: options.policyType,
-        llm_model: options.model,
+        llm_model: options.model || 'gemini-3-flash-preview',
         masking_data: maskingData
       };
 
